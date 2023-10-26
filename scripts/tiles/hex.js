@@ -5,6 +5,7 @@ export class Hex {
         let img = new Image();
         img.src = "../resources/Hex.svg";
         this.img = img;
+        this.empty = true;
     }
     
     update(ctx, input) {

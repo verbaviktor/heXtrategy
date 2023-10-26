@@ -4,5 +4,6 @@ export class Castle extends Hex{
     constructor(x, y){
         super(x, y);
         this.img.src = "../resources/Castle.svg"
+        this.empty = false;
     }
 }

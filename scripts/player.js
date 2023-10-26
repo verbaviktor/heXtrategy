@@ -1,7 +1,8 @@
 export class Player{
-    constructor(base){
-        this.base = base;
+    constructor(){
         this.numberOfTowers = 0;
         this.numberOfCastles = 0;
+        this.baseX;
+        this.baseY;
     }
 }

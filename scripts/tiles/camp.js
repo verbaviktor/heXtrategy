@@ -5,6 +5,7 @@ export class Camp extends Hex{
         super(x, y);
         this.img.src = "../resources/Camp.svg"
         this.upgradeCost = 4;
+        this.empty = false;
     }
 
     upgrade(numberOfTowers){

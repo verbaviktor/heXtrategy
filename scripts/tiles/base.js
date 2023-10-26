@@ -5,6 +5,6 @@ export class Base extends Hex{
         super(x, y);
         this.img.src = "../resources/Castle.svg"
         this.player = player;
-        player.base = this;
+        this.empty = false;
     }
 }
