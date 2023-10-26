@@ -29,8 +29,9 @@ export class Map {
             for (let x = 0; x < hexesInRow; x++) {
                 let hex = this.matrix[y][x];
                 const screen_coordinates = camera.hexToScreen(x, y, this.radius);
+                console.log(camera);
                 ctx.drawImage(hex.img, screen_coordinates[0], screen_coordinates[1], this.tileSize / Math.cos(Math.PI / 6), this.tileSize / Math.cos(Math.PI / 6));
-                // ctx.fillText((String(x) + " " + String(y)), screenX + 200, screenY + 100);
+                ctx.fillText((String(x) + " " + String(y)), screenX + 200, screenY + 100);
             }
         }
     }
