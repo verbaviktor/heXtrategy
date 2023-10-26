@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.container{
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.button{
+    width: 30vw;
+    height: 500px;
+    background-color: rgb(255, 38, 0);
+    margin: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button:nth-child(2){
+    background-color: rgb(153, 153, 153);
+}
+.button:hover{
+    scale: 1.05;
+    transition: 0.15s;
+}
+.text{
+    width: fit-content;
+    font-size: 45pt;
+    color: white;
+    font-weight: 500;
+    text-shadow: 5px 3px 15px black;
+}
+.menu-container{
+    width: 100vw;
+    height: 100vh;
+    background-color: grey;
+    position: fixed;
+    top: 100vh;
+    transition: 1s;
+}
