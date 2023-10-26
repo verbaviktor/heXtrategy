@@ -45,3 +45,7 @@
     top: 100vh;
     transition: 1s;
 }
+.start{
+    height: 30vh;
+    width: 40vw;
+}
