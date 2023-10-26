@@ -1,12 +1,14 @@
 import { Hex } from "./tiles/hex.js";
-import { Castle } from "./tiles/castle.js";
+import { Base } from "./tiles/base.js";
+import { Forest } from "./tiles/forest.js";
 
 export class Map {
-    constructor(radius) {
+    constructor(radius, players) {
         this.radius = radius;
         this.diameter = (radius * 2) - 1;
         this.tileSize = 50;
         this.matrix = [];
+        this.players = players;
         this.generate();
     }
 
@@ -20,6 +22,7 @@ export class Map {
             this.matrix.push(row);
         }
         this.placeBases();
+        this.generateForests();
     }
     render(ctx, camera) {
         for (let y = 0; y < this.diameter; y++) {
@@ -43,10 +46,22 @@ export class Map {
         }
         let yOffset = Math.floor((this.radius + xOffset)/2);
 
-        this.matrix[xOffset][yOffset] = new Base(xOffset, yOffset, 0)
-        this.matrix[this.diameter - 1 - xOffset][yOffset] = new Base(this.diameter - 1 - xOffset, yOffset, 1)
+        this.matrix[xOffset][yOffset] = new Base(xOffset, yOffset, this.players[0])
+        this.matrix[this.diameter - 1 - xOffset][yOffset] = new Base(this.diameter - 1 - xOffset, yOffset, this.players[1])
     }
     generateForests(){
+        let numberOfForests = 10;
+        while(numberOfForests != 0) {
+            let randX = Math.random();
+            let randY = Math.random();
 
+            this.players[0].base.x < this.radius ? randX = Math.round(randX*(this.radius - 2)) : Math.round(randX = this.radius*(randX + 1));
+            randY = Math.round(randY*(this.radius + randX));
+
+            if (typeof this.matrix[randX][randY] == "Hex") {
+                this.matrix[randX][randY] = new Forest(randX, randY);
+                numberOfForests --;
+            }
+        }
     }
 }
