@@ -47,5 +47,10 @@
 }
 .start{
     height: 30vh;
-    width: 40vw;
+    width: 20vw;
+    margin: 0;
+    position: absolute;
+    right: 10vw;
+    bottom: 20vh;
+    background-color: orange !important;
 }
