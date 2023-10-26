@@ -1,4 +1,5 @@
-import { Hex } from "./hex.js";
+import { Hex } from "./tiles/hex.js";
+import { Castle } from "./tiles/castle.js";
 
 export class Map {
     constructor(radius) {
@@ -18,6 +19,7 @@ export class Map {
             }
             this.matrix.push(row);
         }
+        this.placeBases();
     }
     render(ctx, camera) {
         for (let y = 0; y < this.diameter; y++) {
@@ -33,5 +35,18 @@ export class Map {
                 // ctx.fillText((String(x) + " " + String(y)), screenX + 200, screenY + 100);
             }
         }
+    }
+    placeBases(){
+        let xOffset = Math.floor(this.radius/3);
+        if (xOffset % 2 == 0) {
+            xOffset--;
+        }
+        let yOffset = Math.floor((this.radius + xOffset)/2);
+
+        this.matrix[xOffset][yOffset] = new Base(xOffset, yOffset, 0)
+        this.matrix[this.diameter - 1 - xOffset][yOffset] = new Base(this.diameter - 1 - xOffset, yOffset, 1)
+    }
+    generateForests(){
+
     }
 }

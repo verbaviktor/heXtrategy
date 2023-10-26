@@ -3,7 +3,7 @@ export class Hex {
         this.x = x;
         this.y = y;
         let img = new Image();
-        img.src = "../resources/Camp.svg";
+        img.src = "../resources/Hex.svg";
         this.img = img;
     }
     
