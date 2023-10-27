@@ -1,6 +1,8 @@
 import { Hex } from "./tiles/hex.js";
 import { Base } from "./tiles/base.js";
 import { Forest } from "./tiles/forest.js";
+import { Mountain } from "./tiles/mountain.js";
+import { Village     } from "./tiles/village.js";
 
 export class Map {
     constructor(radius, players) {
@@ -22,7 +24,7 @@ export class Map {
             this.matrix.push(row);
         }
         this.placeBases();
-        this.generateForests();
+        this.generateTerrain();
     }
     render(ctx, camera) {
         for (let y = 0; y < this.diameter; y++) {
@@ -52,30 +54,51 @@ export class Map {
         this.players[1].baseX = this.diameter - 1 - xOffset;
         this.players[1].baseY = yOffset;
     }
-    generateForests(){
-        let numberOfForests = 10;   //number of forests on one side of the map
+    generateTerrain(){
+        let forestWeight = 1.2;   //number of forests on one side of the map
+        let mountainWeight = 0.6;
+        let villageWeight= 0.8;
+        const numberOfObjects = [Math.floor(this.radius * forestWeight), Math.floor(this.radius * mountainWeight), Math.floor(this.radius * villageWeight)];    //number of different objects based on map radius and weight
 
         for (let player = 0; player < this.players.length; player++) {
-            while(numberOfForests != 0) {
-                let randX = Math.random();
-                let randY = Math.random();
-                
-                if (player == 1) {
-                    randX = Math.floor(randX*(this.radius - 1) + this.radius);    //random positions for player on the bottom
-                    randY = Math.floor(randY*(this.diameter - randX + this.radius - 1));
-
+            for (let terrain = 0; terrain < numberOfObjects.length; terrain++) {
+                let currentWeight = 1;
+                while(numberOfObjects[terrain] != 0) {
+                    let randX = Math.random();
+                    let randY = Math.random();
+                    
+                    if (player == 1) {
+                        randX = Math.floor(randX*(this.radius - 1) + this.radius);    //random positions for player on the bottom
+                        randY = Math.floor(randY*(this.diameter - randX + this.radius - 1));
+    
+                    }
+                    else{
+                        randX = Math.floor(randX*(this.radius - 1));    //random positions for player on top
+                        randY = Math.floor(randY*(this.radius + randX));
+                    }
+    
+                    if (this.matrix[randX][randY].empty) {
+                        switch (terrain) {
+                            case 0:
+                                this.matrix[randX][randY] = new Forest(randX, randY);
+                                currentWeight = forestWeight;
+                                break;
+                            case 1:
+                                this.matrix[randX][randY] = new Mountain(randX, randY);
+                                currentWeight = mountainWeight;
+                                break;
+                            case 2:
+                                this.matrix[randX][randY] = new Village(randX, randY);
+                                currentWeight = villageWeight;
+                                break;
+                            default:
+                                break;
+                        }
+                        numberOfObjects[terrain] --;
+                    }
                 }
-                else{
-                    randX = Math.floor(randX*(this.radius - 1));    //random positions for player on top
-                    randY = Math.floor(randY*(this.radius + randX));
-                }
-
-                if (this.matrix[randX][randY].empty) {
-                    this.matrix[randX][randY] = new Forest(randX, randY);
-                    numberOfForests --;
-                }
+                numberOfObjects[terrain] = Math.floor(this.radius * currentWeight);
             }
-            numberOfForests = 10;
         }
     }
 }
