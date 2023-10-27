@@ -1,10 +1,11 @@
 import { Camera } from "./camera.js";
 import { Map } from "./map.js";
+import { Player } from "./player.js";
 
 let canvas = document.querySelector('#gamecanvas');
 var ctx = canvas.getContext('2d');
 var gameobjects = [];
-gameobjects.push(new Map(10));
+gameobjects.push(new Map(10, [new Player(), new Player()]));
 let camera = new Camera();
 
 var lastTime = 0;
