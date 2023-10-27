@@ -54,3 +54,13 @@
     bottom: 20vh;
     background-color: orange !important;
 }
+.divSlider{
+    position: absolute;
+    top: 10vh;
+    left: 10vw;
+    width: 200px;
+}
+.slider{
+    width: 200px;
+}
+/* ToDO: Format a little bit the slider  */
