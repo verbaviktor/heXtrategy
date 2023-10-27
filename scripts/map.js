@@ -59,6 +59,13 @@ export class Map {
         let mountainWeight = 1.8;
         let villageWeight= 0.7;
         const numberOfObjects = [Math.floor(this.radius * forestWeight), Math.floor(this.radius * mountainWeight), Math.floor(this.radius * villageWeight)];    //number of different objects based on map radius and weight
+        const tilesAroundBase = [this.matrix[this.players[0].baseX - 1][this.players[0].baseY - 1], this.matrix[this.players[0].baseX - 1][this.players[0].baseY], 
+            this.matrix[this.players[0].baseX][this.players[0].baseY - 1], this.matrix[this.players[0].baseX][this.players[0].baseY + 1], 
+            this.matrix[this.players[0].baseX + 1][this.players[0].baseY], this.matrix[this.players[0].baseX + 1][this.players[0].baseY + 1], 
+            
+            this.matrix[this.players[1].baseX - 1][this.players[1].baseY], this.matrix[this.players[1].baseX - 1][this.players[1].baseY + 1], 
+            this.matrix[this.players[1].baseX][this.players[1].baseY - 1], this.matrix[this.players[1].baseX][this.players[1].baseY + 1], 
+            this.matrix[this.players[1].baseX + 1][this.players[1].baseY - 1], this.matrix[this.players[1].baseX + 1][this.players[1].baseY]];
 
         for (let player = 0; player < this.players.length; player++) {
             for (let terrain = 0; terrain < numberOfObjects.length; terrain++) {
