@@ -55,9 +55,9 @@ export class Map {
         this.players[1].baseY = yOffset;
     }
     generateTerrain(){
-        let forestWeight = 1.2;   //number of forests on one side of the map
-        let mountainWeight = 0.6;
-        let villageWeight= 0.8;
+        let forestWeight = 2;   //number of forests on one side of the map
+        let mountainWeight = 1.8;
+        let villageWeight= 0.7;
         const numberOfObjects = [Math.floor(this.radius * forestWeight), Math.floor(this.radius * mountainWeight), Math.floor(this.radius * villageWeight)];    //number of different objects based on map radius and weight
 
         for (let player = 0; player < this.players.length; player++) {
