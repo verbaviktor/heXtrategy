@@ -84,7 +84,7 @@ export class Map {
                         randY = Math.floor(randY*(this.radius + randX));
                     }
     
-                    if (this.matrix[randX][randY].empty) {
+                    if (this.matrix[randX][randY].empty && !tilesAroundBase.includes(this.matrix[randX][randY])) {
                         switch (terrain) {
                             case 0:
                                 this.matrix[randX][randY] = new Forest(randX, randY);

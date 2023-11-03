@@ -26,7 +26,11 @@ export class Camera {
         })
     }
 
-    screenToHex(screenX, screenY) {
+    screenToHex(screenX, screenY, mapRadius) {
+        let hexY = (screenY + this.y) / 50 / yVector[1];
+        let xOffset = Math.max(mapRadius - hexY, 1);
+        let hexX = (screenX + this.x) / 50 - hexY * yVector[0] - xOffset;
+        return [hexX, hexY];
     }
 
     hexToScreen(hexX, hexY, mapRadius) {
