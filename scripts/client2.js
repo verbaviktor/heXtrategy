@@ -1,5 +1,5 @@
 function onSignIn(googleUser) {
-    console.log(parseJwt(googleUser.credential))
+    console.log(googleUser.credential)
 }
 
 function parseJwt (token) {

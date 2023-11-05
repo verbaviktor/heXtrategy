@@ -2,17 +2,34 @@
   "name": "hextrategyserver",
   "version": "0.0.1",
   "description": "Server for the browser game heXtrategy",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js",
-    "installall": "npm install express nodemon ws"
+    "start": "nodemon src/index.ts",
+    "installall": "npm install express @types/express nodemon ws typescript ts-node @types/node prisma @prisma/client morgan @types/morgan cors @types/cors jsonwebtokens @types/jsonwebtoken bcrypt @types/bcrypt dotenv"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^5.5.2",
+    "@types/bcrypt": "^5.0.1",
+    "@types/cors": "^2.8.15",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.20",
+    "@types/jsonwebtoken": "^9.0.4",
+    "@types/morgan": "^1.9.7",
+    "@types/node": "^20.8.10",
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "installall": "^0.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "nodemon": "^3.0.1",
+    "prisma": "^5.5.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
     "ws": "^8.14.2"
   }
 }

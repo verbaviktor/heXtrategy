@@ -6,7 +6,7 @@ var ctx = canvas.getContext('2d');
 var gameobjects = [];
 gameobjects.push(new Map(10));
 let camera = new Camera();
-
+console.log('loaded script')
 var lastTime = 0;
 var deltaTime = 0;
 
