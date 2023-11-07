@@ -24,8 +24,8 @@ function getCursorPosition(canvas, event) {
     const row1Center = row1Index * rowHeight + diameter/2;              //horizontal center line of the row in screenCoordinates
     const row2Center = row2Index * rowHeight + diameter/2;
 
-    const offset1 = Math.abs(gameobjects[0].radius - 1 - row1Index) * 25 + 278;
-    const offset2 = Math.abs(gameobjects[0].radius - 1 - row2Index) * 25 + 278;
+    const offset1 = Math.abs(gameobjects[0].radius - 1 - row1Index) * gameobjects[0].tileSize/2 + 278;
+    const offset2 = Math.abs(gameobjects[0].radius - 1 - row2Index) * gameobjects[0].tileSize/2 + 278;
     let x1 = x - offset1;
     let x2 = x - offset2;
 
@@ -41,11 +41,20 @@ function getCursorPosition(canvas, event) {
     const distance1 = xDistance1 + yDistance1;                          //total distance between the clicked point and the center point of the first tile
     const distance2 = xDistance2 + yDistance2;
     
+    let final;
     if (distance1 > distance2) {
         console.log(gameobjects[0].matrix[row2Index][col2Index]);
+        final = gameobjects[0].matrix[row2Index][col2Index];
     }
     else{
         console.log(gameobjects[0].matrix[row1Index][col2Index]);
+        final = gameobjects[0].matrix[row1Index][col2Index];
+    }
+
+    console.log(final.x + " " + final.y)
+    if (final.x == gameobjects[0].players[0].baseX && final.y == gameobjects[0].players[0].baseY) {
+        console.log(gameobjects[0].matrix[gameobjects[0].players[0].baseX][gameobjects[0].players[0].baseY]);
+        gameobjects[0].matrix[gameobjects[0].players[0].baseX][gameobjects[0].players[0].baseY].trainArmy(ctx, camera, gameobjects[0]);
     }
 }
 canvas.addEventListener('mousedown', function(e) {
