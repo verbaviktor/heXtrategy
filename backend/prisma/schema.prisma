@@ -11,17 +11,27 @@ datasource db {
 }
 
 model User {
-  email       String  @unique
-  username    String  @unique
-  googleId    String  @id
-  gamesplayed Int     @default(0)
-  wins        Int     @default(0)
-  lobbyId     String?
-  lobby       Lobby?  @relation(fields: [lobbyId], references: [id])
+  email        String   @unique
+  username     String   @unique
+  googleId     String   @id
+  gamesplayed  Int      @default(0)
+  wins         Int      @default(0)
+  lobbyId      String?
+  lobby        Lobby?   @relation(fields: [lobbyId], references: [id])
+  indexInLobby Int?
+  readyState   Boolean? @default(false)
 }
 
 model Lobby {
-  id          String @id @default(uuid())
-  playerCount Int    @default(1)
-  players     User[]
+  id            String     @id @default(uuid())
+  playerCount   Int        @default(1)
+  players       User[]
+  lobbyState    LobbyState @default(PREPARATION)
+  currentPlayer Int        @default(0)
+}
+
+enum LobbyState {
+  PREPARATION
+  IN_PROGRESS
+  FINISHED
 }

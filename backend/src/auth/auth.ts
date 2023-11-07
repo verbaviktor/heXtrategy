@@ -1,6 +1,7 @@
-import jwt from 'jsonwebtoken'
+import jwt, { JwtPayload } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
-import { User } from '@prisma/client'
+import { LobbyState, User } from '@prisma/client'
+import prisma from '../db'
 
 export const comparePasswords = (password: any, hash: any) => {
     return bcrypt.compare(password, hash)
@@ -19,7 +20,7 @@ export const createJWT = (user: User) => {
     return token
 }
 
-export const protect = (req: any, res: any, next: any) => {
+export const verifyUser = async (req: any, res: any, next: any) => {
     const bearer = req.headers.authorization
 
     if (!bearer) {
@@ -37,7 +38,8 @@ export const protect = (req: any, res: any, next: any) => {
     }
 
     try {
-        const user = jwt.verify(token, process.env.JWT_SECRET as string)
+        const userToken = jwt.verify(token, process.env.JWT_SECRET as string)
+        const user = await prisma.user.getUserFromGoogleId((userToken as JwtPayload).googleId)
         req.user = user
         next()
     } catch (e) {
@@ -45,5 +47,28 @@ export const protect = (req: any, res: any, next: any) => {
         res.json({ message: 'Invalid user!' })
         return
     }
+}
 
+export const verifyInLobby = async (req: any, res: any, next: any) => {
+    if (!(await prisma.user.isInLobby(req.user.googleId))) {
+        res.status(403)
+        res.json({ Forbidden: 'Player is not in a lobby' })
+        return
+    }
+    req.lobby = await prisma.lobby.getLobbyFromLobbyId(req.user.lobbyId)
+    if (req.lobby.lobbyState != LobbyState.PREPARATION) {
+        res.status(403)
+        res.json({ Forbidden: "Player's lobby is not in preparation phase" })
+        return
+    }
+    next()
+}
+
+export const verifyNotInLobby = async (req: any, res: any, next: any) => {
+    if (await prisma.user.isInLobby(req.user.googleId)) {
+        res.status(403)
+        res.json({ Forbidden: 'Player is in a lobby' })
+        return
+    }
+    next()
 }
