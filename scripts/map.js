@@ -27,6 +27,7 @@ export class Map {
         this.generateTerrain();
     }
     render(ctx, camera) {
+        let centerpoint;
         for (let y = 0; y < this.diameter; y++) {
             let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
             let xOffset = 0;
@@ -37,6 +38,10 @@ export class Map {
                 let hex = this.matrix[y][x];
                 const screen_coordinates = camera.hexToScreen(x, y, this.radius);
                 ctx.drawImage(hex.img, screen_coordinates[0], screen_coordinates[1], this.tileSize / Math.cos(Math.PI / 6), this.tileSize / Math.cos(Math.PI / 6));
+                if (hex instanceof Base && hex.armyTrained == true) {
+                    centerpoint = camera.hexToScreen(hex.y, hex.x, this.radius)
+                    ctx.drawImage(hex.bannerImage, centerpoint[0] - this.tileSize*0.05, centerpoint[1] - this.tileSize*1.4, this.tileSize*1.2, this.tileSize*2.5);
+                }
             }
         }
     }

@@ -1,6 +1,8 @@
 import { Camera } from "./camera.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
+import { Forest } from "./tiles/forest.js";
+import { Camp } from "./tiles/camp.js";
 
 let canvas = document.querySelector('#gamecanvas');
 var ctx = canvas.getContext('2d');
@@ -24,13 +26,18 @@ canvas.addEventListener('mousedown', function(e) {
     console.log(tile.x + " " + tile.y)
     const centerpoint = camera.screenToHex(coordinates[0], coordinates[1], gameobjects[0])[1];
     console.log(centerpoint.x, centerpoint.y)
-    // if (tile.x == gameobjects[0].players[0].baseX && tile.y == gameobjects[0].players[0].baseY) {
-    //     console.log(gameobjects[0].matrix[gameobjects[0].players[0].baseX][gameobjects[0].players[0].baseY]);
-    //     console.log(coordinates[0], coordinates[1]);
-    //     console.log(camera.hexToScreen[3, 6])
-    //     gameobjects[0].matrix[gameobjects[0].players[0].baseX][gameobjects[0].players[0].baseY].trainArmy(ctx, camera, gameobjects[0]);
-    // }
+    trainArmy(tile, coordinates);
+    if (tile.empty || tile instanceof Forest) {
+        gameobjects[0].matrix[tile.y][tile.x] = new Camp(tile.y, tile.x);   //??
+    }
 });
+
+function trainArmy(castle, coordinates) {
+    castle.armyTrained = true;
+    // let img = new Image();
+    // img.src = "../resources/ArmyBanner.svg";
+    // ctx.drawImage(img, coordinates[0], coordinates[1], 100, 100);
+}
 
 function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;

@@ -11,11 +11,4 @@ export class Base extends Hex{
         bannerImage.src = "../resources/ArmyBanner.svg";
         this.bannerImage = bannerImage;
     }
-
-    trainArmy(ctx, camera, map){
-        this.armyTrained = true;
-        const screenCoordinates = camera.hexToScreen(this.x, this.y, map.mapRadius);    //not the correct coordinates 
-        console.log(screenCoordinates[0], screenCoordinates[1])
-        ctx.drawImage(this.bannerImage, this.x, this.y, map.tileSize / Math.cos(Math.PI / 6), map.tileSize / Math.cos(Math.PI / 6));
-    }
 }
