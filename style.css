@@ -1,66 +1,61 @@
 *{
+    overflow: hidden;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    font-family: "Bold";
 }
+
 .container{
-    width: 100vw;
     height: 100vh;
-    background-color: black;
+    width: 100vw;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: nowrap;
 }
-.button{
-    width: 30vw;
-    height: 500px;
-    background-color: rgb(255, 38, 0);
-    margin: 50px;
+.header{
+    height: 26.3vh;
+    width: 100vw;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-    cursor: pointer;
+    flex-wrap: nowrap;
 }
-.button:nth-child(2){
-    background-color: rgb(153, 153, 153);
+.Hexlogo{
+    width: 50vw;
+    height: 26.3vh;
+    background-color: #2A3741;
 }
-.button:hover{
-    scale: 1.05;
-    transition: 0.15s;
+.player{
+    width: 50vw;
+    height: 26.3vh;
+    background-color: #C7CED5;
+    text-align: right;
 }
-.text{
+.profile-picture{
+    width: 50vw;
+    height: 70%;
+    
+    /* flex-wrap: wrap; */
+    /* align-items: center; */
+}
+.div{
+    margin: auto;
+    width: 35vw;
+    height: 90px;
+    display: grid;
+    grid-template-columns: 25% 75%;
+}
+.div img{
+    border-radius: 46px;
+}
+.name{
+    font-size: 32pt;
     width: fit-content;
-    font-size: 45pt;
-    color: white;
-    font-weight: 500;
-    text-shadow: 5px 3px 15px black;
+    
 }
-.menu-container{
-    width: 100vw;
-    height: 100vh;
-    background-color: grey;
-    position: fixed;
-    top: 100vh;
-    transition: 1s;
+.profile-data{
+    width: 0vw;
+    float: right;
 }
-.start{
-    height: 30vh;
-    width: 20vw;
-    margin: 0;
-    position: absolute;
-    right: 10vw;
-    bottom: 20vh;
-    background-color: orange !important;
+.wins{
+    font-size: 24pt;
+    margin-bottom: 1vh;
+
 }
-.divSlider{
-    position: absolute;
-    top: 10vh;
-    left: 10vw;
-    width: 200px;
-}
-.slider{
-    width: 200px;
-}
-/* ToDO: Format a little bit the slider  */
