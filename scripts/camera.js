@@ -60,14 +60,14 @@ export class Camera {
         if (distance1 > distance2) {
             console.log(map.matrix[row2Index][col2Index]);
             tile = map.matrix[row2Index][col2Index];
-            centerpoint.x = row2Center;
-            centerpoint.y = col2Center;
+            centerpoint.x = col2Center;
+            centerpoint.y = row2Center;
         }
         else{
             console.log(map.matrix[row1Index][col1Index]);
             tile = map.matrix[row1Index][col1Index];
-            centerpoint.x = row1Center;
-            centerpoint.y = col1Center;
+            centerpoint.x = col1Center;
+            centerpoint.y = row1Center;
         }
         return [tile, centerpoint];
     }

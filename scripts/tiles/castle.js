@@ -10,4 +10,10 @@ export class Castle extends Hex{
         bannerImage.src = "../resources/ArmyBanner.svg";
         this.bannerImage = bannerImage;
     }
+
+    
+    trainArmy(map, ctx, centerpoint) {
+        this.armyTrained = true;
+        ctx.drawImage(this.bannerImage, centerpoint[0] - map.tileSize*0.05, centerpoint[1] - map.tileSize*1.4, map.tileSize*1.2, map.tileSize*2.5);
+    }
 }

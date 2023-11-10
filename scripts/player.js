@@ -4,5 +4,6 @@ export class Player{
         this.numberOfCastles = 0;
         this.baseX;
         this.baseY;
+        this.gold = 20;
     }
 }

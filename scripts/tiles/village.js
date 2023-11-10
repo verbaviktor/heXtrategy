@@ -5,5 +5,12 @@ export class Village extends Hex{
         super(x, y);
         this.img.src = "../resources/Village.svg"
         this.empty = false;
+        this.player = null;
+    }
+
+    generateGold(){
+        setInterval( function() {
+            this.player.gold += 4;
+        }, 1000);
     }
 }
