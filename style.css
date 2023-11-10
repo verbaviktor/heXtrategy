@@ -9,22 +9,22 @@
     height: 100vh;
     width: 100vw;
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
 }
 .header{
-    height: 26.3vh;
+    height: 22vh;
     width: 100vw;
     display: flex;
     flex-wrap: nowrap;
 }
 .Hexlogo{
     width: 50vw;
-    height: 26.3vh;
+    height: 22vh;
     background-color: #2A3741;
 }
 .player{
     width: 50vw;
-    height: 26.3vh;
+    height: 22vh;
     background-color: #C7CED5;
     text-align: right;
 }
@@ -32,30 +32,82 @@
     width: 50vw;
     height: 70%;
     
-    /* flex-wrap: wrap; */
-    /* align-items: center; */
 }
-.div{
-    margin: auto;
-    width: 35vw;
+.grid-name{
+    margin: 3vh auto ;
+    width: fit-content;
     height: 90px;
     display: grid;
     grid-template-columns: 25% 75%;
 }
-.div img{
+.grid-name img{
     border-radius: 46px;
 }
 .name{
     font-size: 32pt;
     width: fit-content;
+    padding: 10px;
     
 }
 .profile-data{
-    width: 0vw;
-    float: right;
+    display: grid;
+    grid-template-columns: 25% 75%;
 }
 .wins{
     font-size: 24pt;
-    margin-bottom: 1vh;
-
+    margin: 1vw;
+}
+.menu{
+    height: 78vh;
+    width: 100vw;
+    background-color: #485460;
+}
+.search-grid{
+    display: grid;
+    grid-template-columns: auto auto;
+    height: 22vh;
+}
+.search-item{
+    background-color: #D9D9D9;
+    width: 41.65vw;
+    height: 9.8vh;
+    margin: 3.9vh  4.1vw;
+    border-radius: 30px;
+}
+.lobby-grid{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    height: 60.2vh;
+}
+.lobby-item{
+    background-color: #808080;
+    width: 21.7vw;
+    height: 23.1vh;
+    border-radius: 30px;
+    margin: 0 auto;
+}
+.cell-grid{
+    display: grid;
+    grid-template-columns: auto auto ;
+    width: 90%;
+    height: 90%;
+    gap: 10px;
+    padding: 10px;
+}
+.cell-item{
+    background-color: red;
+    
+}
+.cell-item:nth-child(1){
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+.cell-item:nth-child(2){
+    grid-row-start: 2;
+    grid-row-end: 4;
+}
+.cell-item:nth-child(5){
+    background-color: #2A3741;
+    grid-column-start: 1;
+    grid-column-end: 3;
 }
