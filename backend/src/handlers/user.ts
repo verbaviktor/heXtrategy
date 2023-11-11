@@ -4,18 +4,37 @@ import prisma from "../db";
 import { User } from "@prisma/client";
 
 export const logIn = async (req: any, res: any) => {
-    let user = await prisma.user.findUnique({
-        where: {
-            googleId: req.body.googleId
-        }
-    })
-
-    if (!user) {
-        user = await prisma.user.signUp(req.body.email, req.body.username, req.body.googleId)
-        console.log('Created new user: ' + user.username)
+    let user = await prisma.user.findUnique({ where: { googleId: "0" } })
+    try {
+        user = await prisma.user.findUnique({
+            where: {
+                googleId: req.body.googleId
+            }
+        })
+    } catch (error) {
+        res.status(400)
+        res.json(error)
+        return
     }
-    else {
-        console.log('User logged in: ' + user.username)
+    try {
+        if (!user) {
+            user = await prisma.user.signUp(req.body.email, req.body.username, req.body.googleId)
+            console.log('Created new user: ' + user.username)
+        }
+        else {
+            if (req.body.email == user.email && req.body.username == user.username) {
+                console.log('User logged in: ' + user.username)
+            }
+            else {
+                res.status(403)
+                res.json({error:"No account found with this username and password!"})
+                return
+            }
+        }
+    } catch (error) {
+        res.status(400)
+        res.json(error)
+        return
     }
 
     const token = createJWT(user)
