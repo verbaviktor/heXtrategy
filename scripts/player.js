@@ -5,5 +5,6 @@ export class Player{
         this.baseX;
         this.baseY;
         this.gold = 20;
+        this.armies = [];
     }
 }

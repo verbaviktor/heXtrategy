@@ -58,13 +58,11 @@ export class Camera {
             y : 0
         };
         if (distance1 > distance2) {
-            console.log(map.matrix[row2Index][col2Index]);
             tile = map.matrix[row2Index][col2Index];
             centerpoint.x = col2Center;
             centerpoint.y = row2Center;
         }
         else{
-            console.log(map.matrix[row1Index][col1Index]);
             tile = map.matrix[row1Index][col1Index];
             centerpoint.x = col1Center;
             centerpoint.y = row1Center;

@@ -20,7 +20,7 @@ export class Map {
             let row = [];
             let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
             for (let x = 0; x < hexesInRow; x++) {
-                row.push(new Hex(x, y));
+                row.push(new Hex(y, x));
             }
             this.matrix.push(row);
         }
@@ -28,7 +28,6 @@ export class Map {
         this.generateTerrain();
     }
     render(ctx, camera) {
-        let centerpoint;
         for (let y = 0; y < this.diameter; y++) {
             let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
             let xOffset = 0;
@@ -40,10 +39,14 @@ export class Map {
                 const screen_coordinates = camera.hexToScreen(x, y, this.radius);
                 ctx.drawImage(hex.img, screen_coordinates[0], screen_coordinates[1], this.tileSize / Math.cos(Math.PI / 6), this.tileSize / Math.cos(Math.PI / 6));
 
-                if (hex instanceof Castle && hex.armyTrained == true) {
-                    centerpoint = camera.hexToScreen(hex.y, hex.x, this.radius);
-                    hex.trainArmy(this, ctx, centerpoint);
-                }
+                this.players.forEach(player => {
+                    player.armies.forEach(army => {
+                        army.train(this, ctx, camera);
+                    });
+                });
+                // if (hex instanceof Castle && hex.armyTrained == true) {
+                //     hex.trainArmy(this, ctx, hex, camera);
+                // }
             }
         }
     }
@@ -94,15 +97,15 @@ export class Map {
                     if (this.matrix[randX][randY].empty && !tilesAroundBase.includes(this.matrix[randX][randY])) {
                         switch (terrain) {
                             case 0:
-                                this.matrix[randX][randY] = new Forest(randY, randX);
+                                this.matrix[randX][randY] = new Forest(randX, randY);
                                 currentWeight = forestWeight;
                                 break;
                             case 1:
-                                this.matrix[randX][randY] = new Mountain(randY, randX);
+                                this.matrix[randX][randY] = new Mountain(randX, randY);
                                 currentWeight = mountainWeight;
                                 break;
                             case 2:
-                                this.matrix[randX][randY] = new Village(randY, randX);
+                                this.matrix[randX][randY] = new Village(randX, randY);
                                 currentWeight = villageWeight;
                                 break;
                             default:

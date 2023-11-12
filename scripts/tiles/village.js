@@ -9,8 +9,8 @@ export class Village extends Hex{
     }
 
     generateGold(){
-        setInterval( function() {
+        setInterval( () => {
             this.player.gold += 4;
-        }, 1000);
+        }, 10000);
     }
 }
