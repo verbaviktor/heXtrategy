@@ -6,9 +6,6 @@ export class Hex {
         img.src = "../resources/Hex.svg";
         this.img = img;
         this.empty = true;
-    }
-    
-    update(ctx, input) {
-        
+        this.player = null;
     }
 }

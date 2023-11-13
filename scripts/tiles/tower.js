@@ -1,14 +1,19 @@
 import { Camp } from "./camp.js";
+import { Castle } from "./castle.js";
 
-export class Camp extends Camp{
-    constructor(x, y){
-        super(x, y);
-        this.img.src = "../resources/Tower.svg"
+export class Tower extends Camp{
+    constructor(x, y, player){
+        super(x, y, player);
+        this.img.src = "../resources/Tower.svg";
         this.empty = false;
-        this.upgradeCost = 12; 
+        this.upgradeCost = (this.player.numberOfCastles + 1) * 12; 
     }
 
-    upgrade(numberOfCastles){
-
+    upgrade(map, castle){
+        if (this.player.gold >= this.upgradeCost) {
+            this.player.numberOfCastles ++;
+            map.matrix[this.x][this.y] = castle;
+            this.player.gold -= this.upgradeCost;
+        }
     }
 }
