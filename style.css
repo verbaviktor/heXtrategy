@@ -5,6 +5,12 @@
     font-family: "Bold";
 }
 
+#title {
+    font-size: 7vw;
+    color: #C7CED5;
+    text-align: center;
+}
+
 .container{
     height: 100vh;
     width: 100vw;
@@ -21,6 +27,7 @@
     width: 50vw;
     height: 22vh;
     background-color: #2A3741;
+    vertical-align: middle;
 }
 .player{
     width: 50vw;
