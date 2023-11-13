@@ -5,7 +5,13 @@ export class Hex {
         let img = new Image();
         img.src = "../resources/Hex.svg";
         this.img = img;
-        this.empty = true;
         this.player = null;
+    }
+
+    placeCamp(map, camp){
+        if (this.player.gold >= 4) {
+            this.player.gold -= 4;
+            map.matrix[this.y][this.x] = camp;
+        }
     }
 }
