@@ -13,9 +13,9 @@ export let ctx = canvas.getContext('2d');
 export let map = new Map(10, [new Player(), new Player()]);
 export let camera = new Camera();
 export let input = new InputHandler();
-export let mouseOnTile;
+export let hoveredTile;
 var lastTime = 0;
-var deltaTime = 0;
+export let deltaTime = 0;
 let moved = false;
 let clickedTile;
 
@@ -50,10 +50,7 @@ function gameLoop(timestamp) {
     lastTime = timestamp;
     input.update();
     camera.update();
-    mouseOnTile = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
-    if (mouseOnTile) {
-        console.log(map.getTileAt(mouseOnTile[0], mouseOnTile[1]))
-    }
+    hoveredTile = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
     requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);

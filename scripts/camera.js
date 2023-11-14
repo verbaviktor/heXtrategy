@@ -1,4 +1,4 @@
-import { ctx, input, map } from "./script.js";
+import { ctx, deltaTime, input, map } from "./script.js";
 
 const yVector = [Math.cos(Math.PI / 3), Math.sin(Math.PI / 3)];
 const xVector = [1, 0];
@@ -12,16 +12,16 @@ export class Camera {
 
     update() {
         if (input.isKeyDown('w')) {
-            this.y -= 10
+            this.y -= 500 * deltaTime
         }
         if (input.isKeyDown('s')) {
-            this.y += 10
+            this.y += 500 * deltaTime
         }
         if (input.isKeyDown('a')) {
-            this.x -= 10
+            this.x -= 500 * deltaTime
         }
         if (input.isKeyDown('d')) {
-            this.x += 10
+            this.x += 500 * deltaTime
         }
     }
 
