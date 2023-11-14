@@ -12,6 +12,18 @@ export class InputHandler {
         this.mouseButtons = [ButtonState.UP, ButtonState.UP, ButtonState.UP]
         this.mousePosition = [0, 0]
         this.keys = {}
+        document.addEventListener('mousedown', (mouseButtonDown) => {
+            const key = 'mouseButton' + mouseButtonDown.button
+            if (!this.isKeyDown(key)) {
+                this.keys[key] = ButtonState.PRESSED
+            }
+        })
+        document.addEventListener('mouseup', (mouseButtonDown) => {
+            const key = 'mouseButton' + mouseButtonDown.button
+            if (this.isKeyDown(key)) {
+                this.keys[key] = ButtonState.RELEASED
+            }
+        })
         document.addEventListener('mousemove', (mouseMove) => {
             this.mousePosition = [mouseMove.clientX, mouseMove.clientY]
         })

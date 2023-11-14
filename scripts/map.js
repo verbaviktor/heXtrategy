@@ -26,7 +26,7 @@ export class Map {
             this.matrix.push(row);
         }
         this.placeBases();
-        // this.generateTerrain();
+        this.generateTerrain();
     }
     render() {
         for (let y = 0; y < this.diameter; y++) {
@@ -90,15 +90,15 @@ export class Map {
                     continue
                 }
                 if (random < forest_density) {
-                    this.matrix[hex.y][hex.x] = new Forest(hex.x, hex.y)
+                    this.placeTile(new Forest(hex.x, hex.y))
                     continue
                 }
                 if (random < forest_density + mountain_density) {
-                    this.matrix[hex.y][hex.x] = new Mountain(hex.x, hex.y)
+                    this.placeTile(new Mountain(hex.x, hex.y))
                     continue
                 }
                 if (random < forest_density + mountain_density + village_density) {
-                    this.matrix[hex.y][hex.x] = new Village(hex.x, hex.y)
+                    this.placeTile(new Village(hex.x, hex.y))
                     continue
                 }
             }
