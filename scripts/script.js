@@ -13,7 +13,7 @@ export let ctx = canvas.getContext('2d');
 export let map = new Map(10, [new Player('#FF0000'), new Player("#0000FF")]);
 export let camera = new Camera();
 export let input = new InputHandler();
-export let hoveredTile;
+export let hoveredTileCoordinates;
 var lastTime = 0;
 export let deltaTime = 0;
 let moved = false;
@@ -48,7 +48,7 @@ function gameLoop(timestamp) {
     lastTime = timestamp;
     input.update();
     camera.update();
-    hoveredTile = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
+    hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
     requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);

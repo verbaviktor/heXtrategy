@@ -54,8 +54,7 @@ export class Camera {
     }
 
     hexToScreen(hexX, hexY) {
-        let xOffset = Math.max(map.radius - hexY, 1);
-        let worldX = hexY * yVector[0] + (hexX + xOffset) * xVector[0];
+        let worldX = hexY * yVector[0] + hexX * xVector[0];
         let worldY = hexY * yVector[1];
         return [
             (worldX * this.tileSize + (this.tileSize / 2)) * Math.cos(Math.PI / 6) - this.x,

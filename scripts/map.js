@@ -18,31 +18,31 @@ export class Map {
 
     generateTiles() {
         for (let y = 0; y < this.diameter; y++) {
+            const hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
+            const startIndex = Math.max(-y, -this.radius + 1)
             let row = [];
-            let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
-            for (let x = 0; x < hexesInRow; x++) {
+            for (let x = startIndex; x < hexesInRow + startIndex; x++) {
                 row.push(new Hex(x, y));
             }
             this.matrix.push(row);
         }
+        console.log(this.matrix)
         this.placeBases();
         this.generateTerrain();
     }
     render() {
-        for (let y = 0; y < this.diameter; y++) {
-            let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
-            for (let x = 0; x < hexesInRow; x++) {
-                let hex = this.getTileAt(x, y);
-                const screen_coordinates = camera.hexToScreen(x, y);
+        for (const row of this.matrix) {
+            for (const hex of row) {
+                const screen_coordinates = camera.hexToScreen(hex.x, hex.y);
                 ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
-                hex.render()
             }
+
         }
         let tileCenter;
         this.players.forEach(player => {
             player.armies.forEach(army => {
                 tileCenter = camera.hexToScreen(army.x, army.y);
-                ctx.drawImage(army.img, tileCenter[0] - 30, tileCenter[1] - 90, camera.tileSize*1.2, camera.tileSize*2.5)
+                ctx.drawImage(army.img, tileCenter[0] - 30, tileCenter[1] - 90, camera.tileSize * 1.2, camera.tileSize * 2.5)
             });
         });
     }
@@ -52,12 +52,16 @@ export class Map {
         if (base1Y % 2 == 0) {
             base1Y -= 1
         }
-        
         let base2Y = this.diameter - base1Y - 1
-        let baseX = (this.radius + base1Y) / 2 - 0.5
 
-        const base0 = new Base(baseX, base1Y, this.players[0]);
-        const base1 = new Base(baseX, base2Y, this.players[1]);
+        const hexesInRow = this.diameter - Math.abs(base1Y - this.radius + 1)
+        const startIndex = Math.max(-base1Y, -this.radius + 1)
+        let base1X = (hexesInRow - 1) / 2 + startIndex
+        let base2X = -base1X
+        // let baseX = 0
+
+        const base0 = new Base(base1X, base1Y, this.players[0]);
+        const base1 = new Base(base2X, base2Y, this.players[1]);
         this.placeTile(base0);
         this.placeTile(base1);
         this.players[0].base = base0;
@@ -65,13 +69,15 @@ export class Map {
     }
     getTileAt(x, y) {
         try {
-            return this.matrix[y][x]
+            const startIndexInRow = Math.max(-y, -this.radius + 1)
+            return this.matrix[y][x - startIndexInRow]
         } catch (error) {
             null
         }
     }
     placeTile(tile) {
-        this.matrix[tile.y][tile.x] = tile
+        const startIndexInRow = Math.max(-tile.y, -this.radius + 1)
+        this.matrix[tile.y][tile.x - startIndexInRow] = tile
     }
     getTilesInRow(y) {
         try {
@@ -106,7 +112,7 @@ export class Map {
         }
     }
 
-    tileClicked(tile){
+    tileClicked(tile) {
         if (tile instanceof Castle) {   //tile.player == playerInTurn
             tile.trainArmy();
         }
@@ -114,8 +120,8 @@ export class Map {
             tile.placeCamp(this, new Camp(tile.x, tile.y, tile.player));
         }
     }
-    
-    getMovementDirection(start, destination){
+
+    getMovementDirection(start, destination) {
         const xDiff = Math.sign(destination.x - start.x);
         const yDiff = Math.sign(destination.y - start.y);
         if (xDiff == 0 && yDiff == 0) {
@@ -126,7 +132,7 @@ export class Map {
         }
         return null;
     }
-    moveArmy(start, destination){
+    moveArmy(start, destination) {
         const direction = this.getMovementDirection(start, destination);
         console.log(direction)
         let movedArmy;
@@ -136,13 +142,13 @@ export class Map {
             }
         });
 
-        if(movedArmy && direction){
+        if (movedArmy && direction) {
             for (let i = 0; i < 6; i++) {
                 if (this.getTileAt(movedArmy.x + direction[0], movedArmy.y + direction[1])) {
                     if (this.getTileAt(movedArmy.x, movedArmy.y) instanceof Mountain) {
                         break;
                     }
-                    else if(this.getTileAt(movedArmy.x, movedArmy.y) instanceof Forest){
+                    else if (this.getTileAt(movedArmy.x, movedArmy.y) instanceof Forest) {
                         const hex = new Hex(movedArmy.x, movedArmy.y);
                         hex.player = movedArmy.player;
                         this.placeTile(hex);
@@ -152,7 +158,7 @@ export class Map {
                     movedArmy.y += direction[1];
                     this.getTileAt(movedArmy.x, movedArmy.y).player = movedArmy.player;
                 }
-                else{
+                else {
                     break;
                 }
             }
