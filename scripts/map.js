@@ -5,6 +5,7 @@ import { Mountain } from "./tiles/mountain.js";
 import { Village } from "./tiles/village.js";
 import { camera, ctx } from "./script.js"
 import { Castle } from "./tiles/castle.js";
+import { Camp } from "./tiles/camp.js";
 
 export class Map {
     constructor(radius, players) {
@@ -34,17 +35,15 @@ export class Map {
                 let hex = this.matrix[y][x];
                 const screen_coordinates = camera.hexToScreen(x, y);
                 ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
-
-                // this.players.forEach(player => {
-                //     player.armies.forEach(army => {
-                //         army.train(this, ctx, camera);
-                //     });
-                // });
-                // if (hex instanceof Castle && hex.armyTrained == true) {
-                //     hex.trainArmy(this, ctx, hex, camera);
-                // }
             }
         }
+        let tileCenter;
+        this.players.forEach(player => {
+            player.armies.forEach(army => {
+                tileCenter = camera.hexToScreen(army.x, army.y);
+                ctx.drawImage(army.img, tileCenter[0] - 30, tileCenter[1] - 90, camera.tileSize*1.2, camera.tileSize*2.5)
+            });
+        });
     }
     placeBases() {
         //2.5 value can be changed to bring bases closer or further apart. (Smaller value -> Closer bases)
@@ -105,4 +104,53 @@ export class Map {
             }
         }
     }
+
+    tileClicked(tile){
+        if (tile instanceof Castle) {   //tile.player == playerInTurn
+            tile.trainArmy();
+        }
+        else if (tile.constructor.name == "Hex" || tile.constructor.name == "Forest") {  //tile.player == playerInTurn
+            tile.placeCamp(this, new Camp(tile.x, tile.y, tile.player));
+        }
+    }
+    
+    getMovementDirection(start, destination){
+        const xDiff = destination.x - start.x;
+        const yDiff = destination.y - start.y;
+        if (yDiff == 0 || xDiff == 0 || Math.abs(yDiff) == Math.abs(xDiff)) {
+            return [xDiff, yDiff];
+        }
+        return null;
+    }
+    moveArmy(start, destination){
+        const direction = this.getMovementDirection(start, destination);
+
+        let movedArmy;
+        start.player.armies.forEach(army => {
+            if (army.x == start.x && army.y == start.y) {
+                movedArmy = army;
+            }
+        });
+
+        if(movedArmy && direction){
+            for (let i = 0; i < 6; i++) {
+                if (this.matrix[movedArmy.y + direction[1]] && this.matrix[movedArmy.y + direction[1]][movedArmy.x + direction[0]]) {
+                    if (this.matrix[movedArmy.y][movedArmy.x] instanceof Mountain) {
+                        break;
+                    }
+                    movedArmy.x += direction[0];
+                    movedArmy.y += direction[1];
+                    this.matrix[movedArmy.y][movedArmy.x].player = movedArmy.player;
+                }
+                else{
+                    break;
+                }
+            }
+            if (start instanceof Castle) {
+                start.armyTrained = false;
+            }
+        }
+        return false;
+    }
+
 }

@@ -5,7 +5,6 @@ export class Tower extends Camp{
     constructor(x, y, player){
         super(x, y, player);
         this.img.src = "../resources/Tower.svg";
-        this.empty = false;
         this.upgradeCost = (this.player.numberOfCastles + 1) * 12; 
     }
 
