@@ -20,9 +20,8 @@ let moved = false;
 let clickedTile;
 
 canvas.addEventListener('mousedown', function(e) {
-    console.log(camera.screenToHex(e.clientX, e.clientY));
     const hexCoordinates = camera.screenToHex(e.clientX, e.clientY);
-    clickedTile = map.matrix[hexCoordinates[1]][hexCoordinates[0]];
+    clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
     map.tileClicked(clickedTile);
 });
 
@@ -31,9 +30,8 @@ canvas.addEventListener("mousemove", function(e){
 });
 
 canvas.addEventListener("mouseup", function(e){
-    console.log(e.clientX, e.clientY);
     const hexCoordinates = camera.screenToHex(e.clientX, e.clientY);
-    const destination = map.matrix[hexCoordinates[1]][hexCoordinates[0]];
+    const destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
     if (moved) {
         moved = map.moveArmy(clickedTile, destination);
     }

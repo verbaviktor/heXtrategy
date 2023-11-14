@@ -11,7 +11,7 @@ export class Hex {
     placeCamp(map, camp){
         if (this.player.gold >= 4) {
             this.player.gold -= 4;
-            map.matrix[this.y][this.x] = camp;
+            map.placeTile(camp);
         }
     }
 }
