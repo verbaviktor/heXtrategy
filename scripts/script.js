@@ -16,11 +16,12 @@ export let input = new InputHandler();
 
 var lastTime = 0;
 var deltaTime = 0;
+let clickedTile;
+let moved = false;
 
 canvas.addEventListener('mousedown', function(e) {
     console.log(camera.screenToHex(e.clientX, e.clientY))
-let clickedTile;
-let moved = false;
+})
 
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
