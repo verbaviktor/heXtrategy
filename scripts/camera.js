@@ -1,4 +1,4 @@
-import { ctx, map } from "./script.js";
+import { ctx, input, map } from "./script.js";
 
 const yVector = [Math.cos(Math.PI / 3), Math.sin(Math.PI / 3)];
 const xVector = [1, 0];
@@ -8,24 +8,21 @@ export class Camera {
         this.x = 0;
         this.y = 0;
         this.tileSize = 50;
-        document.addEventListener('keypress', (e) => {
-            switch (e.key) {
-                case 'w':
-                    this.y -= 5;
-                    break;
-                case 'a':
-                    this.x -= 5;
-                    break;
-                case 's':
-                    this.y += 5;
-                    break;
-                case 'd':
-                    this.x += 5;
-                    break;
-                default:
-                    break;
-            }
-        })
+    }
+
+    update() {
+        if (input.isKeyDown('w')) {
+            this.y -= 10
+        }
+        if (input.isKeyDown('s')) {
+            this.y += 10
+        }
+        if (input.isKeyDown('a')) {
+            this.x -= 10
+        }
+        if (input.isKeyDown('d')) {
+            this.x += 10
+        }
     }
 
     screenToHex(screenX, screenY) {

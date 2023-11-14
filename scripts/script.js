@@ -1,4 +1,5 @@
 import { Camera } from "./camera.js";
+import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
 import { Forest } from "./tiles/forest.js";
@@ -11,10 +12,10 @@ let canvas = document.querySelector('#gamecanvas');
 export let ctx = canvas.getContext('2d');
 export let map = new Map(10, [new Player(), new Player()]);
 export let camera = new Camera();
-
+export let input = new InputHandler();
+export let mouseOnTile;
 var lastTime = 0;
 var deltaTime = 0;
-
 let moved = false;
 let clickedTile;
 
@@ -47,7 +48,12 @@ function gameLoop(timestamp) {
     ctx.fill();
     map.render();
     lastTime = timestamp;
-    
+    input.update();
+    camera.update();
+    mouseOnTile = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
+    if (mouseOnTile) {
+        console.log(map.getTileAt(mouseOnTile[0], mouseOnTile[1]))
+    }
     requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);

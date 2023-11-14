@@ -13,10 +13,10 @@ export class Map {
         this.diameter = (radius * 2) - 1;
         this.matrix = [];
         this.players = players;
-        this.generate();
+        this.generateTiles();
     }
 
-    generate() {
+    generateTiles() {
         for (let y = 0; y < this.diameter; y++) {
             let row = [];
             let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
@@ -26,7 +26,7 @@ export class Map {
             this.matrix.push(row);
         }
         this.placeBases();
-        this.generateTerrain();
+        // this.generateTerrain();
     }
     render() {
         for (let y = 0; y < this.diameter; y++) {
@@ -35,16 +35,15 @@ export class Map {
                 let hex = this.matrix[y][x];
                 const screen_coordinates = camera.hexToScreen(x, y);
                 ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
-                
-                let tileCenter;
-                this.players.forEach(player => {
-                    player.armies.forEach(army => {
-                        tileCenter = camera.hexToScreen(army.x, army.y);
-                        ctx.drawImage(army.img, tileCenter[0] - 30, tileCenter[1] - 90, camera.tileSize*1.2, camera.tileSize*2.5)
-                    });
-                });
             }
         }
+        let tileCenter;
+        this.players.forEach(player => {
+            player.armies.forEach(army => {
+                tileCenter = camera.hexToScreen(army.x, army.y);
+                ctx.drawImage(army.img, tileCenter[0] - 30, tileCenter[1] - 90, camera.tileSize*1.2, camera.tileSize*2.5)
+            });
+        });
     }
     placeBases() {
         //2.5 value can be changed to bring bases closer or further apart. (Smaller value -> Closer bases)
@@ -69,6 +68,9 @@ export class Map {
         } catch (error) {
             null
         }
+    }
+    placeTile(tile) {
+        this.matrix[tile.y][tile.x] = tile
     }
     getTilesInRow(y) {
         try {
