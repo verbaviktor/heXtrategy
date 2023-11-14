@@ -10,7 +10,7 @@ import { Mountain } from "./tiles/mountain.js";
 
 let canvas = document.querySelector('#gamecanvas');
 export let ctx = canvas.getContext('2d');
-export let map = new Map(10, [new Player(), new Player()]);
+export let map = new Map(10, [new Player('#FF0000'), new Player("#0000FF")]);
 export let camera = new Camera();
 export let input = new InputHandler();
 export let hoveredTile;

@@ -35,6 +35,7 @@ export class Map {
                 let hex = this.matrix[y][x];
                 const screen_coordinates = camera.hexToScreen(x, y);
                 ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
+                hex.render()
             }
         }
         let tileCenter;
