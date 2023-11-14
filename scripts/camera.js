@@ -7,7 +7,7 @@ export class Camera {
     constructor() {
         this.x = 0;
         this.y = 0;
-        this.tileSize = 200;
+        this.tileSize = 50;
     }
 
     update() {
@@ -22,6 +22,10 @@ export class Camera {
         }
         if (input.isKeyDown('d')) {
             this.x += 500 * deltaTime
+        }
+        if (input.mouseWheel != 0) {
+            console.log("asdasd")
+            this.tileSize *= Math.pow(1.2, input.mouseWheel)
         }
     }
 

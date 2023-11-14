@@ -11,6 +11,7 @@ export class InputHandler {
     constructor() {
         this.mouseButtons = [ButtonState.UP, ButtonState.UP, ButtonState.UP]
         this.mousePosition = [0, 0]
+        this.mouseWheel = 0;
         this.keys = {}
         document.addEventListener('mousedown', (mouseButtonDown) => {
             const key = 'mouseButton' + mouseButtonDown.button
@@ -26,6 +27,9 @@ export class InputHandler {
         })
         document.addEventListener('mousemove', (mouseMove) => {
             this.mousePosition = [mouseMove.clientX, mouseMove.clientY]
+        })
+        document.addEventListener('wheel', (mouseWheel) => {
+            this.mouseWheel = -Math.sign(mouseWheel.deltaY)
         })
         document.addEventListener('keydown', (event) => {
             if (!this.isKeyDown(event.key)) {
@@ -51,6 +55,7 @@ export class InputHandler {
                     break;
             }
         }
+        this.mouseWheel = 0
     }
     isKeyDown(key) {
         return this.keys[key] == ButtonState.DOWN || this.keys[key] == ButtonState.PRESSED

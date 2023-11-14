@@ -33,17 +33,13 @@ export class Map {
     render() {
         for (const row of this.matrix) {
             for (const hex of row) {
-                const screen_coordinates = camera.hexToScreen(hex.x, hex.y);
-                ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
                 hex.render()
             }
 
         }
-        let tileCenter;
         this.players.forEach(player => {
             player.armies.forEach(army => {
-                tileCenter = camera.hexToScreen(army.x, army.y);
-                ctx.drawImage(army.img, tileCenter[0] - 30, tileCenter[1] - 90, camera.tileSize * 1.2, camera.tileSize * 2.5)
+                army.render()
             });
         });
     }
