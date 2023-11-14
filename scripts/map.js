@@ -113,10 +113,10 @@ export class Map {
     }
 
     tileClicked(tile) {
-        if (tile instanceof Castle) {   //tile.player == playerInTurn
+        if (tile instanceof Castle) {
             tile.trainArmy();
         }
-        else if (tile.constructor.name == "Hex" || tile.constructor.name == "Forest") {  //tile.player == playerInTurn
+        else if (tile.constructor.name == "Hex" || tile.constructor.name == "Forest") {
             tile.placeCamp(this, new Camp(tile.x, tile.y, tile.player));
         }
     }
@@ -134,7 +134,6 @@ export class Map {
     }
     moveArmy(start, destination) {
         const direction = this.getMovementDirection(start, destination);
-        console.log(direction)
         let movedArmy;
         start.player.armies.forEach(army => {
             if (army.x == start.x && army.y == start.y) {
