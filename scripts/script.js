@@ -13,6 +13,7 @@ export let hoveredTileCoordinates;
 var lastTime = 0;
 export let deltaTime = 0;
 let hexCoordinates;
+let clickedTile;
 
 function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;
@@ -26,16 +27,19 @@ function gameLoop(timestamp) {
     hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
     
     if (input.isKeyPressed("mouseButton0")) {
-        console.log("asd")
         hexCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1]);
-        console.log(map.getTileAt(hexCoordinates[0]), hexCoordinates[1])
-        map.tileClicked(map.getTileAt(hexCoordinates[0]), hexCoordinates[1]);
+        clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
+        if (clickedTile.player) {
+            map.tileClicked(clickedTile);
+        }
     }
     
     if (input.isKeyReleased("mouseButton0")) {
-        const startCoordinates = hexCoordinates;
+        clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         hexCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1]);
-        map.moveArmy(map.getTileAt(startCoordinates[0], startCoordinates[1]), map.getTileAt(hexCoordinates[0], hexCoordinates[1]))
+        if (clickedTile.player) {
+            map.moveArmy(clickedTile, map.getTileAt(hexCoordinates[0], hexCoordinates[1]));
+        }
     }
     input.update();
     camera.update();
