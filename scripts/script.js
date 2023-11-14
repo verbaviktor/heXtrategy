@@ -13,15 +13,11 @@ export let ctx = canvas.getContext('2d');
 export let map = new Map(10, [new Player(), new Player()]);
 export let camera = new Camera();
 export let input = new InputHandler();
-
+export let mouseOnTile;
 var lastTime = 0;
 var deltaTime = 0;
 let clickedTile;
 let moved = false;
-
-canvas.addEventListener('mousedown', function(e) {
-    console.log(camera.screenToHex(e.clientX, e.clientY))
-})
 
 function getCursorPosition(canvas, event) {
     const rect = canvas.getBoundingClientRect();
@@ -97,12 +93,12 @@ function moveArmy(hexCoordinates){
     //trainArmy();
     //placeCamp();
 //});
-canvas.addEventListener("mouseup", function(e){
-    const coordinates = getCursorPosition(canvas, e);
-    const tile = camera.screenToHex(coordinates[0], coordinates[1], gameobjects[0])[0];
-    const hexCoordinates = [tile.x, tile.y];
-    moveArmy(hexCoordinates);
-});
+// canvas.addEventListener("mouseup", function(e){
+//     const coordinates = getCursorPosition(canvas, e);
+//     const tile = camera.screenToHex(coordinates[0], coordinates[1], gameobjects[0])[0];
+//     const hexCoordinates = [tile.x, tile.y];
+//     moveArmy(hexCoordinates);
+// });
 
 
 function gameLoop(timestamp) {
@@ -116,6 +112,10 @@ function gameLoop(timestamp) {
     lastTime = timestamp;
     input.update();
     camera.update();
+    mouseOnTile = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
+    if (mouseOnTile) {
+        console.log(map.getTileAt(mouseOnTile[0], mouseOnTile[1]))
+    }
     requestAnimationFrame(gameLoop);
 }
 

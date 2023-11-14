@@ -1,15 +1,12 @@
+import { camera } from "./script.js"
+
 const ButtonState = {
     UP: 0,
     DOWN: 1,
     PRESSED: 2,
     RELEASED: 3,
 }
-// const keys = {
-//     W: ButtonState.UP,
-//     A: ButtonState.UP,
-//     S: ButtonState.UP,
-//     D: ButtonState.UP
-// }
+
 export class InputHandler {
     constructor() {
         this.mouseButtons = [ButtonState.UP, ButtonState.UP, ButtonState.UP]
@@ -56,3 +53,4 @@ export class InputHandler {
         return this.keys[key] == ButtonState.RELEASED
     }
 }
+

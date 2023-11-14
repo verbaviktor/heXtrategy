@@ -12,20 +12,20 @@ export class Map {
         this.diameter = (radius * 2) - 1;
         this.matrix = [];
         this.players = players;
-        this.generate();
+        this.generateTiles();
     }
 
-    generate() {
+    generateTiles() {
         for (let y = 0; y < this.diameter; y++) {
             let row = [];
             let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
             for (let x = 0; x < hexesInRow; x++) {
-                row.push(new Hex(y, x));
+                row.push(new Hex(x, y));
             }
             this.matrix.push(row);
         }
         this.placeBases();
-        this.generateTerrain();
+        // this.generateTerrain();
     }
     render() {
         for (let y = 0; y < this.diameter; y++) {
@@ -35,11 +35,11 @@ export class Map {
                 const screen_coordinates = camera.hexToScreen(x, y);
                 ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
 
-                this.players.forEach(player => {
-                    player.armies.forEach(army => {
-                        army.train(this, ctx, camera);
-                    });
-                });
+                // this.players.forEach(player => {
+                //     player.armies.forEach(army => {
+                //         army.train(this, ctx, camera);
+                //     });
+                // });
                 // if (hex instanceof Castle && hex.armyTrained == true) {
                 //     hex.trainArmy(this, ctx, hex, camera);
                 // }
@@ -69,6 +69,9 @@ export class Map {
         } catch (error) {
             null
         }
+    }
+    placeTile(tile) {
+        this.matrix[tile.y][tile.x] = tile
     }
     getTilesInRow(y) {
         try {
