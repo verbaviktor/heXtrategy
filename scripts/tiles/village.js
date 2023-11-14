@@ -6,10 +6,4 @@ export class Village extends Hex{
         this.img.src = "../resources/Village.svg"
         this.player = null;
     }
-
-    generateGold(){
-        setInterval( () => {
-            this.player.gold += 4;
-        }, 10000);
-    }
 }

@@ -13,6 +13,7 @@ export class Map {
         this.diameter = (radius * 2) - 1;
         this.matrix = [];
         this.players = players;
+        this.playerInTurn = players[0];
         this.generateTiles();
     }
 
@@ -26,7 +27,6 @@ export class Map {
             }
             this.matrix.push(row);
         }
-        console.log(this.matrix)
         this.placeBases();
         this.generateTerrain();
     }
@@ -122,13 +122,15 @@ export class Map {
     }
 
     getMovementDirection(start, destination) {
-        const xDiff = Math.sign(destination.x - start.x);
-        const yDiff = Math.sign(destination.y - start.y);
+        const xDiff = destination.x - start.x;
+        const yDiff = destination.y - start.y;
+        const centerY = [ -1 * start.x, start.y]
+        console.log(xDiff, yDiff)
         if (xDiff == 0 && yDiff == 0) {
             return null;
         }
-        if (yDiff == 0 || xDiff == 0 || Math.abs(yDiff) == Math.abs(xDiff)) {
-            return [xDiff, yDiff];
+        if (yDiff == 0 || xDiff == 0 || yDiff == xDiff * -1) {
+            return [Math.sign(xDiff), Math.sign(yDiff)];
         }
         return null;
     }
@@ -142,24 +144,32 @@ export class Map {
         });
 
         if (movedArmy && direction) {
+            let currentTile;
             for (let i = 0; i < 6; i++) {
+                currentTile = this.getTileAt(movedArmy.x, movedArmy.y);
                 if (this.getTileAt(movedArmy.x + direction[0], movedArmy.y + direction[1])) {
-                    if (this.getTileAt(movedArmy.x, movedArmy.y) instanceof Mountain) {
+                    if (currentTile instanceof Mountain || (i != 0 && currentTile instanceof Camp && currentTile.player == movedArmy.player)) {
                         break;
                     }
-                    else if (this.getTileAt(movedArmy.x, movedArmy.y) instanceof Forest) {
-                        const hex = new Hex(movedArmy.x, movedArmy.y);
+
+                    if (currentTile instanceof Forest) {
+                        const hex = new Hex(currentTile.x, currentTile.y)
                         hex.player = movedArmy.player;
-                        this.placeTile(hex);
+                        currentTile = hex;
+                        this.placeTile(currentTile);
                         break;
+                    }
+                    else if(currentTile instanceof Village){
+                        currentTile.player = movedArmy.player;
+                        currentTile.player.numberOfVillages ++;
                     }
                     movedArmy.x += direction[0];
                     movedArmy.y += direction[1];
-                    this.getTileAt(movedArmy.x, movedArmy.y).player = movedArmy.player;
+                    currentTile.player = movedArmy.player;
                 }
-                else {
-                    break;
-                }
+            }
+            if (!(currentTile instanceof Camp)) {
+                currentTile.player.armies = currentTile.player.armies.filter((army) => army != movedArmy);
             }
             if (start instanceof Castle) {
                 start.armyTrained = false;
