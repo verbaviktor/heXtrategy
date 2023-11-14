@@ -7,7 +7,7 @@ export class Camera {
     constructor() {
         this.x = 0;
         this.y = 0;
-        this.tileSize = 50;
+        this.tileSize = 200;
     }
 
     update() {

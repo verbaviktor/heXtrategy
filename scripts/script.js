@@ -1,4 +1,5 @@
 import { Camera } from "./camera.js";
+import { darkenColor } from "./color.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";

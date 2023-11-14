@@ -1,3 +1,4 @@
+import { darkenColor } from "../color.js";
 import { camera, ctx } from "../script.js";
 
 export class Hex {
@@ -31,13 +32,16 @@ export class Hex {
         }
         ctx.closePath()
         if (this.player) {
-            ctx.fillStyle = this.player.color
+            let gradient = ctx.createLinearGradient(hexagonCenter[0], hexagonCenter[1] - camera.tileSize / 2, hexagonCenter[0], hexagonCenter[1] + camera.tileSize / 2)
+
+            gradient.addColorStop(0, this.player.color)
+            gradient.addColorStop(1, darkenColor(this.player.color, 0.5))
+            ctx.fillStyle = gradient
+            ctx.fill()
         }
         else {
-            ctx.fillStyle = '#F0F0F0'
+            // ctx.fillStyle = '#F0F0F0'
+            // ctx.fillRect(0, 0, 100, 100)
         }
-        ctx.globalAlpha = 0.5
-        ctx.fill()
-        ctx.globalAlpha = 1
     }
 }
