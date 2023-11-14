@@ -1,4 +1,5 @@
 import { Camera } from "./camera.js";
+import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
 
@@ -6,6 +7,7 @@ let canvas = document.querySelector('#gamecanvas');
 export let ctx = canvas.getContext('2d');
 export let map = new Map(10, [new Player(), new Player()]);
 export let camera = new Camera();
+export let input = new InputHandler();
 
 var lastTime = 0;
 var deltaTime = 0;
@@ -26,7 +28,8 @@ function gameLoop(timestamp) {
 
 
     lastTime = timestamp;
-
+    input.update();
+    camera.update();
     requestAnimationFrame(gameLoop);
 }
 
