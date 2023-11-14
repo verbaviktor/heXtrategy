@@ -4,6 +4,7 @@ import { Forest } from "./tiles/forest.js";
 import { Mountain } from "./tiles/mountain.js";
 import { Village } from "./tiles/village.js";
 import { camera, ctx } from "./script.js"
+import { Castle } from "./tiles/castle.js";
 
 export class Map {
     constructor(radius, players) {
@@ -19,7 +20,7 @@ export class Map {
             let row = [];
             let hexesInRow = this.diameter - Math.abs(y - this.radius + 1);
             for (let x = 0; x < hexesInRow; x++) {
-                row.push(new Hex(x, y));
+                row.push(new Hex(y, x));
             }
             this.matrix.push(row);
         }
@@ -33,6 +34,15 @@ export class Map {
                 let hex = this.matrix[y][x];
                 const screen_coordinates = camera.hexToScreen(x, y);
                 ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
+
+                this.players.forEach(player => {
+                    player.armies.forEach(army => {
+                        army.train(this, ctx, camera);
+                    });
+                });
+                // if (hex instanceof Castle && hex.armyTrained == true) {
+                //     hex.trainArmy(this, ctx, hex, camera);
+                // }
             }
         }
     }
