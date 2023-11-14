@@ -1,11 +1,12 @@
 import { Camera } from "./camera.js";
+import { darkenColor } from "./color.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
 
 let canvas = document.querySelector('#gamecanvas');
 export let ctx = canvas.getContext('2d');
-export let map = new Map(10, [new Player('#FF0000'), new Player("#0000FF")]);
+export let map = new Map(10, [new Player('#335c67'), new Player("#9e2a2b")]);
 export let camera = new Camera();
 export let input = new InputHandler();
 export let hoveredTileCoordinates;
@@ -48,6 +49,7 @@ function gameLoop(timestamp) {
     }
     input.update();
     camera.update();
+    input.update();
     requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);

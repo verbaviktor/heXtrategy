@@ -1,11 +1,11 @@
+import { darkenColor } from "../color.js";
 import { camera, ctx } from "../script.js";
 
 export class Hex {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        let img = new Image();
-        img.src = "../resources/Hex.svg";
+        const img = new Image();
         this.img = img;
         this.player = null;
     }
@@ -30,14 +30,29 @@ export class Hex {
             ctx.lineTo(p1, p2);
         }
         ctx.closePath()
+
+        let gradient = ctx.createLinearGradient( //Gradient going from bottomright corner to topleft
+            hexagonCenter[0] - camera.tileSize / 2,
+            hexagonCenter[1] - camera.tileSize / 2,
+            hexagonCenter[0] + camera.tileSize / 2,
+            hexagonCenter[1] + camera.tileSize / 2
+        )
+
         if (this.player) {
-            ctx.fillStyle = this.player.color
+            gradient.addColorStop(0.5, this.player.color)
+            gradient.addColorStop(1, darkenColor(this.player.color, 0.75))
+            ctx.fillStyle = gradient
         }
         else {
-            ctx.fillStyle = '#F0F0F0'
+            const noPlayerColor = '#F0F0F0'
+            gradient.addColorStop(0.5, noPlayerColor)
+            gradient.addColorStop(1, darkenColor(noPlayerColor, 0.9))
+            ctx.fillStyle = gradient
         }
-        ctx.globalAlpha = 0.5
         ctx.fill()
-        ctx.globalAlpha = 1
+
+        if (this.img.src) {
+            ctx.drawImage(this.img, hexagonCenter[0] - camera.tileSize / 2, hexagonCenter[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
+        }
     }
 }

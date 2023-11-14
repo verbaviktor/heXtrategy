@@ -1,3 +1,5 @@
+import { camera, ctx } from "../script.js";
+
 export class Army {
     constructor(x, y, player) {
         this.player = player;
@@ -8,8 +10,8 @@ export class Army {
         this.img = img;
     }
 
-    place(map, ctx, camera) {
-        const centerpoint = camera.hexToScreen(this.y, this.x, map.radius);
-        ctx.drawImage(this.img, centerpoint[0] - map.tileSize*0.05, centerpoint[1] - map.tileSize*1.4, map.tileSize*1.2, map.tileSize*2.5);
+    render() {
+        const tileCenter = camera.hexToScreen(this.x, this.y);
+        ctx.drawImage(this.img, tileCenter[0] - camera.tileSize / 2, tileCenter[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize)
     }
 }
