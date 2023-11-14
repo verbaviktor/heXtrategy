@@ -35,6 +35,7 @@ export class Map {
                 let hex = this.getTileAt(x, y);
                 const screen_coordinates = camera.hexToScreen(x, y);
                 ctx.drawImage(hex.img, screen_coordinates[0] - camera.tileSize / 2, screen_coordinates[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
+                hex.render()
             }
         }
         let tileCenter;
@@ -90,15 +91,15 @@ export class Map {
                     continue
                 }
                 if (random < forest_density) {
-                    this.placeTile(new Forest(hex.x, hex.y));
+                    this.placeTile(new Forest(hex.x, hex.y))
                     continue
                 }
                 if (random < forest_density + mountain_density) {
-                    this.placeTile(new Mountain(hex.x, hex.y));
+                    this.placeTile(new Mountain(hex.x, hex.y))
                     continue
                 }
                 if (random < forest_density + mountain_density + village_density) {
-                    this.placeTile(new Village(hex.x, hex.y));
+                    this.placeTile(new Village(hex.x, hex.y))
                     continue
                 }
             }
