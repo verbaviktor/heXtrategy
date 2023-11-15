@@ -24,7 +24,6 @@ export class Camera {
             this.x += 500 * deltaTime
         }
         if (input.mouseWheel != 0) {
-            console.log("asdasd")
             this.tileSize *= Math.pow(1.2, input.mouseWheel)
         }
     }

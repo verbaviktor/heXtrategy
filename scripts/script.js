@@ -51,7 +51,6 @@ function gameLoop(timestamp) {
         map.playerInTurn = otherPlayer[0];
         map.playerInTurn.generateGold();
     }
-    input.update();
     camera.update();
     input.update();
     requestAnimationFrame(gameLoop);
