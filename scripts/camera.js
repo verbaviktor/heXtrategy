@@ -1,3 +1,4 @@
+import { lerpNumber } from "./engine.js";
 import { ctx, deltaTime, input, map } from "./script.js";
 
 const yVector = [Math.cos(Math.PI / 3), Math.sin(Math.PI / 3)];
@@ -8,6 +9,7 @@ export class Camera {
         this.x = - 400;
         this.y = - 80;
         this.tileSize = 50;
+        this.targetTileSize = 50;
     }
 
     update() {
@@ -24,7 +26,13 @@ export class Camera {
             this.x += 500 * deltaTime
         }
         if (input.mouseWheel != 0) {
-            this.tileSize *= Math.pow(1.2, input.mouseWheel)
+            this.targetTileSize *= Math.pow(1.2, input.mouseWheel)
+        }
+        if (Math.abs(this.targetTileSize - this.tileSize) < 0.1) {
+            this.tileSize = this.targetTileSize
+        }
+        else {
+            this.tileSize = lerpNumber(this.tileSize, this.targetTileSize, 35 * deltaTime)
         }
     }
 

@@ -17,7 +17,7 @@ export class Player{
     armyOfTile(tile){
         let army;
         this.armies.forEach(a => {
-            if (a.x == tile.x && a.y == tile.y) {
+            if (a.targetX == tile.x && a.targetY == tile.y) {
                 army = a;
             }
         });

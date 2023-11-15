@@ -31,3 +31,11 @@ export function darkenColor(hex, factor) {
     // Convert back to hex
     return rgbToHex(newR, newG, newB);
 }
+
+export function lerpNumber(a, b, t) {
+    return a + (b - a) * t
+}
+
+export function lerpVector(a, b, t) {
+    return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]
+}

@@ -142,10 +142,10 @@ export class Map {
         if (movedArmy && direction) {
             let currentTile;
             for (let i = 0; i < 6; i++) {
-                if (this.getTileAt(movedArmy.x + direction[0], movedArmy.y + direction[1])){
-                    movedArmy.x += direction[0];
-                    movedArmy.y += direction[1];
-                    currentTile = this.getTileAt(movedArmy.x, movedArmy.y);
+                if (this.getTileAt(movedArmy.targetX + direction[0], movedArmy.targetY + direction[1])){
+                    movedArmy.targetX += direction[0];
+                    movedArmy.targetY += direction[1];
+                    currentTile = this.getTileAt(movedArmy.targetX, movedArmy.targetY);
                     currentTile.player = movedArmy.player;
                 }
                 

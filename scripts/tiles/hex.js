@@ -1,4 +1,4 @@
-import { darkenColor } from "../color.js";
+import { darkenColor } from "../engine.js";
 import { camera, ctx, map } from "../script.js";
 
 export class Hex {
