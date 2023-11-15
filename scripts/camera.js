@@ -5,8 +5,8 @@ const xVector = [1, 0];
 
 export class Camera {
     constructor() {
-        this.x = - 700;
-        this.y = - 100;
+        this.x = - 400;
+        this.y = - 80;
         this.tileSize = 50;
     }
 

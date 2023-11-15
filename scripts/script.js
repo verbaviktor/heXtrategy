@@ -35,10 +35,14 @@ function gameLoop(timestamp) {
     }
     
     if (input.isKeyReleased("mouseButton0")) {
+        let destination;
         clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         hexCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1]);
-        if (clickedTile.player == map.playerInTurn) {
-            map.moveArmy(clickedTile, map.getTileAt(hexCoordinates[0], hexCoordinates[1]));
+        if (hexCoordinates) {
+            destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
+        }
+        if (clickedTile.player == map.playerInTurn && destination) {
+            map.moveArmy(clickedTile, destination);
         }
     }
 

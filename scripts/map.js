@@ -143,29 +143,30 @@ export class Map {
         if (movedArmy && direction) {
             let currentTile;
             for (let i = 0; i < 6; i++) {
-                currentTile = this.getTileAt(movedArmy.x, movedArmy.y);
-                if (this.getTileAt(movedArmy.x + direction[0], movedArmy.y + direction[1])) {
-                    if (currentTile instanceof Mountain || (i != 0 && currentTile instanceof Camp && currentTile.player == movedArmy.player)) {
-                        break;
-                    }
-
-                    if (currentTile instanceof Forest) {
-                        const hex = new Hex(currentTile.x, currentTile.y)
-                        hex.player = movedArmy.player;
-                        currentTile = hex;
-                        this.placeTile(currentTile);
-                        break;
-                    }
-                    else if(currentTile instanceof Village){
-                        currentTile.player = movedArmy.player;
-                        currentTile.player.numberOfVillages ++;
-                    }
+                if (this.getTileAt(movedArmy.x + direction[0], movedArmy.y + direction[1])){
                     movedArmy.x += direction[0];
                     movedArmy.y += direction[1];
+                    currentTile = this.getTileAt(movedArmy.x, movedArmy.y);
                     currentTile.player = movedArmy.player;
+                }
+                
+                if (currentTile instanceof Mountain || (currentTile instanceof Camp && currentTile.player == movedArmy.player)) {
+                    break;
+                }
+                if (currentTile instanceof Forest) {
+                    const hex = new Hex(currentTile.x, currentTile.y)
+                    hex.player = movedArmy.player;
+                    currentTile = hex;
+                    this.placeTile(currentTile);
+                    break;
+                }
+                else if(currentTile instanceof Village){
+                    currentTile.player = movedArmy.player;
+                    currentTile.player.numberOfVillages ++;
                 }
             }
             if (!(currentTile instanceof Camp)) {
+                console.log(currentTile)
                 currentTile.player.armies = currentTile.player.armies.filter((army) => army != movedArmy);
             }
             if (start instanceof Castle) {
