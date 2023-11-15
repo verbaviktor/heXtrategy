@@ -1,5 +1,5 @@
 import { darkenColor } from "../color.js";
-import { camera, ctx } from "../script.js";
+import { camera, ctx, map } from "../script.js";
 
 export class Hex {
     constructor(x, y) {
@@ -8,11 +8,12 @@ export class Hex {
         const img = new Image();
         this.img = img;
         this.player = null;
+        this.upgradeCost = 2;
     }
 
-    placeCamp(map, camp) {
-        if (this.player.gold >= 4) {
-            this.player.gold -= 4;
+    placeCamp(camp) {
+        if (this.player.gold >= this.upgradeCost) {
+            this.player.gold -= this.upgradeCost;
             map.placeTile(camp);
         }
     }

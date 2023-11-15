@@ -1,17 +1,18 @@
 import { Hex } from "./hex.js";
+import { map } from "../script.js";
 
 export class Camp extends Hex{
     constructor(x, y, player){
         super(x, y);
         this.img.src = "../resources/Camp.svg";
         this.player = player;
-        this.upgradeCost = (this.player.numberOfTowers + 1) * 4;
+        this.upgradeCost *= (this.player.numberOfTowers + 1);
     }
     
-    upgrade(map, tower){
+    upgrade(tower){
         if (this.player.gold >= this.upgradeCost) {
             this.player.numberOfTowers ++;
-            map.matrix[this.x][this.y] = tower;
+            map.placeTile(tower);
             this.player.gold -= this.upgradeCost;
         }
     }

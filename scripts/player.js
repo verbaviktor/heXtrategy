@@ -13,4 +13,14 @@ export class Player{
         this.gold += this.numberOfVillages;
         console.log(this.gold);
     }
+
+    armyOfTile(tile){
+        let army;
+        this.armies.forEach(a => {
+            if (a.x == tile.x && a.y == tile.y) {
+                army = a;
+            }
+        });
+        return army;
+    }
 }

@@ -1,11 +1,11 @@
 import { Hex } from "./tiles/hex.js";
-import { Base } from "./tiles/base.js";
 import { Forest } from "./tiles/forest.js";
 import { Mountain } from "./tiles/mountain.js";
 import { Village } from "./tiles/village.js";
-import { camera, ctx } from "./script.js"
-import { Castle } from "./tiles/castle.js";
 import { Camp } from "./tiles/camp.js";
+import { Tower } from "./tiles/tower.js";
+import { Castle } from "./tiles/castle.js";
+import { Base } from "./tiles/base.js";
 
 export class Map {
     constructor(radius, players) {
@@ -110,19 +110,23 @@ export class Map {
     }
 
     tileClicked(tile) {
-        if (tile instanceof Castle) {
+        if(tile instanceof Castle) {
             tile.trainArmy();
         }
-        else if (tile.constructor.name == "Hex" || tile.constructor.name == "Forest") {
-            tile.placeCamp(this, new Camp(tile.x, tile.y, tile.player));
+        else if(tile.constructor.name == "Hex") {
+            tile.placeCamp(new Camp(tile.x, tile.y, tile.player));
+        }
+        else if(tile.constructor.name == "Camp" && !tile.player.armyOfTile(tile)) {
+            tile.upgrade(new Tower(tile.x, tile.y, tile.player));
+        }
+        else if(tile.constructor.name == "Tower" && !tile.player.armyOfTile(tile)) {
+            tile.upgrade(new Castle(tile.x, tile.y, tile.player));
         }
     }
 
     getMovementDirection(start, destination) {
         const xDiff = destination.x - start.x;
         const yDiff = destination.y - start.y;
-        const centerY = [ -1 * start.x, start.y]
-        console.log(xDiff, yDiff)
         if (xDiff == 0 && yDiff == 0) {
             return null;
         }
@@ -133,12 +137,7 @@ export class Map {
     }
     moveArmy(start, destination) {
         const direction = this.getMovementDirection(start, destination);
-        let movedArmy;
-        start.player.armies.forEach(army => {
-            if (army.x == start.x && army.y == start.y) {
-                movedArmy = army;
-            }
-        });
+        let movedArmy = start.player.armyOfTile(start);
 
         if (movedArmy && direction) {
             let currentTile;
@@ -166,7 +165,6 @@ export class Map {
                 }
             }
             if (!(currentTile instanceof Camp)) {
-                console.log(currentTile)
                 currentTile.player.armies = currentTile.player.armies.filter((army) => army != movedArmy);
             }
             if (start instanceof Castle) {
