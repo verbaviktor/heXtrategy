@@ -28,10 +28,25 @@ model Lobby {
   players       User[]
   lobbyState    LobbyState @default(PREPARATION)
   currentPlayer Int        @default(0)
+  Map           Map?
 }
 
 enum LobbyState {
   PREPARATION
   IN_PROGRESS
   FINISHED
+}
+
+model Map {
+  lobbyId String @id
+  lobby   Lobby  @relation(fields: [lobbyId], references: [id])
+  hexes Hex[]
+}
+
+model Hex {
+  @@id([x, y])
+  x Int
+  y Int
+  mapId String?
+  map Map? @relation(fields: [mapId], references: [lobbyId])
 }
