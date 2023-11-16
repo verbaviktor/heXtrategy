@@ -123,16 +123,15 @@
     -webkit-filter: blur(10px); */
 }
 .login-container{
-    width: 50vw;
+    width: 40vw;
     height: 50vh;
     background-color: #2A3741;
     position: absolute;
     z-index: 10;
     top: 100vh;
-    left: 25vw;
+    left: 30vw;
     display: grid;
     border-radius: 5px;
-    grid-template-columns: 50% 50%;
     box-shadow: black 0px 0px 60px  5px ;
     padding: 20px;
     transition: 1s;
@@ -161,23 +160,50 @@
     border-radius: 5px;
     background-color: #ff5900;
 }
+.newUser-Data{
+   top: 100vh;
+   display: grid;
+}
+
 .colorpicker-container{
     display: grid;
     grid-template-rows: 50% 50%;
-    text-align: right;
+    text-align: center;
 }
-input[type="color"]{
-    margin: 0 20px ;
-    width: 70%;
-    height: 40%;
-    border-radius: 5px;
+.username-grid{
+    display: grid;
+    grid-template-rows: auto auto;
 }
-.username input{
-    margin: 0 20px ;
+.nickname{
+    width: 100%;
+    display: flex;
+}
+.nickname input{
+    margin: 0px 0px ;
     height: 4vh;
     width: 15vw;
     font-size: 1.5vw;
     text-align: right;
+    position: absolute;
+    right: 2vw;
+}
+.nickname p {
+    width: 50%;
+    text-align: left;
+    position: absolute;
+    left: 2vw;
+    margin: 0px;
+}
+.startButton {
+    height: 75%;
+    width: 70%;
+    margin: auto;
+}
+input[type="color"]{
+    width: 70%;
+    height: 40%;
+    border-radius: 5px;
+    cursor: pointer;
 }
 input[type="color"] {
     -webkit-appearance: none;

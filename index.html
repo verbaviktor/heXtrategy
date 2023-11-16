@@ -21,18 +21,25 @@
 <div class="login-container">
     <div class="singIn-container">
         <div class="welcome"><span style="font-size: 2.5vw; font-weight: unset;"> Welcome to</span><br><span id="Hexlogo"> HeXtrategy</span> </div>
-       <p> please sing in</p>
+       <p id="SignLabel"> please sign in</p>
         <!-- <div class="signIn-button"></div> -->
-        <button class="signIn-button " onclick="Close()"> Sign in with google</button>
+        <button class="signIn-button " onclick="Close(true)"> Sign in with google</button>
     </div>
+</div>
+
+<div class="newUser-Data login-container" >
     <div class="colorpicker-container">
         <div class="color-picker">
             <p>Please select your color </p>
             <input type="color" id="picker" value="#ff5900" oninput="Colorchange()">
         </div>
-        <div class="username">
-            <p>Your nickname:</p>
-            <input type="text" value="Username">
+        <div class="username-grid">
+            <div class="nickname">
+                <p>Your nickname:</p>
+                <input type="text" placeholder="Username">
+            </div>
+            <button id="startButton"  onclick="Close()" class="signIn-button startButton">Start</button>
+            
         </div>
     </div>
 </div>
