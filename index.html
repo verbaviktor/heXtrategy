@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link href="https://db.onlinewebfonts.com/c/353b79b2ea9db02690b55e55fb094e08?family=Bold" rel="stylesheet">
     <meta charset="UTF-8">
@@ -7,56 +8,62 @@
     <link rel="stylesheet" href="style.css">
     <title>HeXtrategy</title>
 </head>
+
 <body>
-    <!-- <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="GoogleLogin.js"></script> -->
-    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="GoogleLogin.js" defer></script>
 
-    <div id="g_id_onload"
-    data-client_id="282549199896-1v9t40qpdjkemksp06m3924o1tk4je2d.apps.googleusercontent.com"
-    data-callback="onSignIn">
-</div>
-<div class="g_id_signin" data-type="standard"></div>
 
-<div class="login-container">
-    <div class="singIn-container">
-        <div class="welcome"><span style="font-size: 2.5vw; font-weight: unset;"> Welcome to</span><br><span id="Hexlogo"> HeXtrategy</span> </div>
-       <p id="SignLabel"> please sign in</p>
-        <!-- <div class="signIn-button"></div> -->
-        <button class="signIn-button " onclick="Close(true)"> Sign in with google</button>
+    <div id="g_id_onload" data-client_id="282549199896-1v9t40qpdjkemksp06m3924o1tk4je2d.apps.googleusercontent.com"
+        data-callback="onSignIn">
     </div>
-</div>
+    <div class="g_id_signin" data-type="standard"></div>
 
-<div class="newUser-Data login-container" >
-    <div class="colorpicker-container">
-        <div class="color-picker">
-            <p>Please select your color </p>
-            <input type="color" id="picker" value="#ff5900" oninput="Colorchange()">
-        </div>
-        <div class="username-grid">
-            <div class="nickname">
-                <p>Your nickname:</p>
-                <input type="text" placeholder="Username">
+    <div class="login-container">
+        <div class="singIn-container">
+            <div class="welcome"><span style="font-size: 2.5vw; font-weight: unset;"> Welcome to</span><br><span
+                    id="Hexlogo"> HeXtrategy</span> </div>
+            <p id="SignLabel"> please sign in</p>
+            <div class="signIn-button">
+                <div class="signIn-text">Sign in with google</div>
+                <div class="g_id_signin hidden" data-type="standard"></div>
+                <div class="g_id_signin hidden" data-type="standard"></div>
+                <div class="g_id_signin hidden" data-type="standard"></div>
             </div>
-            <button id="startButton"  onclick="Close()" class="signIn-button startButton">Start</button>
-            
         </div>
     </div>
-</div>
+
+    <div class="newUser-Data login-container">
+        <div class="colorpicker-container">
+            <div class="color-picker">
+                <p>Please select your color </p>
+                <input type="color" id="picker" value="#ff5900" oninput="Colorchange()">
+            </div>
+            <div class="username-grid">
+                <div class="nickname">
+                    <p>Your nickname:</p>
+                    <input type="text" placeholder="Username">
+                </div>
+                <button id="startButton" onclick="Close()" class="signIn-button startButton">Start</button>
+
+            </div>
+        </div>
+    </div>
 
 
-<div class="background-shadow">
-</div>
+    <div class="background-shadow">
+    </div>
 
-<div class="container">
+    <div class="container">
         <div class="header">
             <div class="Hexlogo">
-                
+
             </div>
             <div class="player">
                 <div class="profile-picture">
                     <div class="grid-name">
-                        <img src="https://lh3.googleusercontent.com/ogw/AKPQZvyn07juoflQkUvccHrH4LxgpAjruGoNNKdCE33uoeQ=s92-c-mo" alt="">
+                        <img src="https://lh3.googleusercontent.com/ogw/AKPQZvyn07juoflQkUvccHrH4LxgpAjruGoNNKdCE33uoeQ=s92-c-mo"
+                            alt="">
                         <div class="name">PlayerName</div>
                     </div>
                 </div>
@@ -144,13 +151,14 @@
                         <div class="cell-item"></div>
                     </div>
                 </div>
-                
-        </div>
-    </div>
-    
 
-    <script src="LoginLoadandClose.js"></script>
-    <script src="ColorChangeLogin.js"></script>
+            </div>
+        </div>
+
+
+        <script src="LoginLoadandClose.js"></script>
+        <script src="ColorChangeLogin.js"></script>
 
 </body>
+
 </html>

@@ -151,6 +151,8 @@
     padding: 10px;
 }
 .signIn-button{
+    text-align: center;
+    position: relative;
     width: 90%;
     height: 25%;
     margin: auto;
@@ -159,6 +161,12 @@
     border: transparent;
     border-radius: 5px;
     background-color: #ff5900;
+}
+.signIn-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 .newUser-Data{
    top: 100vh;
@@ -198,6 +206,9 @@
     height: 75%;
     width: 70%;
     margin: auto;
+}
+.hidden {
+    opacity: 0;
 }
 input[type="color"]{
     width: 70%;
