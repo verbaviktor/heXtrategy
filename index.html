@@ -9,42 +9,42 @@
     <title>HeXtrategy</title>
 </head>
 
-<body>
+<body onload="Load()">
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="GoogleLogin.js" defer></script>
+    <script src="ColorChangeLogin.js" defer></script>
 
 
     <div id="g_id_onload" data-client_id="282549199896-1v9t40qpdjkemksp06m3924o1tk4je2d.apps.googleusercontent.com"
         data-callback="onSignIn">
     </div>
-    <div class="g_id_signin" data-type="standard"></div>
 
-    <div class="login-container">
+    <div class="login-container" style="background-color: black;">
         <div class="singIn-container">
             <div class="welcome"><span style="font-size: 2.5vw; font-weight: unset;"> Welcome to</span><br><span
                     id="Hexlogo"> HeXtrategy</span> </div>
-            <p id="SignLabel"> please sign in</p>
+            <p id="SignLabel"><br></p>
             <div class="signIn-button">
                 <div class="signIn-text">Sign in with google</div>
-                <div class="g_id_signin hidden" data-type="standard"></div>
-                <div class="g_id_signin hidden" data-type="standard"></div>
-                <div class="g_id_signin hidden" data-type="standard"></div>
+                <div class="g_id_signin hidden" data-width="1000" data-type="standard"></div>
+                <div class="g_id_signin hidden" data-width="1000" data-type="standard"></div>
+                <div class="g_id_signin hidden" data-width="1000" data-type="standard"></div>
             </div>
         </div>
     </div>
 
-    <div class="newUser-Data login-container">
+    <div class="newUser-Data login-container background 5">
         <div class="colorpicker-container">
             <div class="color-picker">
-                <p>Please select your color </p>
-                <input type="color" id="picker" value="#ff5900" oninput="Colorchange()">
+                <p class="color 80" style="color: #ececec;">Please select your color </p>
+                <input type="color" id="colorpicker" value="#ececec" oninput="Colorchange()">
             </div>
             <div class="username-grid">
                 <div class="nickname">
-                    <p>Your nickname:</p>
-                    <input type="text" placeholder="Username">
+                    <p class="color 80">Your nickname:</p>
+                    <input type="text" id="usernamepicker" placeholder="Username">
                 </div>
-                <button id="startButton" onclick="Close()" class="signIn-button startButton">Start</button>
+                <button id="startButton" onclick="sendNewPlayerData()" class="signIn-button startButton color 80 background 30">Start</button>
 
             </div>
         </div>
@@ -153,11 +153,6 @@
 
             </div>
         </div>
-
-
-        <script src="LoginLoadandClose.js"></script>
-        <script src="ColorChangeLogin.js"></script>
-
 </body>
 
 </html>

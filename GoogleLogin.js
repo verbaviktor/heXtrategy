@@ -1,6 +1,5 @@
 async function onSignIn(googleUser) {
     const credentials = (parseJwt(googleUser.credential))
-    console.log(credentials)
     let name = credentials.name
     for (const word of name.split(' ')) {
         if (word.includes('(')) {
@@ -13,14 +12,10 @@ async function onSignIn(googleUser) {
         email: credentials.email,
         username: name
     }
-    const fetchedData = await fetch("https://darkauran.hu:6969/login", {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody)
-    })
-    console.log(await fetchedData.json())
+    const fetchedData = await sendPackage('login', '', requestBody);
+    response = await fetchedData.json();
+    sessionStorage.setItem('heXtrategyUserToken', response.token)
+    Close(true)
 }
 
 function parseJwt(token) {
@@ -31,4 +26,62 @@ function parseJwt(token) {
     }).join(''));
 
     return JSON.parse(jsonPayload);
+}
+
+function Load() {
+    var login = document.querySelector(".login-container")
+    var shadow = document.querySelector(".background-shadow")
+
+    for (let i = 0; i < 0.7; i += 0.001) {
+        shadow.style.opacity = i
+    }
+    for (let i = 100; i > 25; i -= 1) {
+        login.style.top = `${i}vh`;
+
+    }
+}
+
+function Close(newUser) {
+    var login = document.querySelector(".login-container")
+    var shadow = document.querySelector(".background-shadow")
+    var newUserData = document.getElementsByClassName("login-container")[1];
+    if (newUser) {
+        for (let i = 25; i > -100; i -= 1) {
+            login.style.top = `${i}vh`;
+        }
+        for (let i = 100; i > 25; i -= 1) {
+            newUserData.style.top = `${i}vh`;
+
+        }
+    }
+    else {
+        for (let i = 25; i < 150; i += 1) {
+            newUserData.style.top = `${i}vh`;
+        }
+        for (let i = 25; i > -100; i -= 1) {
+            login.style.top = `${i}vh`;
+        }
+        for (let i = 0.7; i > 0; i -= 0.001) {
+            shadow.style.opacity = i
+        }
+        shadow.style.display = "none";
+    }
+}
+function sendNewPlayerData() {
+    const token = sessionStorage.getItem('heXtrategyUserToken')
+    const newColor = document.querySelector('#colorpicker').value.replace('#', '')
+    const newUsername = document.querySelector('#usernamepicker').value
+    sendPackage('menu/updateUser', token, {newColor, newUsername})
+    Close(false)
+}
+async function sendPackage(url = "", authToken = "", body = {}) {
+    const fetchedData = await fetch("https://darkauran.hu:6969/" + url, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken,
+        },
+        body: JSON.stringify(body)
+    })
+    return fetchedData
 }
