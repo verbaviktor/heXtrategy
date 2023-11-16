@@ -19,11 +19,15 @@ export class Camp extends Hex{
     }
 
     damage(){
+        this.hp--;
         if (this.hp > 0) {
-            this.hp--;
+            return this;
         }
         else{
-            this.reset(this);
+            const newHex = this.reset();
+            const otherPlayer = map.players.filter((player) => player != this.player);
+            newHex.player = otherPlayer[0];
+            return newHex;
         }
     }
 }

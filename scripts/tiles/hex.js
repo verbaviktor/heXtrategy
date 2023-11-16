@@ -18,8 +18,8 @@ export class Hex {
         }
     }
 
-    reset(tile){
-        const hex = new Hex(tile.x, tile.y);
+    reset(){
+        const hex = new Hex(this.x, this.y);
         hex.player = this.player;
         map.placeTile(hex);
         return hex;

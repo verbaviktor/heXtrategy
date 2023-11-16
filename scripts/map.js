@@ -146,9 +146,15 @@ export class Map {
                     movedArmy.targetX += direction[0];
                     movedArmy.targetY += direction[1];
                     currentTile = this.getTileAt(movedArmy.targetX, movedArmy.targetY);
-                    if (currentTile.constructor.name == "Camp" && currentTile.player != movedArmy.player) {
-                        currentTile = currentTile.reset(currentTile);   //damage
-                    }
+                }
+                if (currentTile instanceof Tower && currentTile.player != movedArmy.player) {                         
+                    currentTile = currentTile.damage();
+                    break;
+                }
+                else if(currentTile.constructor.name == "Camp" && currentTile.player != movedArmy.player){
+                    currentTile = currentTile.damage();
+                }
+                if (!(currentTile instanceof Tower)) {
                     currentTile.player = movedArmy.player;
                 }
                 if (currentTile instanceof Mountain || (currentTile instanceof Camp && currentTile.player == movedArmy.player)) {
@@ -156,7 +162,7 @@ export class Map {
                 }
                 
                 if(currentTile instanceof Forest) {
-                    currentTile.reset(currentTile);
+                    currentTile.reset();
                     break;
                 }
                 else if(currentTile instanceof Village){
@@ -164,8 +170,8 @@ export class Map {
                     currentTile.player.villages.push(currentTile);
                 }
             }
-            if (!(currentTile instanceof Camp)) {
-                currentTile.player.armies = currentTile.player.armies.filter((army) => army != movedArmy);
+            if (!(currentTile instanceof Camp) || (currentTile instanceof Tower && currentTile.player != movedArmy.player)) {
+                movedArmy.player.armies = movedArmy.player.armies.filter((army) => army != movedArmy);
             }
             if (start instanceof Castle) {
                 start.armyTrained = false;
