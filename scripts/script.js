@@ -28,20 +28,24 @@ function gameLoop(timestamp) {
 
     if (input.isKeyPressed("mouseButton0")) {
         hexCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1]);
-        clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
-        if (clickedTile.player == map.playerInTurn) {
+        if(hexCoordinates){
+            clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
+        }
+        if (clickedTile && clickedTile.player == map.playerInTurn) {
             map.tileClicked(clickedTile);
         }
     }
 
     if (input.isKeyReleased("mouseButton0")) {
         let destination;
-        clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
+        if (hexCoordinates) {
+            clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
+        }
         hexCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1]);
         if (hexCoordinates) {
             destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
-        if (clickedTile.player == map.playerInTurn && destination) {
+        if (clickedTile && clickedTile.player == map.playerInTurn && destination) {
             map.moveArmy(clickedTile, destination);
         }
     }
@@ -49,7 +53,7 @@ function gameLoop(timestamp) {
     if (input.isKeyPressed("n")) {
         const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
         map.playerInTurn = otherPlayer[0];
-        map.playerInTurn.generateGold();
+        map.playerInTurn.startTurn();
     }
     camera.update();
     input.update();

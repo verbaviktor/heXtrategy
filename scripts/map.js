@@ -146,22 +146,22 @@ export class Map {
                     movedArmy.targetX += direction[0];
                     movedArmy.targetY += direction[1];
                     currentTile = this.getTileAt(movedArmy.targetX, movedArmy.targetY);
+                    if (currentTile.constructor.name == "Camp" && currentTile.player != movedArmy.player) {
+                        currentTile = currentTile.reset(currentTile);   //damage
+                    }
                     currentTile.player = movedArmy.player;
                 }
-                
                 if (currentTile instanceof Mountain || (currentTile instanceof Camp && currentTile.player == movedArmy.player)) {
                     break;
                 }
-                if (currentTile instanceof Forest) {
-                    const hex = new Hex(currentTile.x, currentTile.y)
-                    hex.player = movedArmy.player;
-                    currentTile = hex;
-                    this.placeTile(currentTile);
+                
+                if(currentTile instanceof Forest) {
+                    currentTile.reset(currentTile);
                     break;
                 }
                 else if(currentTile instanceof Village){
                     currentTile.player = movedArmy.player;
-                    currentTile.player.numberOfVillages ++;
+                    currentTile.player.villages.push(currentTile);
                 }
             }
             if (!(currentTile instanceof Camp)) {
@@ -173,5 +173,4 @@ export class Map {
         }
         return false;
     }
-
 }

@@ -7,6 +7,7 @@ export class Camp extends Hex{
         this.img.src = "../resources/Camp.svg";
         this.player = player;
         this.upgradeCost *= (this.player.numberOfTowers + 1);
+        this.hp = 1;
     }
     
     upgrade(tower){
@@ -14,6 +15,15 @@ export class Camp extends Hex{
             this.player.numberOfTowers ++;
             map.placeTile(tower);
             this.player.gold -= this.upgradeCost;
+        }
+    }
+
+    damage(){
+        if (this.hp > 0) {
+            this.hp--;
+        }
+        else{
+            this.reset(this);
         }
     }
 }
