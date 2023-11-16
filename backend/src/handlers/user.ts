@@ -4,6 +4,7 @@ import prisma from "../db";
 import { User } from "@prisma/client";
 
 export const logIn = async (req: any, res: any) => {
+    console.log(req.body.googleId)
     let user = await prisma.user.findUnique({ where: { googleId: "0" } })
     try {
         user = await prisma.user.findUnique({
