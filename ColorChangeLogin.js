@@ -3,13 +3,6 @@ var button = document.querySelector("#startButton")
 
 function Colorchange(){
     document.getElementById("Hexlogo").style.color = picker.value
-    button.style.backgroundColor = picker.value
-    if(picker.value == "#000000"){
-        button.style.color = "#ffffff"
-    }
-    else{
-        button.style.color = "#000000"
-    }
     const backgroundColorObjects = document.querySelectorAll('.background')
     for (const object of backgroundColorObjects) {
         const backgroundClassIndex = findClassIndex(object.classList, 'background')
@@ -17,6 +10,7 @@ function Colorchange(){
         const rgb = hexToRgb(picker.value)
         let hsl = rgbToHsl(rgb.r, rgb.g, rgb.b)
         hsl.l = brightness
+        hsl.s = 0.2
         const modifiedRgb = hslToRgb(hsl.h, hsl.s, hsl.l)
         object.style.backgroundColor = rgbToHex(modifiedRgb.r, modifiedRgb.g, modifiedRgb.b)
     }

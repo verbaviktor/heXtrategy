@@ -27,13 +27,13 @@
 .Hexlogo{
     width: 50vw;
     height: 22vh;
-    background-color: #2A3741;
+    /* background-color: #2A3741; */
     vertical-align: middle;
 }
 .player{
     width: 50vw;
     height: 22vh;
-    background-color: #C7CED5;
+    /* background-color: #C7CED5; */
     text-align: right;
 }
 .profile-picture{
@@ -103,8 +103,8 @@
     padding: 10px;
 }
 .cell-item{
-    background-color: red;
-    
+    background-color: rgb(150, 146, 146);
+    border-radius: 5px;
 }
 .cell-item:nth-child(1){
     grid-column-start: 1;
@@ -197,7 +197,7 @@
 .nickname input{
     margin: 0px 0px ;
     height: 4vh;
-    width: 15vw;
+    width: fit-content;
     font-size: 1.5vw;
     text-align: right;
     position: absolute;
