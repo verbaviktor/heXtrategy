@@ -15,6 +15,10 @@ async function onSignIn(googleUser) {
     const fetchedData = await sendPackage('login', '', requestBody);
     response = await fetchedData.json();
     sessionStorage.setItem('heXtrategyUserToken', response.token)
+    if (!response.newUser) {
+        const userdata = await sendPackage('getuser', response.token)
+        console.log(userdata)
+    }
     Close(true)
 }
 
