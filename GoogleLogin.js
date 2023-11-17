@@ -12,12 +12,13 @@ async function onSignIn(googleUser) {
         email: credentials.email,
         username: name
     }
-    const fetchedData = await sendPackage('login', '', requestBody);
+    const fetchedData = await postRequest('login', '', requestBody);
     response = await fetchedData.json();
     sessionStorage.setItem('heXtrategyUserToken', response.token)
     if (!response.newUser) {
-        const userdata = await sendPackage('getuser', response.token)
-        console.log(userdata)
+        const playerData = await (await getRequest('getuser', response.token)).json()
+        //Do login stuff here
+        console.log('User logged in')
     }
     Close(true)
 }
@@ -75,10 +76,10 @@ function sendNewPlayerData() {
     const token = sessionStorage.getItem('heXtrategyUserToken')
     const newColor = document.querySelector('#colorpicker').value.replace('#', '')
     const newUsername = document.querySelector('#usernamepicker').value
-    sendPackage('menu/updateUser', token, {newColor, newUsername})
+    postRequest('menu/updateUser', token, { newColor, newUsername })
     Close(false)
 }
-async function sendPackage(url = "", authToken = "", body = {}) {
+async function postRequest(url = "", authToken = "", body = {}) {
     const fetchedData = await fetch("https://darkauran.hu:6969/" + url, {
         method: "POST",
         headers: {
@@ -86,6 +87,16 @@ async function sendPackage(url = "", authToken = "", body = {}) {
             'Authorization': 'Bearer ' + authToken,
         },
         body: JSON.stringify(body)
+    })
+    return fetchedData
+}
+
+async function getRequest(url = "", authToken = "") {
+    const fetchedData = await fetch("https://darkauran.hu:6969/" + url, {
+        method: "GET",
+        headers: {
+            'Authorization': 'Bearer ' + authToken,
+        }
     })
     return fetchedData
 }
