@@ -3,13 +3,6 @@ var button = document.querySelector("#startButton")
 
 function Colorchange(){
     document.getElementById("Hexlogo").style.color = picker.value
-    button.style.backgroundColor = picker.value
-    if(picker.value == "#000000"){
-        button.style.color = "#ffffff"
-    }
-    else{
-        button.style.color = "#000000"
-    }
     const backgroundColorObjects = document.querySelectorAll('.background')
     for (const object of backgroundColorObjects) {
         const backgroundClassIndex = findClassIndex(object.classList, 'background')
