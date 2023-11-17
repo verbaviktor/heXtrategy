@@ -4,7 +4,7 @@ import prisma from "../db";
 import { User } from "@prisma/client";
 
 export const logIn = async (req: any, res: any) => {
-    console.log(req.body.googleId)
+    let newUser = false
     let user = await prisma.user.findUnique({ where: { googleId: "0" } })
     try {
         user = await prisma.user.findUnique({
@@ -21,9 +21,10 @@ export const logIn = async (req: any, res: any) => {
         if (!user) {
             user = await prisma.user.signUp(req.body.email, req.body.username, req.body.googleId)
             console.log('Created new user: ' + user.username)
+            newUser = true
         }
         else {
-            if (req.body.email == user.email && req.body.username == user.username) {
+            if (req.body.email == user.email) {
                 console.log('User logged in: ' + user.username)
             }
             else {
@@ -39,7 +40,23 @@ export const logIn = async (req: any, res: any) => {
     }
 
     const token = createJWT(user)
-    res.json({ token })
+    res.json({ token, newUser })
+}
+
+export const updateUser = async (req: any, res: any) => {
+    let newColor = ""
+    let newUsername = ""
+    try {
+        newColor = req.body.newColor
+        newUsername = req.body.newUsername
+    } catch (error) {
+        console.log(error)
+        res.status(400)
+        res.json(error)
+        return
+    }
+    console.log("Updated username and color for: " + req.user.username)
+    await prisma.user.updateUser(req.user.googleId, newUsername, newColor)
 }
 
 export const getUserData = async (req: any, res: any) => {

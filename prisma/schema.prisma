@@ -16,6 +16,7 @@ model User {
   googleId     String   @id
   gamesplayed  Int      @default(0)
   wins         Int      @default(0)
+  color String @default("495867")
   lobbyId      String?
   lobby        Lobby?   @relation(fields: [lobbyId], references: [id])
   indexInLobby Int?

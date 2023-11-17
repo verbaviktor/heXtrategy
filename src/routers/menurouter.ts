@@ -1,8 +1,13 @@
 import { Router } from "express";
 import prisma from "../db";
 import { User } from "@prisma/client";
+import { updateUser } from "../handlers/user";
 
 const menurouter = Router()
+
+menurouter.post('/updateuser', async (req: any, res: any) => {
+    updateUser(req, res)
+})
 
 menurouter.post('/createlobby', async (req: any, res: any) => {
     //Getting the user from the body

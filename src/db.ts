@@ -14,6 +14,17 @@ const prisma = new PrismaClient().$extends({
                 })
                 return user as User
             },
+            async updateUser(googleId: string, username: string, color: string) {
+                await prisma.user.update({
+                    where: {
+                        googleId
+                    },
+                    data: {
+                        username,
+                        color,
+                    }
+                })
+            },
             async getUserFromGoogleId(googleId: string) {
                 const user = await prisma.user.findUnique({
                     where: {
