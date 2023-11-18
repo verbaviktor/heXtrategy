@@ -18,14 +18,9 @@ async function onSignIn(googleUser) {
     response = await fetchedData.json();
     sessionStorage.setItem('heXtrategyUserToken', response.token)
     if (!response.newUser) {
-        const playerData = await (await getRequest('getuser', response.token)).json()
-
-        document.querySelector('.username').innerHTML = playerData.username
-        document.querySelector('#profile-picture').src = playerData.profileUrl
-        document.querySelector('.winloss').innerHTML = `${playerData.wins}W/${playerData.gamesplayed - playerData.wins}L`
-        console.log(playerData.wins)
+        setHtmlPlayerData(response.token);
     }
-    Close(true)
+    Close(response.newUser)
 }
 
 function parseJwt(token) {
@@ -61,7 +56,6 @@ function Close(newUser) {
         }
         for (let i = 100; i > 25; i -= 1) {
             newUserData.style.top = `${i}vh`;
-
         }
     }
     else {
@@ -73,10 +67,18 @@ function Close(newUser) {
         }
         for (let i = 0.7; i > 0; i -= 0.001) {
             shadow.style.opacity = i
-        }
-        shadow.style.display = "none";
-    }
+            }
+                shadow.style.display = "none";
+                }
 }
+async function setHtmlPlayerData(token) {
+    const playerData = await(await getRequest('getuser', response.token)).json()
+
+    document.querySelector('.username').innerHTML = playerData.username
+    document.querySelector('#profile-picture').src = playerData.profileUrl
+    document.querySelector('.winloss').innerHTML = `${playerData.wins}W/${playerData.gamesplayed - playerData.wins}L`
+}
+
 function sendNewPlayerData() {
     const token = sessionStorage.getItem('heXtrategyUserToken')
     const newColor = document.querySelector('#colorpicker').value.replace('#', '')
