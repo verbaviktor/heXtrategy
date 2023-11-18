@@ -19,6 +19,7 @@ async function onSignIn(googleUser) {
     sessionStorage.setItem('heXtrategyUserToken', response.token)
     if (!response.newUser) {
         setHtmlPlayerData(response.token);
+        showPlayerProfile();
     }
     Close(response.newUser)
 }
@@ -72,11 +73,20 @@ function Close(newUser) {
                 }
 }
 async function setHtmlPlayerData(token) {
-    const playerData = await(await getRequest('getuser', response.token)).json()
+    const playerData = await(await getRequest('getuser', token)).json()
 
     document.querySelector('.username').innerHTML = playerData.username
     document.querySelector('#profile-picture').src = playerData.profileUrl
     document.querySelector('.winloss').innerHTML = `${playerData.wins}W/${playerData.gamesplayed - playerData.wins}L`
+}
+
+function showPlayerProfile() {
+    const playerDiv = document.querySelector('.player')
+    playerDiv.style.top = '0vh';
+}
+function hidePlayerProfile() {
+    const playerDiv = document.querySelector('.player')
+    playerDiv.style.top = '-20vh';
 }
 
 function sendNewPlayerData() {

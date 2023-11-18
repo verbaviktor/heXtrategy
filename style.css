@@ -31,10 +31,12 @@
     vertical-align: middle;
 }
 .player{
+    position: relative;
+    top: -20vh;
     width: 50vw;
     height: 22vh;
-    /* background-color: #C7CED5; */
     text-align: right;
+    transition: ease-out 0.5s;
 }
 .profile{
     width: 50vw;
