@@ -141,11 +141,13 @@ export class Map {
 
         if (movedArmy && direction) {
             let currentTile;
+            let connection = [start];
             for (let i = 0; i < 6; i++) {
                 if (this.getTileAt(movedArmy.targetX + direction[0], movedArmy.targetY + direction[1])){
                     movedArmy.targetX += direction[0];
                     movedArmy.targetY += direction[1];
                     currentTile = this.getTileAt(movedArmy.targetX, movedArmy.targetY);
+                    connection.push(currentTile);
                 }
                 if (currentTile instanceof Tower && currentTile.player != movedArmy.player) {                         
                     currentTile = currentTile.damage();
@@ -155,12 +157,14 @@ export class Map {
                     currentTile = currentTile.damage();
                 }
                 if (!(currentTile instanceof Tower)) {
+                    if (currentTile.player && currentTile.player != movedArmy.player) {
+                        currentTile.player.breakConnections(currentTile);
+                    }
                     currentTile.player = movedArmy.player;
                 }
                 if (currentTile instanceof Mountain || (currentTile instanceof Camp && currentTile.player == movedArmy.player)) {
                     break;
                 }
-                
                 if(currentTile instanceof Forest) {
                     currentTile.reset();
                     break;
@@ -176,6 +180,7 @@ export class Map {
             if (start instanceof Castle) {
                 start.armyTrained = false;
             }
+            movedArmy.player.connections.push(connection);
         }
         return false;
     }

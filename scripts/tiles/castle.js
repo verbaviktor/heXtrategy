@@ -6,13 +6,14 @@ export class Castle extends Tower{
         super(x, y, player);
         this.img.src = "../resources/Castle.svg";
         this.armyTrained = false;
+        this.armyCost = 2;
         this.hp = 3;
     }
 
     trainArmy(){
-        if (!this.armyTrained && this.player.gold >= 2) {
+        if (!this.armyTrained && this.player.gold >= this.armyCost) {
             this.armyTrained = true;
-            this.player.gold -= 2;
+            this.player.gold -= this.armyCost;
             this.player.armies.push(new Army(this.x, this.y, this.player));
         }
     }
