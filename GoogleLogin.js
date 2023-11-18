@@ -57,16 +57,9 @@ function Close(newUser) {
         }
     }
     else {
-        for (let i = 25; i < 150; i += 1) {
-            newUserData.style.top = `${i}vh`;
-        }
-        for (let i = 25; i > -100; i -= 1) {
-            login.style.top = `${i}vh`;
-        }
-        for (let i = 0.7; i > 0; i -= 0.001) {
-            shadow.style.opacity = i
-        }
-        shadow.style.display = "none";
+        newUserData.style.display = 'none';
+        login.style.top = `-100vh`;
+        shadow.style.opacity = 0;
         setHtmlPlayerData(response.token);
         showPlayerProfile();
         listHtmlLobbies(response.token);
