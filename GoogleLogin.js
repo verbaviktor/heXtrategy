@@ -16,7 +16,7 @@ async function onSignIn(googleUser) {
     }
     const fetchedData = await postRequest('login', '', requestBody);
     response = await fetchedData.json();
-    sessionStorage.setItem('heXtrategyUserToken', response.token)
+    localStorage.setItem('heXtrategyUserToken', response.token)
     console.log('Session token: ' + response.token)
     Close(response.newUser)
 }
@@ -67,9 +67,9 @@ function Close(newUser) {
             shadow.style.opacity = i
         }
         shadow.style.display = "none";
-        setHtmlPlayerData(response.token);
+        setHtmlPlayerData(localStorage.getItem("heXtrategyUserToken"));
         showPlayerProfile();
-        listHtmlLobbies(response.token);
+        listHtmlLobbies(localStorage.getItem("heXtrategyUserToken"));
     }
 }
 async function setHtmlPlayerData(token) {
@@ -81,6 +81,12 @@ async function setHtmlPlayerData(token) {
 }
 async function listHtmlLobbies(token) {
     const lobbies = await (await getRequest('menu/getlobbies', token)).json()
+    const htmlItems = document.querySelectorAll(".lobby-item")
+    for (let i = 0; i < Math.max(lobbies.length, 8); i++) {
+        htmlItems[i].style.backgroundColor = "#1a1a1a"
+
+    }
+
 
     console.log(lobbies)
 }
@@ -95,7 +101,7 @@ function hidePlayerProfile() {
 }
 
 function sendNewPlayerData() {
-    const token = sessionStorage.getItem('heXtrategyUserToken')
+    const token = localStorage.getItem('heXtrategyUserToken')
     const newColor = document.querySelector('#colorpicker').value.replace('#', '')
     const newUsername = document.querySelector('#usernamepicker').value
     postRequest('menu/updateUser', token, { newColor, newUsername })

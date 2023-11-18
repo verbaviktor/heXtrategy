@@ -119,7 +119,8 @@
     height: 60.2vh;
 }
 .lobby-item{
-    background-color: #1a1a1a;
+    /* background-color: #1a1a1a; */
+    background-color: #5a5a5a;
     width: 21.7vw;
     height: 23.1vh;
     border-radius: 30px;
