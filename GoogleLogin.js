@@ -17,10 +17,7 @@ async function onSignIn(googleUser) {
     const fetchedData = await postRequest('login', '', requestBody);
     response = await fetchedData.json();
     sessionStorage.setItem('heXtrategyUserToken', response.token)
-    if (!response.newUser) {
-        setHtmlPlayerData(response.token);
-        showPlayerProfile();
-    }
+    console.log('Session token: ' + response.token)
     Close(response.newUser)
 }
 
@@ -68,16 +65,24 @@ function Close(newUser) {
         }
         for (let i = 0.7; i > 0; i -= 0.001) {
             shadow.style.opacity = i
-            }
-                shadow.style.display = "none";
-                }
+        }
+        shadow.style.display = "none";
+        setHtmlPlayerData(response.token);
+        showPlayerProfile();
+        listHtmlLobbies(response.token);
+    }
 }
 async function setHtmlPlayerData(token) {
-    const playerData = await(await getRequest('getuser', token)).json()
+    const playerData = await (await getRequest('getuser', token)).json()
 
     document.querySelector('.username').innerHTML = playerData.username
     document.querySelector('#profile-picture').src = playerData.profileUrl
     document.querySelector('.winloss').innerHTML = `${playerData.wins}W/${playerData.gamesplayed - playerData.wins}L`
+}
+async function listHtmlLobbies(token) {
+    const lobbies = await (await getRequest('menu/getlobbies', token)).json()
+
+    console.log(lobbies)
 }
 
 function showPlayerProfile() {
