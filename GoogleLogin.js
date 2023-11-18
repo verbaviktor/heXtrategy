@@ -75,9 +75,9 @@ async function setHtmlPlayerData(token) {
 async function listHtmlLobbies(token) {
     const lobbies = await (await getRequest('menu/getlobbies', token)).json()
     const htmlItems = document.querySelectorAll(".lobby-item")
-    for (let i = 0; i < Math.max(lobbies.length, 8); i++) {
+    for (let i = 0; i < Math.min(lobbies.length, 8); i++) {
         htmlItems[i].style.backgroundColor = "#1a1a1a"
-
+        const subItems = htmlItems[i].querySelectorAll('.cell-item')
     }
 
 
