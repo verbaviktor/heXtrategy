@@ -70,9 +70,13 @@ async function setHtmlPlayerData(token) {
 async function listHtmlLobbies() {
     const lobbies = await (await getRequest('menu/getlobbies')).json()
     const htmlItems = document.querySelectorAll(".lobby-item")
+    console.log(lobbies)
     for (let i = 0; i < Math.min(lobbies.length, 8); i++) {
         htmlItems[i].style.backgroundColor = "#1a1a1a"
-        const subItems = htmlItems[i].querySelectorAll('.cell-item')
+        const imageField = htmlItems[i].querySelector('.lobby-image')
+        imageField.src = lobbies[i].users[0].profileUrl
+        const usernameField = htmlItems[i].querySelector('.lobby-username')
+        usernameField.innerHTML = lobbies[i].users[0].username
     }
 }
 async function createLobby() {

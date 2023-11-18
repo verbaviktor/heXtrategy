@@ -57,6 +57,7 @@
 
 .profile-picture {
     width: 64px;
+    height: 64px;
     border-radius: 32px;
 }
 
@@ -134,38 +135,12 @@
 
 .lobby-item {
     /* background-color: #1a1a1a; */
+    display: flex;
     background-color: #5a5a5a;
     width: 21.7vw;
     height: 23.1vh;
     border-radius: 32px;
     margin: 0 auto;
-}
-
-.cell-grid {
-    display: grid;
-    grid-template-columns: auto auto;
-    width: 90%;
-    height: 90%;
-    gap: 10px;
-    padding: 10px;
-}
-
-.cell-item {}
-
-.cell-item:nth-child(1) {
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
-
-.cell-item:nth-child(2) {
-    grid-row-start: 2;
-    grid-row-end: 4;
-}
-
-.cell-item:nth-child(5) {
-    /* background-color: #2A3741; */
-    grid-column-start: 1;
-    grid-column-end: 3;
 }
 
 .background-shadow {
@@ -275,6 +250,19 @@
     position: absolute;
     left: 2vw;
     margin: 0px;
+}
+.lobby-profile {
+    position: relative;
+    top: 1vh;
+    left: 1vh;
+    display: flex;
+    width: fit-content;
+    border: none;
+    outline: none;
+}
+.lobby-username {
+    font-size: 50px;
+    margin-left: 20px;
 }
 
 .startButton {
