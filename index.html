@@ -12,8 +12,7 @@
 <body onload="Load()">
     <script src="GoogleLogin.js"></script>
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <script src="ColorChangeLogin.js" defer></script> 
-
+    <script src="ColorChangeLogin.js" defer></script>
 
     <div id="g_id_onload" data-client_id="282549199896-1v9t40qpdjkemksp06m3924o1tk4je2d.apps.googleusercontent.com"
         data-callback="onSignIn">
@@ -45,7 +44,6 @@
                     <input type="text" id="usernamepicker" placeholder="Username">
                 </div>
                 <button id="startButton" onclick="sendNewPlayerData()" class="signIn-button startButton ">Start</button>
-
             </div>
         </div>
     </div>
@@ -58,11 +56,11 @@
         <div class="header" style="background-color: #1a1a1a">
             <div class="Hexlogo">
             </div>
-            <div class="player">
+            <div class="playerprofile">
                 <div class="profile">
                     <div class="profile-container">
-                        <img id="profile-picture" src="" alt="">
-                        <div class="username" style="color: #ececec;"></div>
+                        <img id="profile-picture" class="player profile-picture" src="" alt="">
+                        <div class="player username" style="color: #ececec;"></div>
                     </div>
                 </div>
                 <div class="winloss" style="color: #ececec;"></div>
@@ -70,8 +68,8 @@
         </div>
         <div class="menu" style="background-color: #5e5e5e;">
             <div class="search-grid">
-                <div class="search-item">
-                   <div class="search-item-text">create lobby</div>
+                <div class="search-item" onclick="createLobby()" style="cursor: pointer;">
+                    <div class="search-item-text">create lobby</div>
                 </div>
                 <div class="search-item"> <input type="text" placeholder="Search"></div>
                 <div class="search-item"></div>
@@ -151,7 +149,35 @@
                 </div>
 
             </div>
+            <div id="players-lobby">
+                <!-- <canvas id="gamecanvas"></canvas> -->
+                <div id="ally" class="playerinlobby">
+                    <div class="lobby-profile-container">
+                        <img class="player profile-picture" src="" alt="">
+                        <div class="player username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="player readybutton" onclick="togglePlayerReady()" style="cursor: pointer;">
+                        <div class="text-center">
+                            Not ready
+                        </div>
+                    </div>
+                </div>
+                <div id="enemy" class="playerinlobby">
+                    <div class="lobby-profile-container">
+                        <div class="enemy username" style="color: #ececec;">searching...</div>
+                        <img class="enemy profile-picture" src="https://www.htmlcsscolor.com/preview/128x128/5E5E5E.png"
+                            alt="">
+                    </div>
+                    <div class="readybutton">
+                        <div class="text-center">
+                            Not ready
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <script type="module" src="game.js"></script>
 </body>
 
 </html>
