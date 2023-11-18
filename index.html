@@ -44,7 +44,8 @@
                     <p class="color 80">Your nickname:</p>
                     <input type="text" id="usernamepicker" placeholder="Username">
                 </div>
-                <button id="startButton" onclick="sendNewPlayerData()" class="signIn-button startButton color 80 background 30">Start</button>
+                <button id="startButton" onclick="sendNewPlayerData()"
+                    class="signIn-button startButton color 80 background 30">Start</button>
 
             </div>
         </div>
@@ -59,17 +60,13 @@
             <div class="Hexlogo">
             </div>
             <div class="player">
-                <div class="profile-picture">
-                    <div class="grid-name">
-                        <img src="https://lh3.googleusercontent.com/ogw/AKPQZvyn07juoflQkUvccHrH4LxgpAjruGoNNKdCE33uoeQ=s92-c-mo"
-                            alt="">
-                        <div class="name">PlayerName</div>
+                <div class="profile">
+                    <div class="profile-container">
+                        <img id="profile-picture" src="" alt="">
+                        <div class="username"></div>
                     </div>
                 </div>
-                <div class="profile-data">
-                    <div class="wins">Wins: 0</div>
-                    <div class="wins">Rounds: 0</div>
-                </div>
+                <div class="winloss"></div>
             </div>
         </div>
         <div class="menu">

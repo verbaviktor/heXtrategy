@@ -36,17 +36,24 @@
     background-color: #C7CED5;
     text-align: right;
 }
-.profile-picture{
+.profile{
     width: 50vw;
-    height: 70%;
-    
+    height: fit-content;
+    margin-top: 3vh;
+    margin-bottom: 0;
+}
+.profile-container {
+    display: flex;
+    width: fit-content;
+    margin: auto;
+}
+#profile-picture {
+    width: 64px;
 }
 .grid-name{
     margin: 3vh auto ;
     width: fit-content;
     height: 90px;
-    display: grid;
-    grid-template-columns: 25% 75%;
 }
 .grid-name img{
     border-radius: 46px;
@@ -57,13 +64,9 @@
     padding: 10px;
     
 }
-.profile-data{
-    display: grid;
-    grid-template-columns: 25% 75%;
-}
-.wins{
-    font-size: 24pt;
-    margin: 1vw;
+.winloss{
+    text-align: center;
+    font-size: 3vw;
 }
 .menu{
     height: 78vh;
@@ -189,6 +192,11 @@
 .username-grid{
     display: grid;
     grid-template-rows: auto auto;
+}
+.username {
+    font-size: 58px;
+    margin-left: 20px;
+    margin-top: 0;
 }
 .nickname{
     width: 100%;

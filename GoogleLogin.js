@@ -1,5 +1,6 @@
 async function onSignIn(googleUser) {
     const credentials = (parseJwt(googleUser.credential))
+    console.log(credentials)
     let name = credentials.name
     for (const word of name.split(' ')) {
         if (word.includes('(')) {
@@ -10,15 +11,19 @@ async function onSignIn(googleUser) {
     const requestBody = {
         googleId: credentials.sub,
         email: credentials.email,
-        username: name
+        username: name,
+        profileUrl: credentials.picture
     }
     const fetchedData = await postRequest('login', '', requestBody);
     response = await fetchedData.json();
     sessionStorage.setItem('heXtrategyUserToken', response.token)
     if (!response.newUser) {
         const playerData = await (await getRequest('getuser', response.token)).json()
-        //Do login stuff here
-        console.log('User logged in')
+
+        document.querySelector('.username').innerHTML = playerData.username
+        document.querySelector('#profile-picture').src = playerData.profileUrl
+        document.querySelector('.winloss').innerHTML = `${playerData.wins}W/${playerData.gamesplayed - playerData.wins}L`
+        console.log(playerData.wins)
     }
     Close(true)
 }
