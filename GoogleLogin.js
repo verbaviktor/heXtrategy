@@ -85,7 +85,7 @@ async function setHtmlPlayerData(token) {
 }
 async function listHtmlLobbies() {
     lobbies = await (await getRequest('menu/getlobbies')).json()
-    var searchText = document.querySelector("#search").value
+    var searchText = document.querySelector("#search").value.toUpperCase()
 
     const htmlItems = document.querySelectorAll(".lobby-item")
     for (let i = 0; i < 8; i++) {
@@ -100,7 +100,7 @@ async function listHtmlLobbies() {
 
     var searchlobbies = []
     for (const lobby of lobbies) {
-        if (lobby.users[0].username.includes(`${searchText}`)) {
+        if (lobby.users[0].username.toUpperCase().includes(`${searchText}`)) {
             searchlobbies.push(lobby)
         }
     }
