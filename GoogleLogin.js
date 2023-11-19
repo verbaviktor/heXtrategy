@@ -7,9 +7,7 @@ let username = ""
 setInterval(async () => {
     if (fetchingEnemy) {
         const response = await (await getRequest('lobby/lobbyinfo')).json()
-        if (response.users.length == 2) {
-            setEnemyProfile(response)
-        }
+        setEnemyProfile(response)
     }
     if (fetchingLobbies) {
         listHtmlLobbies()
@@ -124,6 +122,16 @@ async function joinLobby(index) {
     enemyUsername.innerHTML = lobbies[index].users[0].username;
 }
 function setEnemyProfile(response) {
+    if (response.users.length == 1) {
+        const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
+        enemyProfilePicture.src = "https://www.htmlcsscolor.com/preview/128x128/5E5E5E.png";
+        const enemyUsername = document.querySelector('.enemy.username');
+        enemyUsername.innerHTML = "searching...";
+        const readyButton = document.querySelector('.enemy.readybutton')
+        const text = readyButton.querySelector('.text-center');
+        readyButton.style.backgroundColor = '#ea4335'
+        text.innerHTML = 'Not Ready'
+    }
     const enemy = response.users.filter((user) => user.username != username)[0]
     const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
     enemyProfilePicture.src = enemy.profileUrl;
@@ -160,7 +168,7 @@ function hidePlayersLobby() {
     playerDiv.style.top = '100vh';
     fetchingEnemy = false
     fetchingLobbies = true
-    postRequest("lobbies/exitlobby")
+    postRequest("lobby/exitlobby")
 }
 async function togglePlayerReady() {
     playerReady = !playerReady
