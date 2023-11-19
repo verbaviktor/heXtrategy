@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://db.onlinewebfonts.com/c/353b79b2ea9db02690b55e55fb094e08?family=Bold" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>HeXtrategy</title>
+</head>
+
+<body onload="Load()">
+    <script src="GoogleLogin.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="ColorChangeLogin.js" defer></script>
+
+    <div id="g_id_onload" data-client_id="282549199896-1v9t40qpdjkemksp06m3924o1tk4je2d.apps.googleusercontent.com"
+        data-callback="onSignIn">
+    </div>
+
+    <div class="login-container" style="background-color: black;">
+        <div class="singIn-container">
+            <div class="welcome"><span style="font-size: 2.5vw; font-weight: unset;"> Welcome to</span><br><span
+                    id="Hexlogo"> HeXtrategy</span> </div>
+            <p id="SignLabel"><br></p>
+            <div class="signIn-button" onclick="Close(false)">
+                <div class="signIn-text">Sign in with google</div>
+                <div class="g_id_signin hidden" data-width="1000" data-type="standard"></div>
+                <div class="g_id_signin hidden" data-width="1000" data-type="standard"></div>
+                <div class="g_id_signin hidden" data-width="1000" data-type="standard"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="newUser-Data login-container">
+        <div class="colorpicker-container">
+            <div class="color-picker">
+                <p class="" style="color: #ececec;">select your color </p>
+                <input type="color" id="colorpicker" value="#ececec" oninput="Colorchange()">
+            </div>
+            <div class="username-grid">
+                <div class="nickname">
+                    <p class="" style="color: #ececec;">Your nickname:</p>
+                    <input type="text" id="usernamepicker" placeholder="Username">
+                </div>
+                <button id="startButton" onclick="sendNewPlayerData()" class="signIn-button startButton ">Start</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="background-shadow">
+    </div>
+
+    <div class="container">
+        <div class="header" style="background-color: #1a1a1a">
+            <div class="Hexlogo">
+            </div>
+            <div class="playerprofile">
+                <div class="profile">
+                    <div class="profile-container">
+                        <img id="profile-picture" class="player profile-picture" src="" alt="">
+                        <div class="player username" style="color: #ececec;"></div>
+                    </div>
+                </div>
+                <div class="winloss" style="color: #ececec;"></div>
+            </div>
+        </div>
+        <div class="menu" style="background-color: #5e5e5e;">
+            <div class="search-grid">
+                <div class="search-item" onclick="createLobby()" style="cursor: pointer;">
+                    <div class="search-item-text">create lobby</div>
+                </div>
+                <div class="search-item"> <input type="text" id="search" placeholder="Search"></div>
+            </div>
+            <div class="lobby-grid">
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(0)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+                </div>
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(1)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+                </div>
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(2)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+
+                </div>
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(3)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+                </div>
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(4)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+                </div>
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(5)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+                </div>
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(6)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+                </div>
+                <div class="lobby-item">
+                    <div class="lobby-profile">
+                        <img class="lobby-image profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734" alt="">
+                        <div class="lobby-username" style="color: #ececec;"></div>
+                    </div>
+                    <div class="joinbutton" onclick="joinLobby(7)">
+                        <div class="text-center" style="font-size: 32px;">
+                            Join lobby
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="players-lobby">
+            <canvas id="gamecanvas"></canvas>
+            <div id="ally" class="playerinlobby">
+                <div class="lobby-profile-container">
+                    <img class="player profile-picture" src="" alt="">
+                    <div class="player username" style="color: #ececec;"></div>
+                </div>
+                <div class="player readybutton" onclick="togglePlayerReady()" style="cursor: pointer;">
+                    <div class="text-center">
+                        Not ready
+                    </div>
+                </div>
+            </div>
+            <div class="exitButton readybutton" onclick="hidePlayersLobby()">
+                <div class="text-center">Exit lobby</div>
+            </div>
+            <div id="enemy" class="playerinlobby">
+                <div class="lobby-profile-container">
+                    <div class="enemy username" style="color: #ececec;">searching...</div>
+                    <img class="enemy profile-picture" src="https://www.htmlcsscolor.com/preview/128x128/5E5E5E.png"
+                        alt="">
+                </div>
+                <div class="enemy readybutton">
+                    <div class="text-center">
+                        Not ready
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
