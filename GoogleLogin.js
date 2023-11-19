@@ -85,6 +85,10 @@ async function setHtmlPlayerData(token) {
 }
 async function listHtmlLobbies() {
     lobbies = await (await getRequest('menu/getlobbies')).json()
+    var searchText = document.querySelector("#search").innerText
+    lobbies.filter((lobby)=> {
+        lobby.users[0].username.includes(`${searchText}`)
+    }) 
     const htmlItems = document.querySelectorAll(".lobby-item")
     for (let i = 0; i < 8; i++) {
         htmlItems[i].style.backgroundColor = "#5a5a5a"
@@ -225,4 +229,4 @@ async function getPlayerToken(googleId, email) {
     return fetchedData.token
 }
 
-window.onbeforeunload = hidePlayersLobby();
+window.onbeforeunload = hidePlayersLobby;
