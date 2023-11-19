@@ -90,9 +90,8 @@ export class Map {
         const village_density = 0.03
         const noise = generateControlledNoise(seed, this.diameter)
         for (const row of this.matrix) {
-            const startIndex = Math.max(row[0].y, -this.radius + 1)
             for (const hex of row) {
-                const random = noise[hex.x + startIndex][hex.y]
+                const random = Math.random()
                 if (hex instanceof Base) {
                     continue
                 }

@@ -1,4 +1,3 @@
-// Function to generate controlled Perlin noise
 export function generateControlledNoise(seed, size) {
     Math.seedrandom(seed);
     var matrix = []
@@ -6,7 +5,7 @@ export function generateControlledNoise(seed, size) {
         var row = []
         for (let x = 0; x < size; x++) {
             const value = Math.random();
-            row.push(value)   
+            row.push(value)
         }
         matrix.push(row)
     }
