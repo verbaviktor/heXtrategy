@@ -143,6 +143,7 @@ function setEnemyProfile(response) {
         const text = readyButton.querySelector('.text-center');
         readyButton.style.backgroundColor = '#ea4335'
         text.innerHTML = 'Not Ready'
+        return
     }
     const enemy = response.users.filter((user) => user.username != username)[0]
     const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
