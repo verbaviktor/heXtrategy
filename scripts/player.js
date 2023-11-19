@@ -30,35 +30,65 @@ export class Player{
     }
 
     breakConnections(currentTile){
+        currentTile.player = null;
         let currentTileIndex;
-        let index;
         this.connections.forEach(connection => {
-            if (connection.includes(currentTile)){
-                index = connection.indexOf(currentTile);
-                connection[index].player = null;
-            }
+            console.log(connection)
             for (let i = 0; i < connection.length; i++) {
-                if (connection[i].player == null) {
-                    currentTileIndex = i;
-                }                
                 if (i > currentTileIndex) {
                     connection[i].player = null;
                 }
+                if (connection[i].player == null) {
+                    currentTileIndex = i;
+                }                
             }
         });
         this.updateConnections();
     }
 
-    updateConnections(){
+    updateConnections(updatedTile){
         this.connections.forEach(connection =>{
-            for (let i = 0; i < connection.length; i++) {
-                if (connection[i].player == null) {
-                    if (connection[i] instanceof Camp) {
-                        connection[i].reset();
+            let index = 0;
+            while (connection[index] != connection[- 1]) {
+                if (updatedTile && connection[index].x == updatedTile.x && connection[index].y == updatedTile.y) {
+                    connection[index] = updatedTile;
+                }
+                if (!connection[index].player) {
+                    if (connection[index] instanceof Camp) {
+                        connection[index] = connection[index].reset();
+                        // this.armies = this.armies.filter((army) => army != this.armyOfTile(connection[i].x, connection[i].y));
                     }
-                    connection.splice(i, 1);
-                }                
+                    connection.splice(index, 1);
+                    index--;
+                }         
+                index++;           
             }
         });
+    }
+    
+    newConnection(newConnection){
+        let longerConnection;
+        let shorterConnection;
+        let containsEveryTile = true;
+        this.connections.forEach(connection => {
+            if (newConnection.length >= connection.length) {
+                longerConnection = newConnection;
+                shorterConnection = connection;
+            }
+            else{
+                longerConnection = connection;
+                shorterConnection = newConnection;
+            }
+            
+            shorterConnection.forEach(tile => {
+                if (!longerConnection.includes(tile)) {
+                    containsEveryTile = false;
+                }
+            });
+        });
+        this.connections.push(newConnection);
+        if (containsEveryTile) {
+            this.connections = this.connections.filter((cn) => cn != shorterConnection);
+        }
     }
 }

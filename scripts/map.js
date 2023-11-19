@@ -85,7 +85,7 @@ export class Map {
     }
     generateTerrain() {
         const forest_density = 0.15
-        const mountain_density = 0.1
+        const mountain_density = 0.05
         const village_density = 0.03
         for (const row of this.matrix) {
             for (const hex of row) {
@@ -110,16 +110,16 @@ export class Map {
     }
 
     tileClicked(tile) {
-        if(tile instanceof Castle) {
+        if (tile instanceof Castle) {
             tile.trainArmy();
         }
-        else if(tile.constructor.name == "Hex") {
+        else if (tile.constructor.name == "Hex") {
             tile.placeCamp(new Camp(tile.x, tile.y, tile.player));
         }
-        else if(tile.constructor.name == "Camp" && !tile.player.armyOfTile(tile)) {
+        else if (tile.constructor.name == "Camp" && !tile.player.armyOfTile(tile)) {
             tile.upgrade(new Tower(tile.x, tile.y, tile.player));
         }
-        else if(tile.constructor.name == "Tower" && !tile.player.armyOfTile(tile)) {
+        else if (tile.constructor.name == "Tower" && !tile.player.armyOfTile(tile)) {
             tile.upgrade(new Castle(tile.x, tile.y, tile.player));
         }
     }
@@ -143,44 +143,59 @@ export class Map {
             let currentTile;
             let connection = [start];
             for (let i = 0; i < 6; i++) {
-                if (this.getTileAt(movedArmy.targetX + direction[0], movedArmy.targetY + direction[1])){
+                if (this.getTileAt(movedArmy.targetX + direction[0], movedArmy.targetY + direction[1])) {
                     movedArmy.targetX += direction[0];
                     movedArmy.targetY += direction[1];
                     currentTile = this.getTileAt(movedArmy.targetX, movedArmy.targetY);
                     connection.push(currentTile);
                 }
-                if (currentTile instanceof Tower && currentTile.player != movedArmy.player) {                         
-                    currentTile = currentTile.damage();
-                    break;
-                }
-                else if(currentTile.constructor.name == "Camp" && currentTile.player != movedArmy.player){
-                    currentTile = currentTile.damage();
-                }
-                if (!(currentTile instanceof Tower)) {
-                    if (currentTile.player && currentTile.player != movedArmy.player) {
+
+                if (currentTile.player && currentTile.player != movedArmy.player) {
+                    if (currentTile instanceof Tower) {
+                        currentTile = currentTile.damage();
+                        break;
+                    }
+                    else if (currentTile.constructor.name == "Camp") {
+                        currentTile = currentTile.damage();
+                    }
+                    else {
                         currentTile.player.breakConnections(currentTile);
                     }
                     currentTile.player = movedArmy.player;
                 }
-                if (currentTile instanceof Mountain || (currentTile instanceof Camp && currentTile.player == movedArmy.player)) {
+                else {
+                    if (currentTile instanceof Mountain) {
+                        break;
+                    }
+                    else if (currentTile instanceof Camp) {
+                        if (this.hp < this.maxHp) {
+                            this.heal();
+                        }
+                        else {
+                            this.armyTrained = true;
+                        }
+                        break;
+                    }
+                    else {
+                        currentTile.player = movedArmy.player;
+                    }
+                }
+
+                if (currentTile instanceof Forest) {
+                    currentTile = currentTile.reset();
                     break;
                 }
-                if(currentTile instanceof Forest) {
-                    currentTile.reset();
-                    break;
-                }
-                else if(currentTile instanceof Village){
-                    currentTile.player = movedArmy.player;
+                else if (currentTile instanceof Village) {
                     currentTile.player.villages.push(currentTile);
                 }
             }
             if (!(currentTile instanceof Camp) || (currentTile instanceof Tower && currentTile.player != movedArmy.player)) {
                 movedArmy.player.armies = movedArmy.player.armies.filter((army) => army != movedArmy);
             }
-            if (start instanceof Castle) {
+            if (start instanceof Camp) {
                 start.armyTrained = false;
             }
-            movedArmy.player.connections.push(connection);
+            movedArmy.player.newConnection(connection);
         }
         return false;
     }

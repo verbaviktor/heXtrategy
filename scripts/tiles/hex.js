@@ -15,6 +15,7 @@ export class Hex {
         if (this.player.gold >= this.upgradeCost) {
             this.player.gold -= this.upgradeCost;
             map.placeTile(camp);
+            this.player.updateConnections(camp);
         }
     }
 
