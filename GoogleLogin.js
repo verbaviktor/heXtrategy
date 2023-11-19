@@ -85,10 +85,8 @@ async function setHtmlPlayerData(token) {
 }
 async function listHtmlLobbies() {
     lobbies = await (await getRequest('menu/getlobbies')).json()
-    var searchText = document.querySelector("#search").innerText
-    lobbies.filter((lobby)=> {
-        lobby.users[0].username.includes(`${searchText}`)
-    }) 
+    var searchText = document.querySelector("#search").value
+
     const htmlItems = document.querySelectorAll(".lobby-item")
     for (let i = 0; i < 8; i++) {
         htmlItems[i].style.backgroundColor = "#5a5a5a"
@@ -99,16 +97,26 @@ async function listHtmlLobbies() {
         const joinButton = htmlItems[i].querySelector('.joinbutton')
         joinButton.style.opacity = 0
     }
-    for (let i = 0; i < Math.min(lobbies.length, 8); i++) {
+
+    var searchlobbies = []
+    for (const lobby of lobbies) {
+        if (lobby.users[0].username.includes(`${searchText}`)) {
+            searchlobbies.push(lobby)
+        }
+    }
+    for (let i = 0; i < Math.min(searchlobbies.length, 8); i++) {
         htmlItems[i].style.backgroundColor = "#1a1a1a"
         const imageField = htmlItems[i].querySelector('.lobby-image')
-        imageField.src = lobbies[i].users[0].profileUrl
+        imageField.src = searchlobbies[i].users[0].profileUrl
         const usernameField = htmlItems[i].querySelector('.lobby-username')
-        usernameField.innerHTML = lobbies[i].users[0].username
+        usernameField.innerHTML = searchlobbies[i].users[0].username
         const joinButton = htmlItems[i].querySelector('.joinbutton')
         joinButton.style.opacity = 1
+
     }
 }
+
+
 async function createLobby() {
     playerReady = false;
     fetchingEnemy = true;
