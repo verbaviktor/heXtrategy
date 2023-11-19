@@ -160,6 +160,7 @@ function hidePlayersLobby() {
     playerDiv.style.top = '100vh';
     fetchingEnemy = false
     fetchingLobbies = true
+    postRequest("lobbies/exitlobby")
 }
 async function togglePlayerReady() {
     playerReady = !playerReady

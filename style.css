@@ -374,3 +374,11 @@ input[type="color"]::-webkit-color-swatch {
     text-align: center;
     user-select: none;
 }
+
+.exitButton{
+    position: absolute;
+    bottom: 3vh;
+    left: 41vw;
+    width: 15vw;
+   cursor: pointer;
+}
