@@ -6,6 +6,7 @@ import { Camp } from "./tiles/camp.js";
 import { Tower } from "./tiles/tower.js";
 import { Castle } from "./tiles/castle.js";
 import { Base } from "./tiles/base.js";
+import { generateControlledNoise } from "./noise.js";
 
 export class Map {
     constructor(radius, players) {
@@ -83,13 +84,15 @@ export class Map {
             null
         }
     }
-    generateTerrain() {
+    generateTerrain(seed) {
         const forest_density = 0.15
         const mountain_density = 0.1
         const village_density = 0.03
+        const noise = generateControlledNoise(seed, this.diameter)
         for (const row of this.matrix) {
+            const startIndex = Math.max(row[0].y, -this.radius + 1)
             for (const hex of row) {
-                const random = Math.random()
+                const random = noise[hex.x + startIndex][hex.y]
                 if (hex instanceof Base) {
                     continue
                 }

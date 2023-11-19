@@ -6,7 +6,7 @@ import { Player } from "./player.js";
 
 let canvas = document.querySelector('#gamecanvas');
 export let ctx = canvas.getContext('2d');
-export let map = new Map(10, [new Player('#335c67'), new Player("#9e2a2b")]);
+export let map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")]);
 export let camera = new Camera();
 export let input = new InputHandler();
 export let hoveredTileCoordinates;
@@ -17,13 +17,13 @@ let clickedTile;
 
 function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.rect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#3F3F3F";
     ctx.fill();
     map.render();
-    lastTime = timestamp;
     hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
 
     if (input.isKeyPressed("mouseButton0")) {
