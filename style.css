@@ -87,13 +87,15 @@
 
 .search-grid {
     display: grid;
-    grid-template-columns: 25% 50% 25%;
+    /* grid-template-columns: 25% 75%; */
+    grid-template-columns: 50% 50%;
     height: 22vh;
 }
 
 .search-item {
     background-color: #D9D9D9;
-    width: 21.5vw;
+    /* width: 21.5vw; */
+    width: 46vw;
     height: 7vh;
     margin: auto;
     border-radius: 32px;
@@ -103,7 +105,7 @@
 }
 
 .search-item:nth-child(2) {
-    width: 46.1vw;
+    /* width: 72vw; */
 }
 
 .search-item:nth-child(1) {}

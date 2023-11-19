@@ -224,3 +224,5 @@ async function getPlayerToken(googleId, email) {
     const fetchedData = await (await postRequest('login', requestBody)).json();
     return fetchedData.token
 }
+
+window.onbeforeunload = hidePlayersLobby();
