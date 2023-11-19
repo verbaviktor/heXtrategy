@@ -89,7 +89,6 @@ export class Map {
         const mountain_density = 0.05
         const village_density = 0.03
         const noise = generateControlledNoise(seed, this.diameter)
-        console.log(noise)
         for (const row of this.matrix) {
             const startIndex = Math.max(row[0].y, -this.radius + 1)
             for (const hex of row) {
@@ -142,7 +141,7 @@ export class Map {
     moveArmy(start, destination) {
         const direction = this.getMovementDirection(start, destination);
         let movedArmy = start.player.armyOfTile(start);
-
+        
         if (movedArmy && direction) {
             let currentTile;
             let connection = [start];
@@ -151,8 +150,15 @@ export class Map {
                     movedArmy.targetX += direction[0];
                     movedArmy.targetY += direction[1];
                     currentTile = this.getTileAt(movedArmy.targetX, movedArmy.targetY);
-                    connection.push(currentTile);
                 }
+
+                if (currentTile instanceof Forest) {
+                    currentTile.player = movedArmy.player;
+                    currentTile = currentTile.reset();
+                    connection.push(currentTile);
+                    break;
+                }
+                connection.push(currentTile);
 
                 if (currentTile.player && currentTile.player != movedArmy.player) {
                     if (currentTile instanceof Tower) {
@@ -185,11 +191,7 @@ export class Map {
                     }
                 }
 
-                if (currentTile instanceof Forest) {
-                    currentTile = currentTile.reset();
-                    break;
-                }
-                else if (currentTile instanceof Village) {
+                if (currentTile instanceof Village) {
                     currentTile.player.villages.push(currentTile);
                 }
             }

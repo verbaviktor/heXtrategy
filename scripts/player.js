@@ -33,7 +33,6 @@ export class Player{
         currentTile.player = null;
         let currentTileIndex;
         this.connections.forEach(connection => {
-            console.log(connection)
             for (let i = 0; i < connection.length; i++) {
                 if (i > currentTileIndex) {
                     connection[i].player = null;
@@ -44,6 +43,7 @@ export class Player{
             }
         });
         this.updateConnections();
+        console.log(this.connections)
     }
 
     updateConnections(updatedTile){
