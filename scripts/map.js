@@ -29,7 +29,7 @@ export class Map {
             this.matrix.push(row);
         }
         this.placeBases();
-        this.generateTerrain();
+        this.generateTerrain("");
     }
     render() {
         for (const row of this.matrix) {
@@ -89,6 +89,7 @@ export class Map {
         const mountain_density = 0.05
         const village_density = 0.03
         const noise = generateControlledNoise(seed, this.diameter)
+        console.log(noise)
         for (const row of this.matrix) {
             const startIndex = Math.max(row[0].y, -this.radius + 1)
             for (const hex of row) {
