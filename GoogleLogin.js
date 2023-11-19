@@ -1,4 +1,20 @@
 let playerReady = false;
+let lobbies = [];
+let fetchingEnemy = false;
+let fetchingLobbies = false;
+let username = ""
+
+setInterval(async () => {
+    if (fetchingEnemy) {
+        const response = await (await getRequest('lobby/lobbyinfo')).json()
+        if (response.users.length == 2) {
+            setEnemyProfile(response)
+        }
+    }
+    if (fetchingLobbies) {
+        listHtmlLobbies()
+    }
+}, 2000)
 
 async function onSignIn(googleUser) {
     const credentials = (parseJwt(googleUser.credential))
@@ -55,10 +71,12 @@ function Close(newUser) {
         setHtmlPlayerData(localStorage.getItem('heXtrategyUserToken'));
         showPlayerProfile();
         listHtmlLobbies(localStorage.getItem('heXtrategyUserToken'));
+        fetchingLobbies = true;
     }
 }
 async function setHtmlPlayerData(token) {
     const playerData = await (await getRequest('getuser')).json()
+    username = playerData.username
     for (const username of document.querySelectorAll('.username.player')) {
         username.innerHTML = playerData.username
     }
@@ -68,21 +86,51 @@ async function setHtmlPlayerData(token) {
     document.querySelector('.winloss').innerHTML = `${playerData.wins}W/${playerData.gamesplayed - playerData.wins}L`
 }
 async function listHtmlLobbies() {
-    const lobbies = await (await getRequest('menu/getlobbies')).json()
+    lobbies = await (await getRequest('menu/getlobbies')).json()
     const htmlItems = document.querySelectorAll(".lobby-item")
-    console.log(lobbies)
     for (let i = 0; i < Math.min(lobbies.length, 8); i++) {
         htmlItems[i].style.backgroundColor = "#1a1a1a"
         const imageField = htmlItems[i].querySelector('.lobby-image')
         imageField.src = lobbies[i].users[0].profileUrl
         const usernameField = htmlItems[i].querySelector('.lobby-username')
         usernameField.innerHTML = lobbies[i].users[0].username
+        const joinButton = htmlItems[i].querySelector('.joinbutton')
+        joinButton.style.opacity = 1
     }
 }
 async function createLobby() {
-    playerReady = false
+    playerReady = false;
+    fetchingEnemy = true;
     await postRequest('menu/createlobby');
     showPlayersLobby();
+}
+async function joinLobby(index) {
+    playerReady = false;
+    fetchingEnemy = true;
+    await postRequest('menu/joinlobby', { lobbyId: lobbies[index].id });
+    showPlayersLobby();
+    const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
+    enemyProfilePicture.src = lobbies[index].users[0].profileUrl;
+    const enemyUsername = document.querySelector('.enemy.username');
+    enemyUsername.innerHTML = lobbies[index].users[0].username;
+}
+function setEnemyProfile(response) {
+    const enemy = response.users.filter((user) => user.username != username)[0]
+    const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
+    enemyProfilePicture.src = enemy.profileUrl;
+    const enemyUsername = document.querySelector('.enemy.username');
+    enemyUsername.innerHTML = enemy.username;
+
+    const readyButton = document.querySelector('.enemy.readybutton')
+    const text = readyButton.querySelector('.text-center');
+    if (enemy.readyState) {
+        readyButton.style.backgroundColor = '#34a853'
+        text.innerHTML = 'Ready'
+    }
+    else {
+        readyButton.style.backgroundColor = '#ea4335'
+        text.innerHTML = 'Not Ready'
+    }
 }
 function showPlayerProfile() {
     const playerDiv = document.querySelector('.playerprofile')
@@ -95,10 +143,14 @@ function hidePlayerProfile() {
 function showPlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
     playerDiv.style.top = '29.5vh';
+    fetchingEnemy = true
+    fetchingLobbies = false
 }
 function hidePlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
     playerDiv.style.top = '100vh';
+    fetchingEnemy = false
+    fetchingLobbies = true
 }
 async function togglePlayerReady() {
     playerReady = !playerReady
