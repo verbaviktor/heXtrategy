@@ -88,6 +88,15 @@ async function setHtmlPlayerData(token) {
 async function listHtmlLobbies() {
     lobbies = await (await getRequest('menu/getlobbies')).json()
     const htmlItems = document.querySelectorAll(".lobby-item")
+    for (let i = 0; i < 8; i++) {
+        htmlItems[i].style.backgroundColor = "#5a5a5a"
+        const imageField = htmlItems[i].querySelector('.lobby-image')
+        imageField.src = "https://upload.wikimedia.org/wikipedia/commons/5/59/Empty.png?20091205084734"
+        const usernameField = htmlItems[i].querySelector('.lobby-username')
+        usernameField.innerHTML = ""
+        const joinButton = htmlItems[i].querySelector('.joinbutton')
+        joinButton.style.opacity = 0
+    }
     for (let i = 0; i < Math.min(lobbies.length, 8); i++) {
         htmlItems[i].style.backgroundColor = "#1a1a1a"
         const imageField = htmlItems[i].querySelector('.lobby-image')
