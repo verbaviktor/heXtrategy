@@ -176,12 +176,12 @@ function showPlayersLobby() {
     fetchingEnemy = true
     fetchingLobbies = false
 }
-function hidePlayersLobby() {
+async function hidePlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
     playerDiv.style.top = '100vh';
+    await postRequest("lobby/exitlobby")
     fetchingEnemy = false
     fetchingLobbies = true
-    postRequest("lobby/exitlobby")
 }
 async function togglePlayerReady() {
     playerReady = !playerReady

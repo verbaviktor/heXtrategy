@@ -1,10 +1,13 @@
 import { Camera } from "./camera.js";
-import { darkenColor } from "./engine.js";
+import { darkenColor, vhToPixels } from "./engine.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
 
 let canvas = document.querySelector('#gamecanvas');
+const canvasStyle = window.getComputedStyle(canvas);
+canvas.width = parseFloat(canvasStyle.width.slice(0, canvasStyle.width.length - 2))
+canvas.height = parseFloat(canvasStyle.height.slice(0, canvasStyle.width.length - 2))
 export let ctx = canvas.getContext('2d');
 export let map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")]);
 export let camera = new Camera();
@@ -18,17 +21,16 @@ let clickedTile;
 function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.rect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#3F3F3F";
+    ctx.fillStyle = "#1a1a1a";
     ctx.fill();
     map.render();
     hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
 
     if (input.isKeyPressed("mouseButton0")) {
         hexCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1]);
-        if(hexCoordinates){
+        if (hexCoordinates) {
             clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
         if (clickedTile && clickedTile.player == map.playerInTurn) {

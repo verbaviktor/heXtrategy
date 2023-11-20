@@ -39,3 +39,11 @@ export function lerpNumber(a, b, t) {
 export function lerpVector(a, b, t) {
     return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]
 }
+
+export function vhToPixels(vh) {
+    console.log(vh)
+    vh = parseFloat(vh.slpice(0, vh.length - 2))
+    console.log(vh.splice(0, vh.length - 2))
+    var windowHeight = window.innerHeight;
+    return (vh * windowHeight) / 100;
+}
