@@ -3,6 +3,7 @@ let lobbies = [];
 let fetchingEnemy = false;
 let fetchingLobbies = false;
 let username = ""
+var lobbyId = ""
 
 setInterval(async () => {
     if (fetchingEnemy) {
@@ -175,6 +176,9 @@ function showPlayersLobby() {
     playerDiv.style.top = '29.5vh';
     fetchingEnemy = true
     fetchingLobbies = false
+    const startGameEvent = new CustomEvent('startGame', {lobbyId: lobbyId})
+    console.log("Showing lobby")
+    document.dispatchEvent(startGameEvent)
 }
 async function hidePlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
