@@ -1,8 +1,9 @@
 import { Camera } from "./camera.js";
-import { darkenColor } from "./engine.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
+
+document.addEventListener('startGame', () => startGame())
 
 let canvas = document.querySelector('#gamecanvas');
 export let ctx = canvas.getContext('2d');
@@ -14,6 +15,11 @@ var lastTime = 0;
 export let deltaTime = 0;
 let hexCoordinates;
 let clickedTile;
+
+function startGame(lobbyId) {
+    camera = new Camera()
+    map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")], lobbyId)
+}
 
 function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;

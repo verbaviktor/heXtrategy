@@ -9,7 +9,9 @@ import { Base } from "./tiles/base.js";
 import { generateControlledNoise } from "./noise.js";
 
 export class Map {
-    constructor(radius, players) {
+    constructor(radius, players, seed) {
+        console.log(seed)
+        this.seed = seed
         this.radius = radius;
         this.diameter = (radius * 2) - 1;
         this.matrix = [];
@@ -29,7 +31,7 @@ export class Map {
             this.matrix.push(row);
         }
         this.placeBases();
-        this.generateTerrain("");
+        this.generateTerrain(this.seed);
     }
     render() {
         for (const row of this.matrix) {

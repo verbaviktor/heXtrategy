@@ -19,7 +19,7 @@
         data-callback="onSignIn">
     </div>
 
-    <div class="login-container" style="background-color: black;">
+    <div class="login-container" style="background-color: black; z-index: 2;">
         <div class="singIn-container">
             <div class="welcome"><span style="font-size: 2.5vw; font-weight: unset;"> Welcome to</span><br><span
                     id="Hexlogo"> HeXtrategy</span> </div>
@@ -50,7 +50,7 @@
     </div>
 
 
-    <div class="background-shadow">
+    <div class="background-shadow" style="z-index: 1;">
     </div>
 
     <div class="container">
@@ -69,8 +69,8 @@
         </div>
         <div class="menu" style="background-color: #5e5e5e;">
             <div class="search-grid">
-                <div class="search-item" onclick="createLobby()" style="cursor: pointer;">
-                    <div class="search-item-text">create lobby</div>
+                <div id="create-lobby-button" class="search-item" onclick="createLobby()" style="cursor: pointer;">
+                    <div class="text-center">create lobby</div>
                 </div>
                 <div class="search-item"> <input type="text" id="search" placeholder="Search"></div>
             </div>
