@@ -11,7 +11,6 @@ export class Forest extends Hex{
             newHex.player = army.player;
             army.direction = null;
             army.stepsMade = 0;
-            army.endConnection();
             army.removeArmy();
     }
 }
