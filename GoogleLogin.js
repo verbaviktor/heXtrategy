@@ -331,6 +331,7 @@ async function surrender() {
 
     const exitbutton = document.querySelector(".exitButton")
     exitbutton.style.opacity = 1;
+    exitbutton.style.pointerEvents = "all"
     fetchingGame = false
     fetchingLobbies = true
 }
