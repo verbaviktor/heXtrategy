@@ -1,5 +1,5 @@
-import { darkenColor } from "../engine.js";
-import { camera, ctx, map } from "../script.js";
+import { darkenColor, lerpColor } from "../engine.js";
+import { camera, ctx, deltaTime, map } from "../script.js";
 
 export class Hex {
     constructor(x, y) {
@@ -8,6 +8,8 @@ export class Hex {
         const img = new Image();
         this.img = img;
         this.player = null;
+        this.color = '#F0F0F0'
+        this.targetColor = '#F0F0F0'
         this.upgradeCost = 2;
     }
 
@@ -27,6 +29,7 @@ export class Hex {
     }
 
     render() {
+
         ctx.beginPath()
 
         const hexagonRadius = camera.tileSize / 2
@@ -46,18 +49,16 @@ export class Hex {
             hexagonCenter[0] + camera.tileSize / 2,
             hexagonCenter[1] + camera.tileSize / 2
         )
-
         if (this.player) {
-            gradient.addColorStop(0.5, this.player.color)
-            gradient.addColorStop(1, darkenColor(this.player.color, 0.75))
-            ctx.fillStyle = gradient
+            this.targetColor = this.player.color
         }
         else {
-            const noPlayerColor = '#F0F0F0'
-            gradient.addColorStop(0.5, noPlayerColor)
-            gradient.addColorStop(1, darkenColor(noPlayerColor, 0.9))
-            ctx.fillStyle = gradient
+            this.targetColor = '#F0F0F0'
         }
+        this.color = lerpColor(this.color, this.targetColor, 10 * deltaTime)
+        gradient.addColorStop(0.5, this.color)
+        gradient.addColorStop(1, darkenColor(this.color, 0.75))
+        ctx.fillStyle = gradient
         ctx.fill()
 
         if (this.img.src) {
@@ -70,6 +71,6 @@ export class Hex {
     }
 
     onEndTurn(player) {
-        
+
     }
 }

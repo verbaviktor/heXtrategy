@@ -17,13 +17,13 @@ let clickedTile;
 
 function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.rect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#3F3F3F";
     ctx.fill();
     map.render();
-    lastTime = timestamp;
     hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
 
     if (input.isKeyPressed("mouseButton0")) {
