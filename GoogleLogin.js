@@ -13,16 +13,18 @@ setInterval(async () => {
     if (fetchingEnemy) {
         let response = await getRequest('lobby/lobbyinfo')
         let responseData = await response.json()
-        playerIndex = responseData.users.findIndex((user) => user.username == username)
-        console.log(playerIndex)
         if (response.status == 201) {
+            console.log("Lobby started")
             const startGameEvent = new CustomEvent('startGame')
             document.dispatchEvent(startGameEvent)
             fetchingEnemy = false
             fetchingGame = true
             GameStart()
         }
-        setEnemyProfile(responseData)
+        else {
+            playerIndex = responseData.users.findIndex((user) => user.username == username)
+            setEnemyProfile(responseData)
+        }
     }
     if (fetchingLobbies) {
         listHtmlLobbies()
@@ -279,8 +281,8 @@ async function getPlayerToken(googleId, email) {
 function GameStart() {
 
 
-    const playerDiv = document.querySelector('# players-lobby')
-    playerDiv.style.top = "110vh";
+    const playerDiv = document.querySelector('#players-lobby')
+    playerDiv.style.top = "-10vh";
     playerDiv.style.left = "-10vw";
     playerDiv.style.width = "120vw"
     playerDiv.style.height = "120vh"
@@ -324,7 +326,8 @@ async function surrender() {
     const enemyprofile = document.querySelector('#enemy.playerinlobby')
     enemyprofile.removeAttribute("style")
 
-
+    const stopGameEvent = new CustomEvent('stopGame')
+    document.dispatchEvent(stopGameEvent)
 
     fetchingGame = false
     fetchingLobbies = true
