@@ -309,6 +309,9 @@ async function surrender() {
     playerprofile.removeAttribute('style')
     const enemyprofile = document.querySelector('#enemy.playerinlobby')
     enemyprofile.removeAttribute('style')
+
+    fetchingGame = false
+    fetchingLobbies = true
 }
 
 window.onbeforeunload = hidePlayersLobby;
