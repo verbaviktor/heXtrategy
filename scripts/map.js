@@ -125,4 +125,12 @@ export class Map {
             tile.upgrade(new Castle(tile.x, tile.y, tile.player));
         }
     }
+
+    onEndTurn(player) {
+        for (const row of this.matrix) {
+            for (const hex of row) {
+                hex.onEndTurn(player)
+            }
+        }
+    }
 }

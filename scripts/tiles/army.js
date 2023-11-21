@@ -58,58 +58,60 @@ export class Army {
                 this.removeArmy()
                 return
             }
-            
-            if (this.connectionIndex == null) {
-                this.connectionIndex = this.player.connections.length;
-                connection[0] = currentTile;
-            }
 
-            if (currentTile.player && currentTile.player != this.player) {
-                if (currentTile instanceof Camp) {
-                    currentTile = currentTile.damage();
-                }
-                else {
-                    currentTile.player.breakConnections(currentTile);
-                }
-                currentTile.player = this.player;
-                connection.push(currentTile);
-            }
-            else {
-                if (currentTile instanceof Camp) {
-                    if (currentTile.hp < currentTile.maxHp) {
-                        currentTile.heal();
-                        this.removeArmy();
-                    }
-                    else {
-                        this.direction = null;
-                        this.stepsMade = 0;
-                    }
-                }
-                else {
-                    currentTile.player = this.player;
-                    connection.push(currentTile);
-                }
-            }
+            currentTile.onArmyMove(this)
             
-            if (currentTile.player != this.player) {
-                this.removeArmy();
-            }
-            if (currentTile instanceof Village) {
-                currentTile.player.villages.push(currentTile);
-            }
-            if(currentTile instanceof Tower && currentTile.player != this.player) {
-                this.removeArmy();
-            }
-            if (currentTile instanceof Forest) {
-                currentTile.player = this.player;
-                currentTile = currentTile.reset();
-                connection.push(currentTile);
-                this.removeArmy();
-            }
-            console.log(connection)
-            console.log(this.connectionIndex)
-            this.player.newConnection(connection, this.connectionIndex);
-            this.stepsMade++;
+            // if (this.connectionIndex == null) {
+            //     this.connectionIndex = this.player.connections.length;
+            //     connection[0] = currentTile;
+            // }
+
+            // if (currentTile.player && currentTile.player != this.player) {
+            //     if (currentTile instanceof Camp) {
+            //         currentTile = currentTile.damage();
+            //     }
+            //     else {
+            //         currentTile.player.breakConnections(currentTile);
+            //     }
+            //     currentTile.player = this.player;
+            //     connection.push(currentTile);
+            // }
+            // else {
+            //     if (currentTile instanceof Camp) {
+            //         if (currentTile.hp < currentTile.maxHp) {
+            //             currentTile.heal();
+            //             this.removeArmy();
+            //         }
+            //         else {
+            //             this.direction = null;
+            //             this.stepsMade = 0;
+            //         }
+            //     }
+            //     else {
+            //         currentTile.player = this.player;
+            //         connection.push(currentTile);
+            //     }
+            // }
+            
+            // if (currentTile.player != this.player) {
+            //     this.removeArmy();
+            // }
+            // if (currentTile instanceof Village) {
+            //     currentTile.player.villages.push(currentTile);
+            // }
+            // if(currentTile instanceof Tower && currentTile.player != this.player) {
+            //     this.removeArmy();
+            // }
+            // if (currentTile instanceof Forest) {
+            //     currentTile.player = this.player;
+            //     currentTile = currentTile.reset();
+            //     connection.push(currentTile);
+            //     this.removeArmy();
+            // }
+            // console.log(connection)
+            // console.log(this.connectionIndex)
+            // this.player.newConnection(connection, this.connectionIndex);
+            // this.stepsMade++;
         }
         else if(this.stepsMade >= 6){
             this.removeArmy();

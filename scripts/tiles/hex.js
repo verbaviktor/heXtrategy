@@ -19,7 +19,7 @@ export class Hex {
         }
     }
 
-    reset(){
+    reset() {
         const hex = new Hex(this.x, this.y);
         hex.player = this.player;
         map.placeTile(hex);
@@ -63,5 +63,13 @@ export class Hex {
         if (this.img.src) {
             ctx.drawImage(this.img, hexagonCenter[0] - camera.tileSize / 2, hexagonCenter[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
         }
+    }
+
+    onArmyMove(army) {
+        this.player = army.player
+    }
+
+    onEndTurn(player) {
+        
     }
 }
