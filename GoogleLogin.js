@@ -192,6 +192,12 @@ function hidePlayerProfile() {
     playerDiv.style.top = '-20vh';
 }
 function showPlayersLobby() {
+    const readybutton = document.querySelectorAll(".readybutton")
+    for (const button of readybutton) {
+        button.style.opacity = 1
+        button.style.pointerEvents = "all"
+    }
+
     const playerDiv = document.querySelector('#players-lobby')
     const canvas = document.querySelector('#gamecanvas')
     playerDiv.style.top = '29.5vh';
@@ -200,6 +206,7 @@ function showPlayersLobby() {
     fetchingLobbies = false
     const startRenderEvent = new CustomEvent('startRender', { detail: lobbyId })
     document.dispatchEvent(startRenderEvent)
+
 }
 async function hidePlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
@@ -270,8 +277,8 @@ async function getPlayerToken(googleId, email) {
 function GameStart() {
 
 
-    const playerDiv = document.querySelector('#players-lobby')
-    playerDiv.style.top = "-10vh";
+    const playerDiv = document.querySelector('# players-lobby')
+    playerDiv.style.top = "110vh";
     playerDiv.style.left = "-10vw";
     playerDiv.style.width = "120vw"
     playerDiv.style.height = "120vh"
@@ -299,16 +306,23 @@ function GameStart() {
 }
 async function surrender() {
     await postRequest('game/surrender')
+
     const playerDiv = document.querySelector('#players-lobby')
     playerDiv.removeAttribute('style')
+    playerDiv.style.top = "29.5vh";
 
     const gameCanvas = document.querySelector("#gamecanvas")
     gameCanvas.removeAttribute('style')
+    gameCanvas.style.top = "0vh"
+    gameCanvas.style.pointerEvents = "all"
 
     const playerprofile = document.querySelector('#ally.playerinlobby')
-    playerprofile.removeAttribute('style')
+    playerprofile.removeAttribute("style")
+
     const enemyprofile = document.querySelector('#enemy.playerinlobby')
-    enemyprofile.removeAttribute('style')
+    enemyprofile.removeAttribute("style")
+
+
 
     fetchingGame = false
     fetchingLobbies = true
