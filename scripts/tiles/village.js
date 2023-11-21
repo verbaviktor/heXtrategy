@@ -1,7 +1,7 @@
 import { Hex } from "./hex.js";
 
-export class Village extends Hex{
-    constructor(x, y){
+export class Village extends Hex {
+    constructor(x, y) {
         super(x, y);
         this.img.src = "../resources/Village1.svg"
         this.player = null;
@@ -9,19 +9,23 @@ export class Village extends Hex{
         this.turnsSinceLastUpgrade = 0
     }
 
-    upgrade(){
+    upgrade() {
         if (this.level < 5) {
-            this.level ++;
+            this.level++;
             this.img.src = `../resources/Village${this.level}.svg`
         }
     }
-    
+
     onArmyMove(army) {
-        if (this.player != army.player) {
+        if (this.player && this.player != army.player) {
+            this.player.breakConnections(this);
             this.player = army.player
             this.level = 1
             this.img.src = `../resources/Village1.svg`
             this.turnsSinceLastUpgrade = 0
+        }
+        else {
+            this.player = army.player
         }
     }
 

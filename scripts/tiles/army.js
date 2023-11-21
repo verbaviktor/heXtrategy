@@ -9,7 +9,7 @@ export class Army {
         this.targetX = x;
         this.targetY = y;
         this.direction;
-        this.connection = [];
+        this.connectionIndex = this.player.connections.length;
         this.stepsMade = 0;
         let img = new Image();
         img.src = "../resources/ArmyBanner.svg";
@@ -41,32 +41,29 @@ export class Army {
     }
 
     moveArmy() {
+        let currentTile;
         if (this.stepsMade < 6 && this.direction) {
-            let currentTile;
+            currentTile = null;
             if (map.getTileAt(this.targetX + this.direction[0], this.targetY + this.direction[1])) {
                 this.targetX += this.direction[0];
                 this.targetY += this.direction[1];
+                this.stepsMade++;
                 currentTile = map.getTileAt(this.targetX, this.targetY);
                 currentTile.onArmyMove(this);
                 currentTile = map.getTileAt(this.targetX, this.targetY);
-                this.stepsMade++;
                 
                 if (currentTile.player == this.player) {
-                    this.connection.push(currentTile);
+                    this.player.newConnection(currentTile, this.connectionIndex);
                 }
             }
             else{
-                this.endMovement();
+                this.removeArmy();
                 return
             }
         }
-        else if (this.stepsMade >= 6) {
-            this.endMovement();
+        else if(this.stepsMade >= 6){
+            this.removeArmy();
         }
-    }
-    endMovement(){
-        this.player.newConnection(this.connection);
-        this.removeArmy();
     }
     onEndTurn(player) {
         this.moveArmy()

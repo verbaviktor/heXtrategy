@@ -22,7 +22,6 @@ export class Player{
     }
 
     breakConnections(currentTile){
-        console.log("aasd")
         currentTile.player = null;
         let currentTileIndex;
         this.connections.forEach(connection => {
@@ -35,7 +34,6 @@ export class Player{
                 }                
             }
         });
-        console.log(this.connections)
         this.updateConnections();
     }
 
@@ -59,12 +57,22 @@ export class Player{
         });
     }
     
-    newConnection(newConnection, connectionIndex){
+    newConnection(tile, index){
+        let newConnection = this.connections[index];
         let longerConnection;
         let shorterConnection;
         let containsEveryTile = true;
+
+        if (newConnection) {
+            newConnection.push(tile);
+        }
+        else{
+            this.connections.push([tile]);
+            newConnection = this.connections[index];
+        }
+
         this.connections.forEach(connection => {
-            if (connection) {
+            if (connection && index > 0) {
                 if (newConnection.length >= connection.length) {
                     longerConnection = newConnection;
                     shorterConnection = connection;
@@ -73,16 +81,13 @@ export class Player{
                     longerConnection = connection;
                     shorterConnection = newConnection;
                 }
-                
-                shorterConnection.forEach(tile => {
-                    if (!longerConnection.includes(tile)) {
+                shorterConnection.forEach(shTile => {
+                    if (!longerConnection.includes(shTile)) {
                         containsEveryTile = false;
                     }
                 });
             }
         });
-        this.connections.push([]);
-        this.connections[connectionIndex] = (newConnection);
         if (containsEveryTile) {
             this.connections = this.connections.filter((cn) => cn != shorterConnection);
         }
