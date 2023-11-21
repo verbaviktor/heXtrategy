@@ -32,4 +32,22 @@ export class Camp extends Hex{
             return newHex;
         }
     }
+
+    onArmyMove(army){
+        if (army.player == this.player) {
+            army.direction = null;
+            army.stepsMade = 0;
+        }
+        else{
+            let damagedCamp = this.damage();
+            if (damagedCamp instanceof Camp) {
+                army.direction = null;
+                army.stepsMade = 0;
+                army.removeArmy();
+            }
+            else{
+                damagedCamp.player = army.player;
+            }
+        }
+    }
 }

@@ -5,4 +5,13 @@ export class Forest extends Hex{
         super(x, y);
         this.img.src = "../resources/Forest.svg"
     }
+
+    onArmyMove(army){
+            let newHex = this.reset();
+            newHex.player = army.player;
+            army.direction = null;
+            army.stepsMade = 0;
+            army.endConnection();
+            army.removeArmy();
+    }
 }

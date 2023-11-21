@@ -14,7 +14,7 @@ export class Army {
         this.targetX = x;
         this.targetY = y;
         this.direction;
-        this.connectionIndex;
+        this.connectionIndex = this.player.connections.length;
         this.stepsMade = 0;
         let img = new Image();
         img.src = "../resources/ArmyBanner.svg";
@@ -48,70 +48,27 @@ export class Army {
     moveArmy() {
         if (this.stepsMade < 6 && this.direction) {
             let currentTile;
-            let connection = [];
             if (map.getTileAt(this.targetX + this.direction[0], this.targetY + this.direction[1])) {
                 this.targetX += this.direction[0];
                 this.targetY += this.direction[1];
                 currentTile = map.getTileAt(this.targetX, this.targetY);
+                currentTile.onArmyMove(this);
+                currentTile = map.getTileAt(this.targetX, this.targetY);
                 this.stepsMade++;
             }
-
-            if (currentTile === undefined) {
+            else{
                 this.removeArmy()
                 return
             }
-            
-            if (this.connectionIndex == null) {
-                this.connectionIndex = this.player.connections.length;
-                connection[0] = currentTile;
-            }
 
-            if (currentTile.player && currentTile.player != this.player) {
-                if (currentTile instanceof Camp) {
-                    currentTile = currentTile.damage();
+            if (currentTile.player == this.player) {
+                if (this.player.connections[this.connectionIndex]) {
+                    this.player.connections[this.connectionIndex].push(currentTile);
                 }
-                if (!(currentTile instanceof Camp)) {
-                    currentTile.player.breakConnections(currentTile);
-                    currentTile.player = this.player;   
-                    console.log(currentTile.player.connections)
-                    console.log(currentTile)   
-                    connection.push(currentTile);
+                else{
+                    this.player.connections[this.connectionIndex] = [currentTile];
                 }
             }
-            else {
-                if (currentTile instanceof Camp) {
-                    if (currentTile.hp < currentTile.maxHp) {
-                        currentTile.heal();
-                        this.removeArmy();
-                    }
-                    this.direction = null;
-                    this.stepsMade = 0;
-                }
-                else {
-                    currentTile.player = this.player;
-                    connection.push(currentTile);
-                }
-            }
-            
-            if (currentTile.player != this.player) {
-                this.removeArmy();
-            }
-            if (currentTile instanceof Village) {
-                currentTile.player.villages.push(currentTile);
-            }
-            if(currentTile instanceof Tower && currentTile.player != this.player) {
-                this.removeArmy();
-            }
-            if (currentTile instanceof Forest) {
-                currentTile.player = this.player;
-                currentTile = currentTile.reset();
-                connection.push(currentTile);
-                this.removeArmy();
-            }
-            else if(currentTile instanceof Mountain){
-                this.removeArmy();
-            }
-            this.player.newConnection(connection, this.connectionIndex);
         }
         else if(this.stepsMade >= 6){
             this.removeArmy();
