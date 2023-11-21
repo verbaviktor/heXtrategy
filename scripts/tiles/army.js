@@ -2,6 +2,7 @@ import { lerpVector } from "../engine.js";
 import { camera, ctx, deltaTime, map } from "../script.js";
 import { Camp } from "./camp.js";
 import { Forest } from "./forest.js";
+import { Mountain } from "./mountain.js";
 import { Tower } from "./tower.js";
 import { Village } from "./village.js";
 
@@ -43,7 +44,7 @@ export class Army {
         }
         return null;
     }
-
+    
     moveArmy() {
         if (this.stepsMade < 6 && this.direction) {
             let currentTile;
@@ -52,6 +53,7 @@ export class Army {
                 this.targetX += this.direction[0];
                 this.targetY += this.direction[1];
                 currentTile = map.getTileAt(this.targetX, this.targetY);
+                this.stepsMade++;
             }
             
             if (this.connectionIndex == null) {
@@ -63,11 +65,13 @@ export class Army {
                 if (currentTile instanceof Camp) {
                     currentTile = currentTile.damage();
                 }
-                else {
+                if (!(currentTile instanceof Camp)) {
                     currentTile.player.breakConnections(currentTile);
+                    currentTile.player = this.player;   
+                    console.log(currentTile.player.connections)
+                    console.log(currentTile)   
+                    connection.push(currentTile);
                 }
-                currentTile.player = this.player;
-                connection.push(currentTile);
             }
             else {
                 if (currentTile instanceof Camp) {
@@ -75,10 +79,8 @@ export class Army {
                         currentTile.heal();
                         this.removeArmy();
                     }
-                    else {
-                        this.direction = null;
-                        this.stepsMade = 0;
-                    }
+                    this.direction = null;
+                    this.stepsMade = 0;
                 }
                 else {
                     currentTile.player = this.player;
@@ -101,10 +103,10 @@ export class Army {
                 connection.push(currentTile);
                 this.removeArmy();
             }
-            console.log(connection)
-            console.log(this.connectionIndex)
+            else if(currentTile instanceof Mountain){
+                this.removeArmy();
+            }
             this.player.newConnection(connection, this.connectionIndex);
-            this.stepsMade++;
         }
         else if(this.stepsMade >= 6){
             this.removeArmy();
