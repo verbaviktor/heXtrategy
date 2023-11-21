@@ -6,6 +6,7 @@ import { Player } from "./player.js";
 document.addEventListener('startRender', (event) => startRender(event.detail))
 document.addEventListener('stopRender', () => stopRender())
 document.addEventListener('startGame', () => startGame())
+document.addEventListener('stopGame', () => stopGame())
 
 let run = false
 export var recieveInput = false
@@ -42,6 +43,11 @@ function startGame() {
     map.players[0].color = '#' + playerColor
     map.players[1].color = '#' + enemyColor
     recieveInput = true
+}
+
+function stopGame() {
+    recieveInput = false
+    //Reset camera
 }
 
 function gameLoop(timestamp) {
