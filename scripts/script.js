@@ -39,8 +39,8 @@ function stopRender() {
 function startGame() {
     console.log(playerColor)
     console.log(enemyColor)
-    map.players[0].color = playerColor
-    map.players[1].color = enemyColor
+    map.players[0].color = '#' + playerColor
+    map.players[1].color = '#' + enemyColor
     recieveInput = true
 }
 
