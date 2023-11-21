@@ -1,10 +1,5 @@
 import { lerpVector } from "../engine.js";
 import { camera, ctx, deltaTime, map } from "../script.js";
-import { Camp } from "./camp.js";
-import { Forest } from "./forest.js";
-import { Mountain } from "./mountain.js";
-import { Tower } from "./tower.js";
-import { Village } from "./village.js";
 
 export class Army {
     constructor(x, y, player) {
@@ -14,7 +9,7 @@ export class Army {
         this.targetX = x;
         this.targetY = y;
         this.direction;
-        this.connectionIndex = this.player.connections.length;
+        this.connection = [];
         this.stepsMade = 0;
         let img = new Image();
         img.src = "../resources/ArmyBanner.svg";
@@ -55,24 +50,23 @@ export class Army {
                 currentTile.onArmyMove(this);
                 currentTile = map.getTileAt(this.targetX, this.targetY);
                 this.stepsMade++;
+                
+                if (currentTile.player == this.player) {
+                    this.connection.push(currentTile);
+                }
             }
             else{
-                this.removeArmy()
+                this.endMovement();
                 return
-            }
-
-            if (currentTile.player == this.player) {
-                if (this.player.connections[this.connectionIndex]) {
-                    this.player.connections[this.connectionIndex].push(currentTile);
-                }
-                else{
-                    this.player.connections[this.connectionIndex] = [currentTile];
-                }
             }
         }
         else if (this.stepsMade >= 6) {
-            this.removeArmy();
+            this.endMovement();
         }
+    }
+    endMovement(){
+        this.player.newConnection(this.connection);
+        this.removeArmy();
     }
     onEndTurn(player) {
         this.moveArmy()

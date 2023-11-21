@@ -35,7 +35,6 @@ export class Player{
             }
         });
         this.updateConnections();
-        console.log(this.connections)
     }
 
     updateConnections(updatedTile){
@@ -85,5 +84,9 @@ export class Player{
         if (containsEveryTile) {
             this.connections = this.connections.filter((cn) => cn != shorterConnection);
         }
+    }
+
+    endGame(){
+        
     }
 }

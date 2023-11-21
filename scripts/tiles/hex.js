@@ -27,7 +27,8 @@ export class Hex {
     }
 
     onArmyMove(army){
-        if (this.player != army.player) {
+        if (this.player && this.player != army.player) {
+            this.player.breakConnections(this);
             this.player = army.player;
         }
     }
