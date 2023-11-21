@@ -88,7 +88,7 @@ function Close(newUser) {
 async function setHtmlPlayerData() {
     const playerData = await (await getRequest('getuser')).json()
     username = playerData.username
-    playerColor = playerColor.color
+    playerColor = playerData.color
     for (const username of document.querySelectorAll('.username.player')) {
         username.innerHTML = playerData.username
     }
@@ -272,7 +272,7 @@ function GameStart(){
     playerDiv.style.width = "125vw"
     playerDiv.style.height = "125vh"
 
-    const readybutton = document.querySelectorAll("readybutton")
+    const readybutton = document.querySelectorAll(".readybutton")
     for (const button of readybutton) {
         button.style.display = "none"
     }
