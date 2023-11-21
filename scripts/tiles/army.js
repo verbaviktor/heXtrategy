@@ -29,7 +29,7 @@ export class Army {
         ctx.drawImage(this.img, tileCenter[0] - camera.tileSize / 2, tileCenter[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
     }
 
-    removeArmy(){
+    removeArmy() {
         this.player.armies = this.player.armies.filter((army) => army != this);
     }
 
@@ -44,7 +44,7 @@ export class Army {
         }
         return null;
     }
-    
+
     moveArmy() {
         if (this.stepsMade < 6 && this.direction) {
             let currentTile;
@@ -70,8 +70,11 @@ export class Army {
                 }
             }
         }
-        else if(this.stepsMade >= 6){
+        else if (this.stepsMade >= 6) {
             this.removeArmy();
         }
+    }
+    onEndTurn(player) {
+        this.moveArmy()
     }
 }

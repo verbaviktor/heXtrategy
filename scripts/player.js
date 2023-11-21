@@ -1,22 +1,14 @@
 import { Camp } from "./tiles/camp.js";
 
 export class Player{
-    constructor(color){
+    constructor(color) {
         this.numberOfTowers = 0;
         this.numberOfCastles = 0;
         this.base;
         this.gold = 20;
         this.armies = [];
-        this.villages = [];
         this.connections = [];
         this.color = color;
-    }
-    
-    startTurn(){
-        this.villages.forEach(village => {
-            village.upgrade();
-            this.gold += village.level;
-        });
     }
 
     armyOfTile(tile){
