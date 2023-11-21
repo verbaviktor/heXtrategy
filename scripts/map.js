@@ -29,7 +29,7 @@ export class Map {
             this.matrix.push(row);
         }
         this.placeBases();
-        this.generateTerrain("");
+        this.generateTerrain("423654");
     }
     render() {
         for (const row of this.matrix) {

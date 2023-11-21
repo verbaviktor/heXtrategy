@@ -16,7 +16,7 @@ export class Player{
         this.villages.forEach(village => {
             village.upgrade();
             this.gold += village.level;
-        })
+        });
     }
 
     armyOfTile(tile){
@@ -71,20 +71,22 @@ export class Player{
         let shorterConnection;
         let containsEveryTile = true;
         this.connections.forEach(connection => {
-            if (newConnection.length >= connection.length) {
-                longerConnection = newConnection;
-                shorterConnection = connection;
-            }
-            else{
-                longerConnection = connection;
-                shorterConnection = newConnection;
-            }
-            
-            shorterConnection.forEach(tile => {
-                if (!longerConnection.includes(tile)) {
-                    containsEveryTile = false;
+            if (connection) {
+                if (newConnection.length >= connection.length) {
+                    longerConnection = newConnection;
+                    shorterConnection = connection;
                 }
-            });
+                else{
+                    longerConnection = connection;
+                    shorterConnection = newConnection;
+                }
+                
+                shorterConnection.forEach(tile => {
+                    if (!longerConnection.includes(tile)) {
+                        containsEveryTile = false;
+                    }
+                });
+            }
         });
         this.connections.push([]);
         this.connections[connectionIndex] = (newConnection);

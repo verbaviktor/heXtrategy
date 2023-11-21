@@ -6,7 +6,6 @@ export class Camp extends Hex{
         super(x, y);
         this.img.src = "../resources/Camp.svg";
         this.player = player;
-        this.armyTrained = false;
         this.upgradeCost *= (this.player.numberOfTowers + 1);
         this.maxHp = 1;
         this.hp = this.maxHp;

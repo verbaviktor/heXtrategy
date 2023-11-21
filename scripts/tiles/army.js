@@ -1,5 +1,9 @@
 import { lerpVector } from "../engine.js";
 import { camera, ctx, deltaTime, map } from "../script.js";
+import { Camp } from "./camp.js";
+import { Forest } from "./forest.js";
+import { Tower } from "./tower.js";
+import { Village } from "./village.js";
 
 export class Army {
     constructor(x, y, player) {
@@ -9,7 +13,7 @@ export class Army {
         this.targetX = x;
         this.targetY = y;
         this.direction;
-        this.connectionIndex = this.player.connections.length;
+        this.connectionIndex;
         this.stepsMade = 0;
         let img = new Image();
         img.src = "../resources/ArmyBanner.svg";
@@ -29,8 +33,8 @@ export class Army {
     }
 
     getMovementDirection(destination) {
-        const xDiff = destination.x - this.x;
-        const yDiff = destination.y - this.y;
+        const xDiff = destination.x - this.targetX;
+        const yDiff = destination.y - this.targetY;
         if (xDiff == 0 && yDiff == 0) {
             return null;
         }
@@ -43,14 +47,18 @@ export class Army {
     moveArmy() {
         if (this.stepsMade < 6 && this.direction) {
             let currentTile;
-    
-            // let connection = [start];
+            let connection = [];
             if (map.getTileAt(this.targetX + this.direction[0], this.targetY + this.direction[1])) {
                 this.targetX += this.direction[0];
                 this.targetY += this.direction[1];
-                currentTile = this.getTileAt(this.targetX, this.targetY);
+                currentTile = map.getTileAt(this.targetX, this.targetY);
             }
-    
+            
+            if (this.connectionIndex == null) {
+                this.connectionIndex = this.player.connections.length;
+                connection[0] = currentTile;
+            }
+
             if (currentTile.player && currentTile.player != this.player) {
                 if (currentTile instanceof Camp) {
                     currentTile = currentTile.damage();
@@ -58,8 +66,8 @@ export class Army {
                 else {
                     currentTile.player.breakConnections(currentTile);
                 }
-                // currentTile.player = this.player;
-                // connection.push(currentTile);
+                currentTile.player = this.player;
+                connection.push(currentTile);
             }
             else {
                 if (currentTile instanceof Camp) {
@@ -68,13 +76,13 @@ export class Army {
                         this.removeArmy();
                     }
                     else {
-                        currentTile.armyTrained = true;
                         this.direction = null;
+                        this.stepsMade = 0;
                     }
-                    // break;
                 }
                 else {
                     currentTile.player = this.player;
+                    connection.push(currentTile);
                 }
             }
             
@@ -93,10 +101,12 @@ export class Army {
                 connection.push(currentTile);
                 this.removeArmy();
             }
+            console.log(connection)
+            console.log(this.connectionIndex)
             this.player.newConnection(connection, this.connectionIndex);
             this.stepsMade++;
         }
-        else{
+        else if(this.stepsMade >= 6){
             this.removeArmy();
         }
     }
