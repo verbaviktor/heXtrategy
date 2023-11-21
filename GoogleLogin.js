@@ -329,6 +329,8 @@ async function surrender() {
     const stopGameEvent = new CustomEvent('stopGame')
     document.dispatchEvent(stopGameEvent)
 
+    const exitbutton = document.querySelector(".exitButton")
+    exitbutton.style.opacity = 1;
     fetchingGame = false
     fetchingLobbies = true
 }
