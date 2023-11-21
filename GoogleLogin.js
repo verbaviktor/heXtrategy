@@ -62,7 +62,7 @@ function parseJwt(token) {
 
 function Load() {
     var login = document.querySelector(".login-container")
-
+    console.log("LOAD")
     login.style.top = `25vh`;
 }
 
@@ -193,7 +193,9 @@ function hidePlayerProfile() {
 }
 function showPlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
+    const canvas = document.querySelector('#gamecanvas')
     playerDiv.style.top = '29.5vh';
+    canvas.style.top = '0vh';
     fetchingEnemy = true
     fetchingLobbies = false
     const startRenderEvent = new CustomEvent('startRender', { detail: lobbyId })
@@ -201,6 +203,8 @@ function showPlayersLobby() {
 }
 async function hidePlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
+    const canvas = document.querySelector('#gamecanvas')
+    canvas.style.top = '100vh';
     playerDiv.style.top = '100vh';
     await postRequest("lobby/exitlobby")
     const stopRenderEvent = new CustomEvent('stopRender')
@@ -263,7 +267,7 @@ async function getPlayerToken(googleId, email) {
     return fetchedData.token
 }
 
-function GameStart(){
+function GameStart() {
 
 
     const playerDiv = document.querySelector('#players-lobby')
@@ -275,26 +279,36 @@ function GameStart(){
 
     const readybutton = document.querySelectorAll(".readybutton")
     for (const button of readybutton) {
-        button.style.display = "none"
+        button.style.opacity = 0
+        button.style.pointerEvents = "none"
     }
-
-    const profileContainer = document.querySelectorAll(".lobby-profile-container")
-    for (const container of profileContainer) {
-        container.style.position = "absolute"
-        container.style.top = "10vh"
-        container.style.zIndex = "3"
-    }
-    profileContainer[0].style.left = "5vw"
-    profileContainer[1].style.right = "5vw"
 
     const gameCanvas = document.querySelector("#gamecanvas")
     gameCanvas.style.width = "100vw"
     gameCanvas.style.height = "100vh"
     gameCanvas.style.left = "10vw"
     gameCanvas.style.top = "10vh"
-    gameCanvas.style.zIndex = "2"
+    gameCanvas.style.pointerEvents = "all"
 
+    const playerprofile = document.querySelector('#ally.playerinlobby')
+    playerprofile.style.top = "14vh"
+    playerprofile.style.left = "20vh"
+    const enemyprofile = document.querySelector('#enemy.playerinlobby')
+    enemyprofile.style.top = "14vh"
+    enemyprofile.style.right = "20vh"
 }
+async function surrender() {
+    await postRequest('game/surrender')
+    const playerDiv = document.querySelector('#players-lobby')
+    playerDiv.removeAttribute('style')
 
+    const gameCanvas = document.querySelector("#gamecanvas")
+    gameCanvas.removeAttribute('style')
+
+    const playerprofile = document.querySelector('#ally.playerinlobby')
+    playerprofile.removeAttribute('style')
+    const enemyprofile = document.querySelector('#enemy.playerinlobby')
+    enemyprofile.removeAttribute('style')
+}
 
 window.onbeforeunload = hidePlayersLobby;

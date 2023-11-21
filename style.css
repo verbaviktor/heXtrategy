@@ -103,14 +103,15 @@
     font-size: 2vw;
 
 }
-.search-item:hover{
+
+.search-item:hover {
     transform: scale(1.05);
     transition: 0.2s;
 }
 
 .search-item:nth-child(2) {
     /* width: 72vw; */
-    transform: none;    
+    transform: none;
 }
 
 .search-item:nth-child(1) {}
@@ -280,7 +281,8 @@
     width: 70%;
     margin: auto;
 }
-.startButton:hover{
+
+.startButton:hover {
     transform: scale(1.05);
     transition: 0.2s;
 }
@@ -342,8 +344,10 @@ input[type="color"]::-webkit-color-swatch {
 .playerinlobby {
     position: absolute;
     top: 2vw;
+    z-index: 3;
     height: calc(100% - 2vw);
-    width: fit-content;
+    width: 40%;
+    transition: ease 0.8s;
 }
 
 #ally {
@@ -363,13 +367,15 @@ input[type="color"]::-webkit-color-swatch {
 .readybutton {
     position: absolute;
     background-color: #ea4335;
-    width: 100%;
+    width: 50%;
     height: 64px;
     bottom: 2vw;
     border-radius: 32px;
     font-size: 32px;
+    transition: opacity ease 0.8s;
 }
-.readybutton:hover{
+
+.readybutton:hover {
     transform: scale(1.05);
     transition: 0.2s;
 }
@@ -377,9 +383,12 @@ input[type="color"]::-webkit-color-swatch {
 #gamecanvas {
     position: absolute;
     left: calc((100% - 67.5vh) / 2);
+    top: 110vh;
     height: 67.5vh;
     width: 67.5vh;
+    z-index: 2;
     transition: ease 0.8s;
+    pointer-events: none;
 }
 
 .text-center {
@@ -389,13 +398,32 @@ input[type="color"]::-webkit-color-swatch {
     left: 50%;
     text-align: center;
     user-select: none;
-    z-index: 0;
 }
 
-.exitButton{
+.exitButton {
     position: absolute;
     bottom: 3vh;
     left: 41vw;
     width: 15vw;
-   cursor: pointer;
+    cursor: pointer;
+    z-index: 3;
+}
+#game-ui {
+    position: absolute;
+    top: 100vh;
+    left: 15vw;
+    transition: ease 0.8s;
+    z-index: 4;
+}
+#surrender {
+    width: 25vw;
+    height: 64px;
+    background-color: #ea4335;
+    font-size: 32px;
+    border-radius: 32px;
+    cursor: pointer;
+}
+#surrender:hover {
+    transform: scale(1.05);
+    transition: 0.2s;
 }

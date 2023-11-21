@@ -1,5 +1,4 @@
 import { Camera } from "./camera.js";
-import { darkenColor, vhToPixels } from "./engine.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
@@ -55,9 +54,9 @@ function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.rect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#1a1a1a";
-    ctx.fill();
+    // ctx.rect(0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = "#1a1a1a";
+    // ctx.fill();
     map.render();
     hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
 
