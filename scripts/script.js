@@ -18,6 +18,7 @@ export let ctx = canvas.getContext('2d');
 export let map;
 export let camera;
 export let input = new InputHandler();
+export let actions = [];
 export let hoveredTileCoordinates;
 var lastTime = 0;
 export let deltaTime = 0;
