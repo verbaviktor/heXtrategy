@@ -15,8 +15,8 @@ const canvasStyle = window.getComputedStyle(canvas);
 canvas.width = parseFloat(canvasStyle.width.slice(0, canvasStyle.width.length - 2))
 canvas.height = parseFloat(canvasStyle.height.slice(0, canvasStyle.width.length - 2))
 export let ctx = canvas.getContext('2d');
-export let map = new Map(10, [new Player('#335c67', 0), new Player("#9e2a2b", 1)]);
-export let camera = new Camera();
+export let map;
+export let camera;
 export let input = new InputHandler();
 export let hoveredTileCoordinates;
 var lastTime = 0;

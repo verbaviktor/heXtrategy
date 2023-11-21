@@ -5,13 +5,16 @@ let fetchingLobbies = false;
 var fetchingGame = false;
 let username = ""
 var lobbyId = ""
+var playerIndex = ""
 var playerColor = ""
 var enemyColor = ""
 
 setInterval(async () => {
     if (fetchingEnemy) {
         let response = await getRequest('lobby/lobbyinfo')
-        console.log(response.status)
+        let responseData = await response.json()
+        playerIndex = responseData.users.findIndex((user) => user.username == username)
+        console.log(playerIndex)
         if (response.status == 201) {
             const startGameEvent = new CustomEvent('startGame')
             document.dispatchEvent(startGameEvent)
@@ -19,7 +22,6 @@ setInterval(async () => {
             fetchingGame = true
             GameStart()
         }
-        let responseData = await response.json()
         setEnemyProfile(responseData)
     }
     if (fetchingLobbies) {
@@ -202,11 +204,11 @@ function showPlayersLobby() {
     document.dispatchEvent(startRenderEvent)
 }
 async function hidePlayersLobby() {
+    await postRequest("lobby/exitlobby")
     const playerDiv = document.querySelector('#players-lobby')
     const canvas = document.querySelector('#gamecanvas')
     canvas.style.top = '100vh';
     playerDiv.style.top = '100vh';
-    await postRequest("lobby/exitlobby")
     const stopRenderEvent = new CustomEvent('stopRender')
     document.dispatchEvent(stopRenderEvent)
     fetchingEnemy = false
