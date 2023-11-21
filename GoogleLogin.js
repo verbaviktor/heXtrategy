@@ -5,13 +5,16 @@ let fetchingLobbies = false;
 var fetchingGame = false;
 let username = ""
 var lobbyId = ""
+var playerColor = ""
+var enemyColor = ""
 
 setInterval(async () => {
     if (fetchingEnemy) {
         let response = await getRequest('lobby/lobbyinfo')
         console.log(response.status)
         if (response.status == 201) {
-            console.log("Game started!")
+            const startGameEvent = new CustomEvent('startGame')
+            document.dispatchEvent(startGameEvent)
             fetchingEnemy = false
             fetchingGame = true
             readyButton.style.backgroundColor = '#34a853'
@@ -78,15 +81,16 @@ function Close(newUser) {
         login.style.top = `-100vh`;
         shadow.style.opacity = 0;
         shadow.style.pointerEvents = 'none'
-        setHtmlPlayerData(localStorage.getItem('heXtrategyUserToken'));
+        setHtmlPlayerData();
         showPlayerProfile();
         listHtmlLobbies(localStorage.getItem('heXtrategyUserToken'));
         fetchingLobbies = true;
     }
 }
-async function setHtmlPlayerData(token) {
+async function setHtmlPlayerData() {
     const playerData = await (await getRequest('getuser')).json()
     username = playerData.username
+    playerColor = playerColor.color
     for (const username of document.querySelectorAll('.username.player')) {
         username.innerHTML = playerData.username
     }
@@ -178,6 +182,8 @@ function setEnemyProfile(response) {
         readyButton.style.backgroundColor = '#ea4335'
         text.innerHTML = 'Not Ready'
     }
+
+    enemyColor = enemy.color
 }
 function showPlayerProfile() {
     const playerDiv = document.querySelector('.playerprofile')
@@ -192,13 +198,15 @@ function showPlayersLobby() {
     playerDiv.style.top = '29.5vh';
     fetchingEnemy = true
     fetchingLobbies = false
-    const startGameEvent = new CustomEvent('startGame', { detail: lobbyId })
-    document.dispatchEvent(startGameEvent)
+    const startRenderEvent = new CustomEvent('startRender', { detail: lobbyId })
+    document.dispatchEvent(startRenderEvent)
 }
 async function hidePlayersLobby() {
     const playerDiv = document.querySelector('#players-lobby')
     playerDiv.style.top = '100vh';
     await postRequest("lobby/exitlobby")
+    const stopRenderEvent = new CustomEvent('stopRender')
+    document.dispatchEvent(stopRenderEvent)
     fetchingEnemy = false
     fetchingLobbies = true
 }
