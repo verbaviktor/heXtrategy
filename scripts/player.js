@@ -22,6 +22,7 @@ export class Player{
     }
 
     breakConnections(currentTile){
+        console.log("aasd")
         currentTile.player = null;
         let currentTileIndex;
         this.connections.forEach(connection => {
@@ -34,6 +35,7 @@ export class Player{
                 }                
             }
         });
+        console.log(this.connections)
         this.updateConnections();
     }
 
@@ -87,6 +89,6 @@ export class Player{
     }
 
     endGame(){
-        
+
     }
 }

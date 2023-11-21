@@ -22,7 +22,6 @@ export class Village extends Hex{
             this.level = 1
             this.img.src = `../resources/Village1.svg`
             this.turnsSinceLastUpgrade = 0
-            console.log(this.level)
         }
     }
 
