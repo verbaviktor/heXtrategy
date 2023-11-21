@@ -62,7 +62,7 @@ export class Hex {
         else {
             this.targetColor = '#F0F0F0'
         }
-        this.color = lerpColor(this.color, this.targetColor, 10 * deltaTime)
+        this.color = lerpColor(this.color, this.targetColor, 35 * deltaTime)
         gradient.addColorStop(0.5, this.color)
         gradient.addColorStop(1, darkenColor(this.color, 0.75))
         ctx.fillStyle = gradient
