@@ -66,7 +66,7 @@ export class Player{
         });
     }
     
-    newConnection(newConnection){
+    newConnection(newConnection, connectionIndex){
         let longerConnection;
         let shorterConnection;
         let containsEveryTile = true;
@@ -86,7 +86,8 @@ export class Player{
                 }
             });
         });
-        this.connections.push(newConnection);
+        this.connections.push([]);
+        this.connections[connectionIndex] = (newConnection);
         if (containsEveryTile) {
             this.connections = this.connections.filter((cn) => cn != shorterConnection);
         }

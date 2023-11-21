@@ -45,12 +45,17 @@ function gameLoop(timestamp) {
         if (hexCoordinates) {
             destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
-        if (clickedTile && clickedTile.player == map.playerInTurn && destination) {
-            map.moveArmy(clickedTile, destination);
+        if (clickedTile && clickedTile.player == map.playerInTurn && destination && clickedTile.player.armyOfTile(clickedTile)) {
+            clickedTile.player.armyOfTile(clickedTile).direction = clickedTile.player.armyOfTile(clickedTile).getMovementDirection(destination);
         }
     }
 
     if (input.isKeyPressed("n")) {
+        map.players.forEach(player => {
+            player.armies.forEach(army => {
+                army.moveArmy();
+            });
+        });
         const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
         map.playerInTurn = otherPlayer[0];
         map.playerInTurn.startTurn();
