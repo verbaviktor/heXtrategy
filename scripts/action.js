@@ -1,9 +1,9 @@
-export const ActionType {
+export const ActionType = {
     BUILDCAMP,
     BUILDTOWER,
     BUILDCASTLE,
     TRAINARMY,
-    MOVEARMY,
+    MOVEARMY
 }
 
 export class Action {
