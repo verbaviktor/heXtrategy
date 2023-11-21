@@ -53,7 +53,6 @@ function gameLoop(timestamp) {
     if (input.isKeyPressed("n")) {
         map.players.forEach(player => {
             player.armies.forEach(army => {
-                console.log(army)
                 army.moveArmy();
             });
         });

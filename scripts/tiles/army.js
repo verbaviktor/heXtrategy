@@ -2,6 +2,7 @@ import { lerpVector } from "../engine.js";
 import { camera, ctx, deltaTime, map } from "../script.js";
 import { Camp } from "./camp.js";
 import { Forest } from "./forest.js";
+import { Mountain } from "./mountain.js";
 import { Tower } from "./tower.js";
 import { Village } from "./village.js";
 
@@ -43,7 +44,7 @@ export class Army {
         }
         return null;
     }
-
+    
     moveArmy() {
         if (this.stepsMade < 6 && this.direction) {
             let currentTile;
@@ -52,6 +53,7 @@ export class Army {
                 this.targetX += this.direction[0];
                 this.targetY += this.direction[1];
                 currentTile = map.getTileAt(this.targetX, this.targetY);
+                this.stepsMade++;
             }
 
             if (currentTile === undefined) {
