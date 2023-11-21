@@ -1,5 +1,6 @@
 import { Camp } from "./camp.js";
-import { map } from "../script.js";
+import { actions, map } from "../script.js";
+import { Action, ActionType } from "../action.js";
 
 export class Tower extends Camp{
     constructor(x, y, player){
@@ -15,6 +16,7 @@ export class Tower extends Camp{
             this.player.numberOfCastles ++;
             map.placeTile(castle);
             this.player.gold -= this.upgradeCost;
+            actions.push(new Action(this.x, this.y, ActionType.BUILDCASTLE));
         }
     }
 

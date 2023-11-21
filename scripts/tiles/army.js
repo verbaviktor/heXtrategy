@@ -1,5 +1,6 @@
+import { Action, ActionType } from "../action.js";
 import { lerpVector } from "../engine.js";
-import { camera, ctx, deltaTime, map } from "../script.js";
+import { actions, camera, ctx, deltaTime, map, actions } from "../script.js";
 
 export class Army {
     constructor(x, y, player) {
@@ -44,8 +45,12 @@ export class Army {
         if (this.stepsMade < 6 && this.direction) {
             currentTile = null;
             if (map.getTileAt(this.targetX + this.direction[0], this.targetY + this.direction[1])) {
+                let action = new Action(this.targetX, this.targetY, ActionType.MOVEARMY);
                 this.targetX += this.direction[0];
                 this.targetY += this.direction[1];
+                action.destX = this.targetX;
+                action.destY = this.targetY;
+                actions.push(action);
                 this.stepsMade++;
                 currentTile = map.getTileAt(this.targetX, this.targetY);
                 currentTile.onArmyMove(this);

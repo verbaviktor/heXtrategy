@@ -1,7 +1,6 @@
-import { Camp } from "./tiles/camp.js";
-
 export class Player{
     constructor(color) {
+        this.numberOfCamps = 0;
         this.numberOfTowers = 0;
         this.numberOfCastles = 0;
         this.base;

@@ -1,5 +1,6 @@
 import { Hex } from "./hex.js";
-import { map } from "../script.js";
+import { actions, map } from "../script.js";
+import { Action, ActionType } from "../action.js";
 
 export class Camp extends Hex{
     constructor(x, y, player){
@@ -16,6 +17,7 @@ export class Camp extends Hex{
             this.player.numberOfTowers ++;
             map.placeTile(tower);
             this.player.gold -= this.upgradeCost;
+            actions.push(new Action(this.x, this.y, ActionType.BUILDCASTLE));
         }
     }
 
@@ -25,6 +27,16 @@ export class Camp extends Hex{
             return this;
         }
         else{
+            if (this.construcor.name == "Camp") {
+                this.player.numberOfCamps--;
+            }
+            else if (this.construcor.name == "Tower") {
+                this.player.numberOfTowers--;
+            }
+            else if (this.construcor.name == "Castle"){
+                this.player.numberOfCastles--;
+            }
+
             const newHex = this.reset();
             const otherPlayer = map.players.filter((player) => player != this.player);
             newHex.player = otherPlayer[0];
@@ -44,7 +56,6 @@ export class Camp extends Hex{
                 army.removeArmy();
             }
             else{
-                console.log(damagedCamp)
                 damagedCamp.player = army.player;
             }
         }

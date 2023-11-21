@@ -1,5 +1,6 @@
+import { Action, ActionType } from "../action.js";
 import { darkenColor, lerpColor } from "../engine.js";
-import { camera, ctx, deltaTime, map } from "../script.js";
+import { actions, camera, ctx, deltaTime, map } from "../script.js";
 
 export class Hex {
     constructor(x, y) {
@@ -17,6 +18,8 @@ export class Hex {
         if (this.player.gold >= this.upgradeCost) {
             this.player.gold -= this.upgradeCost;
             map.placeTile(camp);
+            this.player.numberOfCamps++;
+            actions.push(new Action(this.x, this.y, ActionType.BUILDCAMP));
         }
     }
 
