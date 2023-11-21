@@ -10,13 +10,16 @@ setInterval(async () => {
     if (fetchingEnemy) {
         let response = await getRequest('lobby/lobbyinfo')
         console.log(response.status)
-        response = await response.json()
-        if (response.status == 100) {
+        if (response.status == 201) {
             console.log("Game started!")
             fetchingEnemy = false
             fetchingGame = true
+            readyButton.style.backgroundColor = '#34a853'
+            text.innerHTML = 'Ready'
+            //HEREMEGNAGYOBBÍTÁS HERE
         }
-        setEnemyProfile(response)
+        let responseData = await response.json()
+        setEnemyProfile(responseData)
     }
     if (fetchingLobbies) {
         listHtmlLobbies()
