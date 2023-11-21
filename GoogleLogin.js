@@ -88,7 +88,7 @@ function Close(newUser) {
 async function setHtmlPlayerData() {
     const playerData = await (await getRequest('getuser')).json()
     username = playerData.username
-    playerColor = playerColor.color
+    playerColor = playerData.color
     for (const username of document.querySelectorAll('.username.player')) {
         username.innerHTML = playerData.username
     }

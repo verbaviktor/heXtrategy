@@ -6,7 +6,7 @@ import { Player } from "./player.js";
 
 document.addEventListener('startRender', (event) => startRender(event.detail))
 document.addEventListener('stopRender', () => stopRender())
-document.addEventListener('startGame', () => startGame(plyer1color, player2color))
+document.addEventListener('startGame', () => startGame())
 
 let run = false
 export var recieveInput = false
@@ -36,9 +36,11 @@ function stopRender() {
     run = false
 }
 
-function startGame(player1color, player2color) {
-    map.players[0].color = '#' + playerColor
-    map.players[1].color = '#' + enemyColor
+function startGame() {
+    console.log(playerColor)
+    console.log(enemyColor)
+    map.players[0].color = playerColor
+    map.players[1].color = enemyColor
     recieveInput = true
 }
 
