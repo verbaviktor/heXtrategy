@@ -15,6 +15,7 @@ setInterval(async () => {
             console.log("Game started!")
             fetchingEnemy = false
             fetchingGame = true
+            GameStart()
         }
         setEnemyProfile(response)
     }
@@ -253,5 +254,34 @@ async function getPlayerToken(googleId, email) {
     const fetchedData = await (await postRequest('login', requestBody)).json();
     return fetchedData.token
 }
+
+function GameStart(){
+
+
+    const playerDiv = document.querySelector('#players-lobby')
+    playerDiv.style.top = "-10vh";
+    playerDiv.style.left = "-10vw";
+    playerDiv.style.width = "125vw"
+    playerDiv.style.height = "125vh"
+
+    const readybutton = document.querySelectorAll("readybutton")
+    for (const button of readybutton) {
+        button.style.display = "none"
+    }
+
+    const profileContainer = document.querySelectorAll(".lobby-profile-container")
+    for (const container of profileContainer) {
+        container.style.position = "absolute"
+        container.style.top = "10vh"
+        container.style.zIndex = "5"
+    }
+    profileContainer[0].style.left = "5vw"
+    profileContainer[1].style.right = "5vw"
+
+    const gameCanvas = document.querySelector(".gamecanvas")
+    gameCanvas.style.width = "100vw"
+    gameCanvas.style.height = "100vh"
+}
+
 
 window.onbeforeunload = hidePlayersLobby;
