@@ -9,7 +9,6 @@ export class Army {
         this.targetX = x;
         this.targetY = y;
         this.direction;
-        this.connectionIndex = this.player.connections.length;
         this.stepsMade = 0;
         let img = new Image();
         img.src = "../resources/ArmyBanner.svg";
@@ -51,10 +50,6 @@ export class Army {
                 currentTile = map.getTileAt(this.targetX, this.targetY);
                 currentTile.onArmyMove(this);
                 currentTile = map.getTileAt(this.targetX, this.targetY);
-                
-                if (currentTile.player == this.player) {
-                    this.player.newConnection(currentTile, this.connectionIndex);
-                }
             }
             else{
                 this.removeArmy();

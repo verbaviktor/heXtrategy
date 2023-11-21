@@ -27,7 +27,6 @@ export class Camp extends Hex{
         else{
             const newHex = this.reset();
             const otherPlayer = map.players.filter((player) => player != this.player);
-            this.player.breakConnections(this);
             newHex.player = otherPlayer[0];
             return newHex;
         }
@@ -37,7 +36,6 @@ export class Camp extends Hex{
         if (army.player == this.player) {
             army.direction = null;
             army.stepsMade = 0;
-            army.connection = [];
         }
         else{
             let damagedCamp = this.damage();

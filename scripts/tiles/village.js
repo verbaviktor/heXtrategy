@@ -18,7 +18,6 @@ export class Village extends Hex {
 
     onArmyMove(army) {
         if (this.player && this.player != army.player) {
-            this.player.breakConnections(this);
             this.player = army.player
             this.level = 1
             this.img.src = `../resources/Village1.svg`
