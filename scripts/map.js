@@ -92,9 +92,8 @@ export class Map {
         const village_density = 0.03
         const noise = generateControlledNoise(seed, this.diameter)
         for (const row of this.matrix) {
-            const startIndex = Math.max(row[0].y, -this.radius + 1)
             for (const hex of row) {
-                const random = noise[hex.x + startIndex][hex.y]
+                const random = Math.random()
                 if (hex instanceof Base) {
                     continue
                 }
@@ -129,79 +128,16 @@ export class Map {
         }
     }
 
-    getMovementDirection(start, destination) {
-        const xDiff = destination.x - start.x;
-        const yDiff = destination.y - start.y;
-        if (xDiff == 0 && yDiff == 0) {
-            return null;
-        }
-        if (yDiff == 0 || xDiff == 0 || yDiff == xDiff * -1) {
-            return [Math.sign(xDiff), Math.sign(yDiff)];
-        }
-        return null;
-    }
-    moveArmy(start, destination) {
-        const direction = this.getMovementDirection(start, destination);
-        let movedArmy = start.player.armyOfTile(start);
-
-        if (movedArmy && direction) {
-            let currentTile;
-            let connection = [start];
-            for (let i = 0; i < 6; i++) {
-                if (this.getTileAt(movedArmy.targetX + direction[0], movedArmy.targetY + direction[1])) {
-                    movedArmy.targetX += direction[0];
-                    movedArmy.targetY += direction[1];
-                    currentTile = this.getTileAt(movedArmy.targetX, movedArmy.targetY);
-                    connection.push(currentTile);
-                }
-
-                if (currentTile.player && currentTile.player != movedArmy.player) {
-                    if (currentTile instanceof Tower) {
-                        currentTile = currentTile.damage();
-                        break;
-                    }
-                    else if (currentTile.constructor.name == "Camp") {
-                        currentTile = currentTile.damage();
-                    }
-                    else {
-                        currentTile.player.breakConnections(currentTile);
-                    }
-                    currentTile.player = movedArmy.player;
-                }
-                else {
-                    if (currentTile instanceof Mountain) {
-                        break;
-                    }
-                    else if (currentTile instanceof Camp) {
-                        if (this.hp < this.maxHp) {
-                            this.heal();
-                        }
-                        else {
-                            this.armyTrained = true;
-                        }
-                        break;
-                    }
-                    else {
-                        currentTile.player = movedArmy.player;
-                    }
-                }
-
-                if (currentTile instanceof Forest) {
-                    currentTile = currentTile.reset();
-                    break;
-                }
-                else if (currentTile instanceof Village) {
-                    currentTile.player.villages.push(currentTile);
-                }
+    onEndTurn(player) {
+        for (const player of this.players) {
+            for (const army of player.armies) {
+                army.onEndTurn()
             }
-            if (!(currentTile instanceof Camp) || (currentTile instanceof Tower && currentTile.player != movedArmy.player)) {
-                movedArmy.player.armies = movedArmy.player.armies.filter((army) => army != movedArmy);
-            }
-            if (start instanceof Camp) {
-                start.armyTrained = false;
-            }
-            movedArmy.player.newConnection(connection);
         }
-        return false;
+        for (const row of this.matrix) {
+            for (const hex of row) {
+                hex.onEndTurn(player)
+            }
+        }
     }
 }

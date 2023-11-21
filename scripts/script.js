@@ -16,8 +16,8 @@ const canvasStyle = window.getComputedStyle(canvas);
 canvas.width = parseFloat(canvasStyle.width.slice(0, canvasStyle.width.length - 2))
 canvas.height = parseFloat(canvasStyle.height.slice(0, canvasStyle.width.length - 2))
 export let ctx = canvas.getContext('2d');
-export let map;
-export let camera;
+export let map = new Map(10, [new Player('#335c67', 0), new Player("#9e2a2b", 1)]);
+export let camera = new Camera();
 export let input = new InputHandler();
 export let hoveredTileCoordinates;
 var lastTime = 0;
@@ -80,15 +80,16 @@ function gameLoop(timestamp) {
         if (hexCoordinates) {
             destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
-        if (clickedTile && clickedTile.player == map.playerInTurn && destination) {
-            map.moveArmy(clickedTile, destination);
+        if (clickedTile && clickedTile.player == map.playerInTurn && destination && clickedTile.player.armyOfTile(clickedTile)) {
+            clickedTile.player.armyOfTile(clickedTile).direction = clickedTile.player.armyOfTile(clickedTile).getMovementDirection(destination);
         }
     }
 
     if (input.isKeyPressed("n")) {
+        map.onEndTurn(map.playerInTurn)
         const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
         map.playerInTurn = otherPlayer[0];
-        map.playerInTurn.startTurn();
+        // map.playerInTurn.startTurn();
     }
     camera.update();
     if (recieveInput) {
