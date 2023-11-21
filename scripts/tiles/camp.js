@@ -27,12 +27,11 @@ export class Camp extends Hex{
         else{
             const newHex = this.reset();
             const otherPlayer = map.players.filter((player) => player != this.player);
-            this.player.breakConnections(this);
             newHex.player = otherPlayer[0];
             return newHex;
         }
     }
-
+    
     onArmyMove(army){
         if (army.player == this.player) {
             army.direction = null;
@@ -40,12 +39,12 @@ export class Camp extends Hex{
         }
         else{
             let damagedCamp = this.damage();
+            map.placeTile(damagedCamp);
             if (damagedCamp instanceof Camp) {
-                army.direction = null;
-                army.stepsMade = 0;
                 army.removeArmy();
             }
             else{
+                console.log(damagedCamp)
                 damagedCamp.player = army.player;
             }
         }

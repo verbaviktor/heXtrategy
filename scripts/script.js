@@ -2,6 +2,7 @@ import { Camera } from "./camera.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
+import { Camp } from "./tiles/camp.js";
 
 document.addEventListener('startRender', (event) => startRender(event.detail))
 document.addEventListener('stopRender', () => stopRender())
@@ -76,7 +77,7 @@ function gameLoop(timestamp) {
             map.tileClicked(clickedTile);
         }
     }
-
+    
     if (input.isKeyReleased("mouseButton0")) {
         let destination;
         if (hexCoordinates) {
@@ -86,8 +87,11 @@ function gameLoop(timestamp) {
         if (hexCoordinates) {
             destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
-        if (clickedTile && clickedTile.player == map.playerInTurn && destination && clickedTile.player.armyOfTile(clickedTile)) {
+        if (clickedTile && clickedTile.player == map.playerInTurn && destination && clickedTile.player.armyOfTile(clickedTile) && clickedTile instanceof Camp) {
             clickedTile.player.armyOfTile(clickedTile).direction = clickedTile.player.armyOfTile(clickedTile).getMovementDirection(destination);
+        }
+        if (clickedTile && clickedTile.player == map.playerInTurn) {
+            map.tileClicked(clickedTile);
         }
     }
 
