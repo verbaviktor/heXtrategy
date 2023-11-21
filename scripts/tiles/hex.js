@@ -28,6 +28,12 @@ export class Hex {
         return hex;
     }
 
+    onArmyMove(army){
+        if (this.player != army.player) {
+            this.player = army.player;
+        }
+    }
+
     render() {
 
         ctx.beginPath()
