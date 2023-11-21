@@ -1,9 +1,9 @@
 export const ActionType = {
-    BUILDCAMP,
-    BUILDTOWER,
-    BUILDCASTLE,
-    TRAINARMY,
-    MOVEARMY
+    BUILDCAMP: "BUILDCAMP",
+    BUILDTOWER: "BUILDTOWER",
+    BUILDCASTLE: "BUILDCASTLE",
+    TRAINARMY: "TRAINARMY",
+    MOVEARMY: "MOVEARMY"
 }
 
 export class Action {

@@ -1,6 +1,6 @@
 import { Action, ActionType } from "../action.js";
 import { lerpVector } from "../engine.js";
-import { actions, camera, ctx, deltaTime, map, actions } from "../script.js";
+import { actions, camera, ctx, deltaTime, map } from "../script.js";
 
 export class Army {
     constructor(x, y, player) {
