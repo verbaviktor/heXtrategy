@@ -41,7 +41,6 @@ export class InputHandler {
         })
         document.addEventListener('keydown', (event) => {
             if (recieveInput) {
-                console.log(recieveInput)
                 if (!this.isKeyDown(event.key)) {
                     this.keys[event.key] = ButtonState.PRESSED
                 }

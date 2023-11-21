@@ -7,9 +7,10 @@ const xVector = [1, 0];
 export class Camera {
     constructor() {
         this.tileSize = canvas.width / map.diameter;
-        this.targetTileSize = 30;
-        this.x = -canvas.width / 4
-        this.y = -30
+        this.targetTileSize = this.tileSize;
+        this.x = 0
+        this.y = 0
+        this.setHexCoordinates(0, map.radius - 1)
     }
 
     update() {
@@ -25,9 +26,6 @@ export class Camera {
         if (input.isKeyDown('d')) {
             this.x += 500 * deltaTime
         }
-        if (input.mouseWheel != 0) {
-            this.targetTileSize *= Math.pow(1.2, input.mouseWheel)
-        }
         if (Math.abs(this.targetTileSize - this.tileSize) < 0.1) {
             this.tileSize = this.targetTileSize
         }
@@ -37,10 +35,9 @@ export class Camera {
     }
 
     screenToHex(screenX, screenY) {
-        let world_screenY = screenY + this.y
-        let world_screenX = screenX + this.x
+        let world_screenY = screenY + this.y - canvas.height / 2
 
-        let hexYGuess = (world_screenY / Math.cos(Math.PI / 6) - this.tileSize / 2) / (yVector[1] * this.tileSize);
+        let hexYGuess = (world_screenY / Math.cos(Math.PI / 6)) / (yVector[1] * this.tileSize);
         let clickedRows = [Math.floor(hexYGuess), Math.ceil(hexYGuess)]
 
         let min_distance_squared = 100000000000000000000000;
@@ -68,8 +65,14 @@ export class Camera {
         let worldX = hexY * yVector[0] + hexX * xVector[0];
         let worldY = hexY * yVector[1];
         return [
-            (worldX * this.tileSize + (this.tileSize / 2)) * Math.cos(Math.PI / 6) - this.x,
-            (worldY * this.tileSize + (this.tileSize / 2)) * Math.cos(Math.PI / 6) - this.y
+            (worldX * this.tileSize) * Math.cos(Math.PI / 6) - this.x + canvas.width / 2,
+            (worldY * this.tileSize) * Math.cos(Math.PI / 6) - this.y + canvas.height / 2
         ];
+    }
+
+    setHexCoordinates(hexX, hexY) {
+        const hexScreenCoordinates = this.hexToScreen(hexX, hexY)
+        this.x = hexScreenCoordinates[0] - canvas.width / 2
+        this.y = hexScreenCoordinates[1] - canvas.height / 2
     }
 }

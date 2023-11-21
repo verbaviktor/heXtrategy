@@ -44,6 +44,9 @@ function startGame() {
     map.players[0].color = '#' + playerColor
     map.players[1].color = '#' + enemyColor
     recieveInput = true
+    camera.targetTileSize = 100
+    camera.tileSize = 100
+    camera.setHexCoordinates(0, map.radius - 1)
 }
 
 function stopGame() {
