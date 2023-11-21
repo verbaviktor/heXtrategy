@@ -272,7 +272,7 @@ function GameStart(){
     playerDiv.style.width = "125vw"
     playerDiv.style.height = "125vh"
 
-    const readybutton = document.querySelectorAll("readybutton")
+    const readybutton = document.querySelectorAll(".readybutton")
     for (const button of readybutton) {
         button.style.display = "none"
     }
@@ -286,7 +286,7 @@ function GameStart(){
     profileContainer[0].style.left = "5vw"
     profileContainer[1].style.right = "5vw"
 
-    const gameCanvas = document.querySelector(".gamecanvas")
+    const gameCanvas = document.querySelector("#gamecanvas")
     gameCanvas.style.width = "100vw"
     gameCanvas.style.height = "100vh"
 }
