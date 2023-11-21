@@ -376,9 +376,7 @@ input[type="color"]::-webkit-color-swatch {
 
 #gamecanvas {
     position: absolute;
-    transform: translate(-50%, -50%);
-    top: 50%;
-    left: 50%;
+    left: calc((100% - 67.5vh) / 2);
     height: 67.5vh;
     width: 67.5vh;
     transition: ease 0.8s;

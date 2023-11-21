@@ -269,8 +269,8 @@ function GameStart(){
     const playerDiv = document.querySelector('#players-lobby')
     playerDiv.style.top = "-10vh";
     playerDiv.style.left = "-10vw";
-    playerDiv.style.width = "121vw"
-    playerDiv.style.height = "121vh"
+    playerDiv.style.width = "120vw"
+    playerDiv.style.height = "120vh"
     playerDiv.style.zIndex = "1"
 
     const readybutton = document.querySelectorAll(".readybutton")
@@ -288,8 +288,10 @@ function GameStart(){
     profileContainer[1].style.right = "5vw"
 
     const gameCanvas = document.querySelector("#gamecanvas")
-    gameCanvas.style.width = "105vw"
-    gameCanvas.style.height = "105vh"
+    gameCanvas.style.width = "100vw"
+    gameCanvas.style.height = "100vh"
+    gameCanvas.style.left = "10vw"
+    gameCanvas.style.top = "10vh"
     gameCanvas.style.zIndex = "2"
 
 }
