@@ -53,6 +53,11 @@ export class Army {
                 this.targetY += this.direction[1];
                 currentTile = map.getTileAt(this.targetX, this.targetY);
             }
+
+            if (currentTile === undefined) {
+                this.removeArmy()
+                return
+            }
             
             if (this.connectionIndex == null) {
                 this.connectionIndex = this.player.connections.length;
