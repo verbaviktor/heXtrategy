@@ -1,4 +1,4 @@
-import { camera } from "./script.js"
+import { camera, recieveInput } from "./script.js"
 
 const ButtonState = {
     UP: 0,
@@ -14,31 +14,44 @@ export class InputHandler {
         this.mouseWheel = 0;
         this.keys = {}
         document.addEventListener('mousedown', (mouseButtonDown) => {
-            const key = 'mouseButton' + mouseButtonDown.button
-            if (!this.isKeyDown(key)) {
-                this.keys[key] = ButtonState.PRESSED
+            if (recieveInput) {
+                const key = 'mouseButton' + mouseButtonDown.button
+                if (!this.isKeyDown(key)) {
+                    this.keys[key] = ButtonState.PRESSED
+                }
             }
         })
         document.addEventListener('mouseup', (mouseButtonDown) => {
-            const key = 'mouseButton' + mouseButtonDown.button
-            if (this.isKeyDown(key)) {
-                this.keys[key] = ButtonState.RELEASED
+            if (recieveInput) {
+                const key = 'mouseButton' + mouseButtonDown.button
+                if (this.isKeyDown(key)) {
+                    this.keys[key] = ButtonState.RELEASED
+                }
             }
         })
         document.addEventListener('mousemove', (mouseMove) => {
-            this.mousePosition = [mouseMove.clientX, mouseMove.clientY]
+            if (recieveInput) {
+                this.mousePosition = [mouseMove.clientX, mouseMove.clientY]
+            }
         })
         document.addEventListener('wheel', (mouseWheel) => {
-            this.mouseWheel = -Math.sign(mouseWheel.deltaY)
+            if (recieveInput) {
+                this.mouseWheel = -Math.sign(mouseWheel.deltaY)
+            }
         })
         document.addEventListener('keydown', (event) => {
-            if (!this.isKeyDown(event.key)) {
-                this.keys[event.key] = ButtonState.PRESSED
+            if (recieveInput) {
+                console.log(recieveInput)
+                if (!this.isKeyDown(event.key)) {
+                    this.keys[event.key] = ButtonState.PRESSED
+                }
             }
         })
         document.addEventListener('keyup', (event) => {
-            if (this.isKeyDown(event.key)) {
-                this.keys[event.key] = ButtonState.RELEASED
+            if (recieveInput) {
+                if (this.isKeyDown(event.key)) {
+                    this.keys[event.key] = ButtonState.RELEASED
+                }
             }
         })
     }

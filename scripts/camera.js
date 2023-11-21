@@ -1,14 +1,14 @@
 import { lerpNumber } from "./engine.js";
-import { ctx, deltaTime, input, map } from "./script.js";
+import { canvas, ctx, deltaTime, input, map } from "./script.js";
 
 const yVector = [Math.cos(Math.PI / 3), Math.sin(Math.PI / 3)];
 const xVector = [1, 0];
 
 export class Camera {
     constructor() {
-        this.tileSize = 30;
+        this.tileSize = canvas.width / map.diameter;
         this.targetTileSize = 30;
-        this.x = -175
+        this.x = -canvas.width / 4
         this.y = -30
     }
 

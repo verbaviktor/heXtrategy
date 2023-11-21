@@ -4,15 +4,19 @@ import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
 
-document.addEventListener('startGame', () => startGame())
+document.addEventListener('startGame', (event) => startGame(event.detail))
+document.addEventListener('stopGame', () => stopGame())
 
-let canvas = document.querySelector('#gamecanvas');
+let run = false
+export var recieveInput = false
+
+export let canvas = document.querySelector('#gamecanvas');
 const canvasStyle = window.getComputedStyle(canvas);
 canvas.width = parseFloat(canvasStyle.width.slice(0, canvasStyle.width.length - 2))
 canvas.height = parseFloat(canvasStyle.height.slice(0, canvasStyle.width.length - 2))
 export let ctx = canvas.getContext('2d');
-export let map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")]);
-export let camera = new Camera();
+export let map;
+export let camera;
 export let input = new InputHandler();
 export let hoveredTileCoordinates;
 var lastTime = 0;
@@ -21,11 +25,20 @@ let hexCoordinates;
 let clickedTile;
 
 function startGame(lobbyId) {
-    camera = new Camera()
     map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")], lobbyId)
+    camera = new Camera()
+    requestAnimationFrame(gameLoop);
+    run = true
+}
+
+function stopGame() {
+    run = false
 }
 
 function gameLoop(timestamp) {
+    if (!run) {
+        return
+    }
     deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -65,7 +78,8 @@ function gameLoop(timestamp) {
         map.playerInTurn.startTurn();
     }
     camera.update();
-    input.update();
+    if (recieveInput) {
+        input.update();
+    }
     requestAnimationFrame(gameLoop);
 }
-requestAnimationFrame(gameLoop);

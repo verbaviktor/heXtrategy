@@ -2,12 +2,20 @@ let playerReady = false;
 let lobbies = [];
 let fetchingEnemy = false;
 let fetchingLobbies = false;
+var fetchingGame = false;
 let username = ""
 var lobbyId = ""
 
 setInterval(async () => {
     if (fetchingEnemy) {
-        const response = await (await getRequest('lobby/lobbyinfo')).json()
+        let response = await getRequest('lobby/lobbyinfo')
+        console.log(response.status)
+        response = await response.json()
+        if (response.status == 100) {
+            console.log("Game started!")
+            fetchingEnemy = false
+            fetchingGame = true
+        }
         setEnemyProfile(response)
     }
     if (fetchingLobbies) {
@@ -117,17 +125,22 @@ async function listHtmlLobbies() {
     }
 }
 
-
 async function createLobby() {
     playerReady = false;
     fetchingEnemy = true;
-    await postRequest('menu/createlobby');
+    const response = await postRequest('menu/createlobby');
+    if (response.status != 201) {
+        return
+    }
+
+    lobbyId = (await response.json()).lobbyId
     showPlayersLobby();
 }
 async function joinLobby(index) {
     playerReady = false;
     fetchingEnemy = true;
     await postRequest('menu/joinlobby', { lobbyId: lobbies[index].id });
+    lobbyId = lobbies[index].id
     showPlayersLobby();
     const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
     enemyProfilePicture.src = lobbies[index].users[0].profileUrl;
@@ -176,8 +189,7 @@ function showPlayersLobby() {
     playerDiv.style.top = '29.5vh';
     fetchingEnemy = true
     fetchingLobbies = false
-    const startGameEvent = new CustomEvent('startGame', {lobbyId: lobbyId})
-    console.log("Showing lobby")
+    const startGameEvent = new CustomEvent('startGame', { detail: lobbyId })
     document.dispatchEvent(startGameEvent)
 }
 async function hidePlayersLobby() {
