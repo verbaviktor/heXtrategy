@@ -4,8 +4,9 @@ import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
 
-document.addEventListener('startGame', (event) => startGame(event.detail))
-document.addEventListener('stopGame', () => stopGame())
+document.addEventListener('startRender', (event) => startRender(event.detail))
+document.addEventListener('stopRender', () => stopRender())
+document.addEventListener('startGame', () => startGame(plyer1color, player2color))
 
 let run = false
 export var recieveInput = false
@@ -24,21 +25,31 @@ export let deltaTime = 0;
 let hexCoordinates;
 let clickedTile;
 
-function startGame(lobbyId) {
+function startRender(lobbyId) {
     map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")], lobbyId)
     camera = new Camera()
     requestAnimationFrame(gameLoop);
     run = true
 }
 
-function stopGame() {
+function stopRender() {
     run = false
+}
+
+function startGame(player1color, player2color) {
+    map.players[0].color = '#' + playerColor
+    map.players[1].color = '#' + enemyColor
+    recieveInput = true
 }
 
 function gameLoop(timestamp) {
     if (!run) {
         return
     }
+    const canvasStyle = window.getComputedStyle(canvas);
+    canvas.width = parseFloat(canvasStyle.width.slice(0, canvasStyle.width.length - 2))
+    canvas.height = parseFloat(canvasStyle.height.slice(0, canvasStyle.width.length - 2))
+
     deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
