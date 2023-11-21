@@ -7,7 +7,6 @@ export function hexToRgb(hex) {
     const r = (bigint >> 16) & 255;
     const g = (bigint >> 8) & 255;
     const b = bigint & 255;
-
     return { r, g, b };
 }
 
@@ -22,28 +21,38 @@ function rgbToHex(r, g, b) {
 
 export function darkenColor(hex, factor) {
     const { r, g, b } = hexToRgb(hex);
-    
+
     // Multiply each component by the factor
     const newR = Math.round(r * factor);
     const newG = Math.round(g * factor);
     const newB = Math.round(b * factor);
-    
+
     // Convert back to hex
     return rgbToHex(newR, newG, newB);
 }
 
 export function lerpNumber(a, b, t) {
+    if (t > 1) {
+        return b
+    }
     return a + (b - a) * t
 }
 
 export function lerpVector(a, b, t) {
+    if (t > 1) {
+        return b
+    }
     return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]
 }
 
-export function vhToPixels(vh) {
-    console.log(vh)
-    vh = parseFloat(vh.slpice(0, vh.length - 2))
-    console.log(vh.splice(0, vh.length - 2))
-    var windowHeight = window.innerHeight;
-    return (vh * windowHeight) / 100;
+export function lerpColor(a, b, t) {
+    if (t > 1) {
+        return b
+    }
+    const aRGB = hexToRgb(a)
+    const bRGB = hexToRgb(b)
+    const tR = Math.ceil(lerpNumber(aRGB.r, bRGB.r, t))
+    const tG = Math.ceil(lerpNumber(aRGB.g, bRGB.g, t))
+    const tB = Math.ceil(lerpNumber(aRGB.b, bRGB.b, t))
+    return rgbToHex(tR, tG, tB)
 }

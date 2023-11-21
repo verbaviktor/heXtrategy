@@ -1,22 +1,14 @@
 import { Camp } from "./tiles/camp.js";
 
 export class Player{
-    constructor(color){
+    constructor(color) {
         this.numberOfTowers = 0;
         this.numberOfCastles = 0;
         this.base;
         this.gold = 20;
         this.armies = [];
-        this.villages = [];
         this.connections = [];
         this.color = color;
-    }
-    
-    startTurn(){
-        this.villages.forEach(village => {
-            village.upgrade();
-            this.gold += village.level;
-        })
     }
 
     armyOfTile(tile){
@@ -30,10 +22,10 @@ export class Player{
     }
 
     breakConnections(currentTile){
+        console.log("aasd")
         currentTile.player = null;
         let currentTileIndex;
         this.connections.forEach(connection => {
-            console.log(connection)
             for (let i = 0; i < connection.length; i++) {
                 if (i > currentTileIndex) {
                     connection[i].player = null;
@@ -43,6 +35,7 @@ export class Player{
                 }                
             }
         });
+        console.log(this.connections)
         this.updateConnections();
     }
 
@@ -66,29 +59,36 @@ export class Player{
         });
     }
     
-    newConnection(newConnection){
+    newConnection(newConnection, connectionIndex){
         let longerConnection;
         let shorterConnection;
         let containsEveryTile = true;
         this.connections.forEach(connection => {
-            if (newConnection.length >= connection.length) {
-                longerConnection = newConnection;
-                shorterConnection = connection;
-            }
-            else{
-                longerConnection = connection;
-                shorterConnection = newConnection;
-            }
-            
-            shorterConnection.forEach(tile => {
-                if (!longerConnection.includes(tile)) {
-                    containsEveryTile = false;
+            if (connection) {
+                if (newConnection.length >= connection.length) {
+                    longerConnection = newConnection;
+                    shorterConnection = connection;
                 }
-            });
+                else{
+                    longerConnection = connection;
+                    shorterConnection = newConnection;
+                }
+                
+                shorterConnection.forEach(tile => {
+                    if (!longerConnection.includes(tile)) {
+                        containsEveryTile = false;
+                    }
+                });
+            }
         });
-        this.connections.push(newConnection);
+        this.connections.push([]);
+        this.connections[connectionIndex] = (newConnection);
         if (containsEveryTile) {
             this.connections = this.connections.filter((cn) => cn != shorterConnection);
         }
+    }
+
+    endGame(){
+
     }
 }

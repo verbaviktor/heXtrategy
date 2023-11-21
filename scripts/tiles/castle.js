@@ -14,7 +14,7 @@ export class Castle extends Tower{
         if (this.hp < this.maxHp) {
             this.heal();
         }
-        else if (!this.armyTrained && this.player.gold >= this.armyCost) {
+        else if (!this.player.armyOfTile(this) && this.player.gold >= this.armyCost) {
             this.armyTrained = true;
             this.player.gold -= this.armyCost;
             this.player.armies.push(new Army(this.x, this.y, this.player));

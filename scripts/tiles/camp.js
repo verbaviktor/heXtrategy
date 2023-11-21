@@ -6,7 +6,6 @@ export class Camp extends Hex{
         super(x, y);
         this.img.src = "../resources/Camp.svg";
         this.player = player;
-        this.armyTrained = false;
         this.upgradeCost *= (this.player.numberOfTowers + 1);
         this.maxHp = 1;
         this.hp = this.maxHp;
@@ -31,6 +30,24 @@ export class Camp extends Hex{
             this.player.breakConnections(this);
             newHex.player = otherPlayer[0];
             return newHex;
+        }
+    }
+
+    onArmyMove(army){
+        if (army.player == this.player) {
+            army.direction = null;
+            army.stepsMade = 0;
+        }
+        else{
+            let damagedCamp = this.damage();
+            if (damagedCamp instanceof Camp) {
+                army.direction = null;
+                army.stepsMade = 0;
+                army.removeArmy();
+            }
+            else{
+                damagedCamp.player = army.player;
+            }
         }
     }
 }
