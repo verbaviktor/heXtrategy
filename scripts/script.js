@@ -51,11 +51,6 @@ function gameLoop(timestamp) {
     }
 
     if (input.isKeyPressed("n")) {
-        map.players.forEach(player => {
-            player.armies.forEach(army => {
-                army.moveArmy();
-            });
-        });
         map.onEndTurn(map.playerInTurn)
         const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
         map.playerInTurn = otherPlayer[0];

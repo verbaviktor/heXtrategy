@@ -127,6 +127,11 @@ export class Map {
     }
 
     onEndTurn(player) {
+        for (const player of this.players) {
+            for (const army of player.armies) {
+                army.onEndTurn()
+            }
+        }
         for (const row of this.matrix) {
             for (const hex of row) {
                 hex.onEndTurn(player)

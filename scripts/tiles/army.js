@@ -29,7 +29,7 @@ export class Army {
         ctx.drawImage(this.img, tileCenter[0] - camera.tileSize / 2, tileCenter[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
     }
 
-    removeArmy(){
+    removeArmy() {
         this.player.armies = this.player.armies.filter((army) => army != this);
     }
 
@@ -44,7 +44,7 @@ export class Army {
         }
         return null;
     }
-    
+
     moveArmy() {
         if (this.stepsMade < 6 && this.direction) {
             let currentTile;
@@ -53,7 +53,6 @@ export class Army {
                 this.targetX += this.direction[0];
                 this.targetY += this.direction[1];
                 currentTile = map.getTileAt(this.targetX, this.targetY);
-                this.stepsMade++;
             }
 
             if (currentTile === undefined) {
@@ -62,7 +61,7 @@ export class Army {
             }
 
             currentTile.onArmyMove(this)
-            
+
             // if (this.connectionIndex == null) {
             //     this.connectionIndex = this.player.connections.length;
             //     connection[0] = currentTile;
@@ -94,7 +93,7 @@ export class Army {
             //         connection.push(currentTile);
             //     }
             // }
-            
+
             // if (currentTile.player != this.player) {
             //     this.removeArmy();
             // }
@@ -113,10 +112,13 @@ export class Army {
             // console.log(connection)
             // console.log(this.connectionIndex)
             // this.player.newConnection(connection, this.connectionIndex);
-            // this.stepsMade++;
+            this.stepsMade++;
         }
-        else if(this.stepsMade >= 6){
+        else if (this.stepsMade >= 6) {
             this.removeArmy();
         }
+    }
+    onEndTurn(player) {
+        this.moveArmy()
     }
 }
