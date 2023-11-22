@@ -116,7 +116,12 @@ function gameLoop(timestamp) {
 }
 
 function startTurn(actions) {
-    console.log(actions)
+    const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
+    map.playerInTurn = otherPlayer[0];
+
+    actions.forEach(action => {
+        action.execute();
+    });
 }
 
 function endturn() {

@@ -19,6 +19,8 @@ export class Hex {
             this.player.gold -= this.upgradeCost;
             map.placeTile(camp);
             this.player.numberOfCamps++;
+        }
+        if (map.playerInTurn == this.player) {
             actions.push(new Action(this.x, this.y, ActionType.BUILDCAMP));
         }
     }
