@@ -4,6 +4,7 @@ import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
 import { Camp } from "./tiles/camp.js";
+import { updateStats } from "./updateHTML.js";
 
 document.addEventListener('startRender', (event) => startRender(event.detail))
 document.addEventListener('stopRender', () => stopRender())
@@ -81,6 +82,7 @@ function gameLoop(timestamp) {
     // ctx.fillStyle = "#1a1a1a";
     // ctx.fill();
     map.render();
+    updateStats();
     hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
 
     if (input.isKeyPressed("mouseButton0")) {
