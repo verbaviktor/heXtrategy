@@ -13,6 +13,7 @@ export class Castle extends Tower{
     }
 
     trainArmy(){
+        let trainedArmy = false
         if (this.hp < this.maxHp) {
             this.heal();
         }
@@ -20,9 +21,8 @@ export class Castle extends Tower{
             this.armyTrained = true;
             this.player.gold -= this.armyCost;
             this.player.armies.push(new Army(this.x, this.y, this.player));
+            trainedArmy = true
         }
-        if (map.playerInTurn == this.player) {
-            this.createAction = true;
-        }
+        return trainedArmy
     }
 }

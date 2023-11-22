@@ -1,5 +1,5 @@
 import { Action, ActionType } from "../action.js";
-import { lerpVector } from "../engine.js";
+import { darkenColor, lerpVector } from "../engine.js";
 import { actions, camera, ctx, deltaTime, map } from "../script.js";
 
 export class Army {
@@ -23,6 +23,17 @@ export class Army {
         this.renderedY = lerpedPosition[1];
         const tileCenter = camera.hexToScreen(this.renderedX, this.renderedY);
         ctx.drawImage(this.img, tileCenter[0] - camera.tileSize / 2, tileCenter[1] - camera.tileSize / 2, camera.tileSize, camera.tileSize);
+        if (this.direction) {
+            ctx.globalAlpha = 0.75
+            ctx.beginPath()
+            ctx.moveTo(tileCenter[0], tileCenter[1])
+            const directionTileCenter = camera.hexToScreen(this.targetX + this.direction[0], this.targetY + this.direction[1]);
+            ctx.lineTo(directionTileCenter[0], directionTileCenter[1])
+            ctx.strokeStyle = darkenColor(this.player.color, 0.75)
+            ctx.lineWidth = 7
+            ctx.stroke()
+            ctx.globalAlpha = 1
+        }
     }
 
     removeArmy() {

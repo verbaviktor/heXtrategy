@@ -117,8 +117,9 @@ export class Map {
 
     tileClicked(tile) {
         if (tile instanceof Castle) {
-            tile.trainArmy();
-            actions.push(new Action(tile.x, tile.y, ActionType.TRAINARMY));
+            if (tile.trainArmy()) {
+                actions.push(new Action(tile.x, tile.y, ActionType.TRAINARMY));
+            }
         }
         else if (tile.constructor.name == "Hex") {
             tile.placeCamp(new Camp(tile.x, tile.y, tile.player));
