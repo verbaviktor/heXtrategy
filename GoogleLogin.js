@@ -160,6 +160,11 @@ async function joinLobby(index) {
     enemyProfilePicture.src = lobbies[index].users[0].profileUrl;
     const enemyUsername = document.querySelector('.enemy.username');
     enemyUsername.innerHTML = lobbies[index].users[0].username;
+
+    const readyButton = document.querySelector('.player.readybutton')
+    readyButton.innerHTML = 'Not Ready'
+    readyButton.style.backgroundColor = '#ea4335'
+
 }
 function setEnemyProfile(response) {
     if (response.lobbyInfo.users.length == 1) {
