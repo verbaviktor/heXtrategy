@@ -452,6 +452,7 @@ input[type="color"]::-webkit-color-swatch {
 #endturn:hover {
     transform: scale(1.05);
     transition: 0.2s;
+}
 .profile-data{
     margin-top: 5vh;
     display: grid;
