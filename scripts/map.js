@@ -7,6 +7,8 @@ import { Tower } from "./tiles/tower.js";
 import { Castle } from "./tiles/castle.js";
 import { Base } from "./tiles/base.js";
 import { generateControlledNoise } from "./noise.js";
+import { actions } from "./script.js";
+import { Action, ActionType } from "./action.js";
 
 export class Map {
     constructor(radius, players, seed) {

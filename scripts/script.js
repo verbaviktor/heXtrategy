@@ -6,12 +6,14 @@ import { Camp } from "./tiles/camp.js";
 
 document.addEventListener('startRender', (event) => startRender(event.detail))
 document.addEventListener('stopRender', () => stopRender())
+document.addEventListener('enemyChanged', () => setEnemyColor())
 document.addEventListener('startGame', () => startGame())
 document.addEventListener('stopGame', () => stopGame())
+document.addEventListener('yourTurn', (event) => startTurn(event.detail))
+document.addEventListener('endTurn', () => endturn())
 
 let run = false
 export var recieveInput = false
-
 export let canvas = document.querySelector('#gamecanvas');
 const canvasStyle = window.getComputedStyle(canvas);
 canvas.width = parseFloat(canvasStyle.width.slice(0, canvasStyle.width.length - 2))
@@ -20,7 +22,7 @@ export let ctx = canvas.getContext('2d');
 export let map;
 export let camera;
 export let input = new InputHandler();
-export let actions = [];
+export var actions = [];
 export let hoveredTileCoordinates;
 var lastTime = 0;
 export let deltaTime = 0;
@@ -29,6 +31,9 @@ let clickedTile;
 
 function startRender(lobbyId) {
     map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")], lobbyId)
+    console.log(map.players, playerIndex)
+    map.players[playerIndex].color = '#' + playerColor
+    map.players[1 - playerIndex].color = '#' + enemyColor
     camera = new Camera()
     requestAnimationFrame(gameLoop);
     run = true
@@ -39,14 +44,18 @@ function stopRender() {
 }
 
 function startGame() {
-    console.log(playerColor)
-    console.log(enemyColor)
-    map.players[0].color = '#' + playerColor
-    map.players[1].color = '#' + enemyColor
+    map.players[playerIndex].color = '#' + playerColor
+    map.players[1 - playerIndex].color = '#' + enemyColor
     recieveInput = true
     camera.targetTileSize = 100
     camera.tileSize = 100
     camera.setHexCoordinates(0, map.radius - 1)
+}
+
+function setEnemyColor() {
+    console.log(playerIndex)
+    map.players[playerIndex].color = '#' + playerColor
+    map.players[1 - playerIndex].color = '#' + enemyColor
 }
 
 function stopGame() {
@@ -76,11 +85,8 @@ function gameLoop(timestamp) {
         if (hexCoordinates) {
             clickedTile = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
-        if (clickedTile && clickedTile.player == map.playerInTurn) {
-            map.tileClicked(clickedTile);
-        }
     }
-    
+
     if (input.isKeyReleased("mouseButton0")) {
         let destination;
         if (hexCoordinates) {
@@ -90,23 +96,35 @@ function gameLoop(timestamp) {
         if (hexCoordinates) {
             destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
-        if (clickedTile && clickedTile.player == map.playerInTurn && destination && clickedTile.player.armyOfTile(clickedTile) && clickedTile instanceof Camp) {
-            clickedTile.player.armyOfTile(clickedTile).direction = clickedTile.player.armyOfTile(clickedTile).getMovementDirection(destination);
-        }
-        if (clickedTile && clickedTile.player == map.playerInTurn) {
-            map.tileClicked(clickedTile);
+        console.log(map.playerInTurn.color)
+        console.log(playerColor)
+        if (map.playerInTurn.color == '#' + playerColor) {
+            if (clickedTile && clickedTile.player == map.playerInTurn && destination && clickedTile.player.armyOfTile(clickedTile) && clickedTile instanceof Camp) {
+                clickedTile.player.armyOfTile(clickedTile).direction = clickedTile.player.armyOfTile(clickedTile).getMovementDirection(destination);
+            }
+            if (clickedTile && clickedTile.player == map.playerInTurn) {
+                map.tileClicked(clickedTile);
+            }
         }
     }
 
-    if (input.isKeyPressed("n")) {
-        map.onEndTurn(map.playerInTurn)
-        const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
-        map.playerInTurn = otherPlayer[0];
-        // map.playerInTurn.startTurn();
-    }
     camera.update();
     if (recieveInput) {
         input.update();
     }
     requestAnimationFrame(gameLoop);
+}
+
+function startTurn(actions) {
+    console.log(actions)
+}
+
+function endturn() {
+    console.log("Ending turn")
+    fetchingGame = true
+    map.onEndTurn(map.playerInTurn)
+    const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
+    map.playerInTurn = otherPlayer[0];
+    postRequest('game/endturn', actions)
+    actions = []
 }

@@ -7,7 +7,7 @@ let username = ""
 var lobbyId = ""
 var playerIndex = ""
 var playerColor = ""
-var enemyColor = ""
+var enemyColor = "ececec"
 
 setInterval(async () => {
     if (fetchingEnemy) {
@@ -22,12 +22,17 @@ setInterval(async () => {
             GameStart()
         }
         else {
-            playerIndex = responseData.users.findIndex((user) => user.username == username)
+            playerIndex = responseData.playerIndex
+            const enemyChangedEvent = new CustomEvent('enemyChanged')
+            document.dispatchEvent(enemyChangedEvent)
             setEnemyProfile(responseData)
         }
     }
     if (fetchingLobbies) {
         listHtmlLobbies()
+    }
+    if (fetchingGame) {
+        fetchGame()
     }
 }, 2000)
 
@@ -66,7 +71,6 @@ function parseJwt(token) {
 
 function Load() {
     var login = document.querySelector(".login-container")
-    console.log("LOAD")
     login.style.top = `25vh`;
 }
 
@@ -141,7 +145,7 @@ async function createLobby() {
     if (response.status != 201) {
         return
     }
-
+    playerIndex = 0
     lobbyId = (await response.json()).lobbyId
     showPlayersLobby();
 }
@@ -150,6 +154,7 @@ async function joinLobby(index) {
     fetchingEnemy = true;
     await postRequest('menu/joinlobby', { lobbyId: lobbies[index].id });
     lobbyId = lobbies[index].id
+    playerIndex = 1
     showPlayersLobby();
     const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
     enemyProfilePicture.src = lobbies[index].users[0].profileUrl;
@@ -157,7 +162,7 @@ async function joinLobby(index) {
     enemyUsername.innerHTML = lobbies[index].users[0].username;
 }
 function setEnemyProfile(response) {
-    if (response.users.length == 1) {
+    if (response.lobbyInfo.users.length == 1) {
         const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
         enemyProfilePicture.src = "https://www.htmlcsscolor.com/preview/128x128/5E5E5E.png";
         const enemyUsername = document.querySelector('.enemy.username');
@@ -166,9 +171,12 @@ function setEnemyProfile(response) {
         const text = readyButton.querySelector('.text-center');
         readyButton.style.backgroundColor = '#ea4335'
         text.innerHTML = 'Not Ready'
+        enemyColor = 'ececec'
+        const enemyChangedEvent = new CustomEvent('enemyChanged')
+        document.dispatchEvent(enemyChangedEvent)
         return
     }
-    const enemy = response.users.filter((user) => user.username != username)[0]
+    const enemy = response.lobbyInfo.users.filter((user) => user.username != username)[0]
     const enemyProfilePicture = document.querySelector('.enemy.profile-picture');
     enemyProfilePicture.src = enemy.profileUrl;
     const enemyUsername = document.querySelector('.enemy.username');
@@ -186,6 +194,8 @@ function setEnemyProfile(response) {
     }
 
     enemyColor = enemy.color
+    const enemyChangedEvent = new CustomEvent('enemyChanged')
+    document.dispatchEvent(enemyChangedEvent)
 }
 function showPlayerProfile() {
     const playerDiv = document.querySelector('.playerprofile')
@@ -334,6 +344,21 @@ async function surrender() {
     exitbutton.style.pointerEvents = "all"
     fetchingGame = false
     fetchingLobbies = true
+}
+
+async function endturn() {
+    const endTurnEvent = new CustomEvent('endTurn')
+    document.dispatchEvent(endTurnEvent)
+}
+
+async function fetchGame() {
+    const fetchResponse = await getRequest('game/fetchgame')
+    if (fetchResponse.status == 201) {
+        const responseData = await fetchResponse.json()
+        fetchingGame = false
+        const yourTurnEvent = new CustomEvent('yourTurn', { detail: responseData })
+        document.dispatchEvent(yourTurnEvent)
+    }
 }
 
 window.onbeforeunload = hidePlayersLobby;

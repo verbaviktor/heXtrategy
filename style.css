@@ -408,14 +408,21 @@ input[type="color"]::-webkit-color-swatch {
     cursor: pointer;
     z-index: 3;
 }
+
 #game-ui {
     position: absolute;
-    top: 100vh;
-    left: 15vw;
+    top: 95vh;
+    left: 10vw;
+    width: 100vw;
+    height: 96px;
     transition: ease 0.8s;
     z-index: 4;
 }
+
 #surrender {
+    position: absolute;
+    left: 5vw;
+    top: 16px;
     width: 25vw;
     height: 64px;
     background-color: #ea4335;
@@ -423,7 +430,26 @@ input[type="color"]::-webkit-color-swatch {
     border-radius: 32px;
     cursor: pointer;
 }
+
 #surrender:hover {
+    transform: scale(1.05);
+    transition: 0.2s;
+}
+
+#endturn {
+    position: absolute;
+    right: 5vw;
+    top: 16px;
+    width: 25vw;
+    height: 64px;
+    background-color: black;
+    color: #ececec;
+    font-size: 32px;
+    border-radius: 32px;
+    cursor: pointer;
+}
+
+#endturn:hover {
     transform: scale(1.05);
     transition: 0.2s;
 }
