@@ -348,6 +348,7 @@ input[type="color"]::-webkit-color-swatch {
     height: calc(100% - 2vw);
     width: 40%;
     transition: ease 0.8s;
+    user-select: none;
 }
 
 #ally {
@@ -463,12 +464,12 @@ input[type="color"]::-webkit-color-swatch {
     color: white;
     text-align:  center;
     font-size: 2vw;
-
+    user-select: none;
 }
 .profile-data img {
     height: 60px;
 }
 .float-right{
     float: right;
-    margin-top: 5vw;
+    margin-top: 10vh;
 }

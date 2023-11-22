@@ -361,6 +361,12 @@ async function endturn() {
     const endTurnEvent = new CustomEvent('endTurn')
     document.dispatchEvent(endTurnEvent)
     console.log("ENDTURNSDDFKLHJ")
+
+    var turnbutton = document.querySelector("#endturn")
+    var turnbuttonText = turnbutton.querySelector(".text-center")
+    turnbuttonText.innerText = "enemy's turn"
+    turnbutton.style.pointerEvents = "none"
+    turnbutton.style.backgroundColor = "#333333"
 }
 
 async function fetchGame() {
@@ -370,6 +376,12 @@ async function fetchGame() {
         fetchingGame = false
         const yourTurnEvent = new CustomEvent('yourTurn', { detail: responseData })
         document.dispatchEvent(yourTurnEvent)
+
+        var turnbutton = document.querySelector("#endturn")
+        var turnbuttonText = turnbutton.querySelector(".text-center")
+        turnbuttonText.innerText = "end turn"
+        turnbutton.style.pointerEvents = "all"
+        turnbutton.style.backgroundColor = "black"
     }
 }
 
