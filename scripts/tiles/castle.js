@@ -1,6 +1,7 @@
 import { Tower } from "./tower.js";
 import { Army } from "./army.js";
-import { map } from "../script.js";
+import { actions, map } from "../script.js";
+import { Action } from "../action.js";
 
 export class Castle extends Tower{
     constructor(x, y, player){

@@ -1,4 +1,4 @@
-import { actions, map } from "./script.js"
+import { map } from "./script.js"
 import { Camp } from "./tiles/camp.js"
 import { Castle } from "./tiles/castle.js"
 import { Tower } from "./tiles/tower.js"
@@ -42,10 +42,7 @@ export class Action {
         }
         else if(this.type == "MOVEARMY"){
             const army = map.playerInTurn.armyOfTile(tile);
-            army.targetX = this.x;
-            army.targetY = this.y;
             army.direction = [this.destX, this.destY];
-            army.moveArmy();
         }
     }
 }

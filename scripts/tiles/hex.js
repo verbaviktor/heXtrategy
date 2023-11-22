@@ -1,6 +1,5 @@
-import { Action, ActionType } from "../action.js";
 import { darkenColor, lerpColor } from "../engine.js";
-import { actions, camera, ctx, deltaTime, map } from "../script.js";
+import { camera, ctx, deltaTime, map } from "../script.js";
 
 export class Hex {
     constructor(x, y) {

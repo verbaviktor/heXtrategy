@@ -14,7 +14,6 @@ setInterval(async () => {
         let response = await getRequest('lobby/lobbyinfo')
         let responseData = await response.json()
         if (response.status == 201) {
-            console.log("Lobby started")
             const startGameEvent = new CustomEvent('startGame')
             document.dispatchEvent(startGameEvent)
             fetchingEnemy = false
@@ -147,6 +146,12 @@ async function createLobby() {
     }
     playerIndex = 0
     lobbyId = (await response.json()).lobbyId
+
+    const readyButton = document.querySelector('.player.readybutton')
+    const readyButtonText = readyButton.querySelector('.text-center')
+    readyButtonText.innerHTML = 'Not Ready'
+    readyButton.style.backgroundColor = '#ea4335'
+
     showPlayersLobby();
 }
 async function joinLobby(index) {
@@ -162,7 +167,8 @@ async function joinLobby(index) {
     enemyUsername.innerHTML = lobbies[index].users[0].username;
 
     const readyButton = document.querySelector('.player.readybutton')
-    readyButton.innerHTML = 'Not Ready'
+    const readyButtonText = readyButton.querySelector('.text-center')
+    readyButtonText.innerHTML = 'Not Ready'
     readyButton.style.backgroundColor = '#ea4335'
 
 }
@@ -354,6 +360,7 @@ async function surrender() {
 async function endturn() {
     const endTurnEvent = new CustomEvent('endTurn')
     document.dispatchEvent(endTurnEvent)
+    console.log("ENDTURNSDDFKLHJ")
 }
 
 async function fetchGame() {

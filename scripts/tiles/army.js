@@ -36,6 +36,7 @@ export class Army {
             return null;
         }
         if (yDiff == 0 || xDiff == 0 || yDiff == xDiff * -1) {
+            actions.push(new Action(this.targetX, this.targetY, ActionType.MOVEARMY, [Math.sign(xDiff), Math.sign(yDiff)]));
             return [Math.sign(xDiff), Math.sign(yDiff)];
         }
         return null;
@@ -52,24 +53,21 @@ export class Army {
                 currentTile = map.getTileAt(this.targetX, this.targetY);
                 currentTile.onArmyMove(this);
                 currentTile = map.getTileAt(this.targetX, this.targetY);
-                
+
                 if (map.playerInTurn == this.player) {
                     this.createAction = true;
                 }
             }
-            else{
+            else {
                 this.removeArmy();
                 return
             }
         }
-        else if(this.stepsMade >= 6){
+        else if (this.stepsMade >= 6) {
             this.removeArmy();
         }
     }
     onEndTurn(player) {
         this.moveArmy()
-        if (tile.createAction) {
-            actions.push(new Action(tile.x, tile.y, ActionType.MOVEARMY, this.direction));
-        }
     }
 }

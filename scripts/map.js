@@ -118,27 +118,19 @@ export class Map {
     tileClicked(tile) {
         if (tile instanceof Castle) {
             tile.trainArmy();
-            if (tile.createAction) {
-                actions.push(new Action(tile.x, tile.y, ActionType.TRAINARMY));
-            }
+            actions.push(new Action(tile.x, tile.y, ActionType.TRAINARMY));
         }
         else if (tile.constructor.name == "Hex") {
             tile.placeCamp(new Camp(tile.x, tile.y, tile.player));
-            if (tile.createAction) {
-                actions.push(new Action(tile.x, tile.y, ActionType.BUILDCAMP));
-            }
+            actions.push(new Action(tile.x, tile.y, ActionType.BUILDCAMP));
         }
         else if (tile.constructor.name == "Camp" && !tile.player.armyOfTile(tile)) {
             tile.upgrade(new Tower(tile.x, tile.y, tile.player));
-            if (tile.createAction) {
-                actions.push(new Action(tile.x, tile.y, ActionType.BUILDTOWER));
-            }
+            actions.push(new Action(tile.x, tile.y, ActionType.BUILDTOWER));
         }
         else if (tile.constructor.name == "Tower" && !tile.player.armyOfTile(tile)) {
             tile.upgrade(new Castle(tile.x, tile.y, tile.player));
-            if (tile.createAction) {
-                actions.push(new Action(tile.x, tile.y, ActionType.BUILDCASTLE));
-            }
+            actions.push(new Action(tile.x, tile.y, ActionType.BUILDCASTLE));
         }
     }
 

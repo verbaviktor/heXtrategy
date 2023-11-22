@@ -1,3 +1,4 @@
+import { Action } from "./action.js";
 import { Camera } from "./camera.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
@@ -10,7 +11,7 @@ document.addEventListener('enemyChanged', () => setEnemyColor())
 document.addEventListener('startGame', () => startGame())
 document.addEventListener('stopGame', () => stopGame())
 document.addEventListener('yourTurn', (event) => startTurn(event.detail))
-document.addEventListener('endTurn', () => endturn())
+document.addEventListener('endTurn', async () => await endturn())
 
 let run = false
 export var recieveInput = false
@@ -44,6 +45,8 @@ function stopRender() {
 }
 
 function startGame() {
+    console.log("Lobby started")
+    console.log(playerIndex)
     map.players[playerIndex].color = '#' + playerColor
     map.players[1 - playerIndex].color = '#' + enemyColor
     recieveInput = true
@@ -96,8 +99,6 @@ function gameLoop(timestamp) {
         if (hexCoordinates) {
             destination = map.getTileAt(hexCoordinates[0], hexCoordinates[1]);
         }
-        console.log(map.playerInTurn.color)
-        console.log(playerColor)
         if (map.playerInTurn.color == '#' + playerColor) {
             if (clickedTile && clickedTile.player == map.playerInTurn && destination && clickedTile.player.armyOfTile(clickedTile) && clickedTile instanceof Camp) {
                 clickedTile.player.armyOfTile(clickedTile).direction = clickedTile.player.armyOfTile(clickedTile).getMovementDirection(destination);
@@ -116,22 +117,35 @@ function gameLoop(timestamp) {
 }
 
 function startTurn(actions) {
-    const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
-    map.playerInTurn = otherPlayer[0];
+    console.log("It's your turn!")
+    
+    if (actions) {
+        const parsedActions = []
+        for (const action of actions.actions) {
+            const parsedAction = new Action(action.x, action.y, action.type, [action.destX, action.destY])
+            parsedActions.push(parsedAction)
+        }
+        console.log(parsedActions)
+        for (const action of parsedActions) {
+            console.log(action)
+            action.execute();
+        }
+    }
 
-    actions.forEach(action => {
-        action.execute();
-    });
+    map.onEndTurn(map.playerInTurn)
+    const otherPlayer = map.players.filter((player) => player.color == '#' + playerColor);
+    map.playerInTurn = otherPlayer[0];
 }
 
-function endturn() {
-    if (map.playerInTurn.color == playerColor) {
+async function endturn() {
+    if (map.playerInTurn.color == '#' + playerColor) {
         fetchingGame = true
         map.onEndTurn(map.playerInTurn)
-        const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
+        const otherPlayer = map.players.filter((player) => player.color == '#' + enemyColor);
         map.playerInTurn = otherPlayer[0];
+        console.log("Ending turn")
         console.log(actions)
-        postRequest('game/endturn', actions)
+        await postRequest('game/endturn', actions)
         actions = []
     }
     else {

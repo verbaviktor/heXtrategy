@@ -18,7 +18,6 @@ export class Camp extends Hex {
             this.player.gold -= this.upgradeCost;
         }
         if (map.playerInTurn == this.player) {
-            // actions.push(new Action(this.x, this.y, ActionType.BUILDCASTLE));
             this.createAction = true;
         }
     }
