@@ -293,7 +293,7 @@
 
 #players-lobby {
     position: absolute;
-    top: 110vh;
+    top: 10vh;
     left: 1.7vw;
     width: 96.6vw;
     height: 67.5vh;
@@ -452,4 +452,22 @@ input[type="color"]::-webkit-color-swatch {
 #endturn:hover {
     transform: scale(1.05);
     transition: 0.2s;
+.profile-data{
+    margin-top: 5vh;
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap:  1vw;
+    width: fit-content;
+    height: fit-content;
+    color: white;
+    text-align:  center;
+    font-size: 2vw;
+
+}
+.profile-data img {
+    height: 60px;
+}
+.float-right{
+    float: right;
+    margin-top: 5vw;
 }
