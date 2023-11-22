@@ -364,7 +364,7 @@ async function endturn() {
 
     var turnbutton = document.querySelector("#endturn")
     var turnbuttonText = turnbutton.querySelector(".text-center")
-    turnbuttonText.innerText = "Enemy's turn"
+    turnbuttonText.innerText = "enemy's turn"
     turnbutton.style.pointerEvents = "none"
     turnbutton.style.backgroundColor = "#333333"
 }
