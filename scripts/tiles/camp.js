@@ -2,8 +2,8 @@ import { Hex } from "./hex.js";
 import { actions, map } from "../script.js";
 import { Action, ActionType } from "../action.js";
 
-export class Camp extends Hex{
-    constructor(x, y, player){
+export class Camp extends Hex {
+    constructor(x, y, player) {
         super(x, y);
         this.img.src = "../resources/Camp.svg";
         this.player = player;
@@ -11,10 +11,10 @@ export class Camp extends Hex{
         this.maxHp = 1;
         this.hp = this.maxHp;
     }
-    
-    upgrade(tower){
+
+    upgrade(tower) {
         if (this.player.gold >= this.upgradeCost) {
-            this.player.numberOfTowers ++;
+            this.player.numberOfTowers++;
             map.placeTile(tower);
             this.player.gold -= this.upgradeCost;
         }
@@ -23,19 +23,19 @@ export class Camp extends Hex{
         }
     }
 
-    damage(){
+    damage() {
         this.hp--;
         if (this.hp > 0) {
             return this;
         }
-        else{
+        else {
             if (this.construcor.name == "Camp") {
                 this.player.numberOfCamps--;
             }
             else if (this.construcor.name == "Tower") {
                 this.player.numberOfTowers--;
             }
-            else if (this.construcor.name == "Castle"){
+            else if (this.construcor.name == "Castle") {
                 this.player.numberOfCastles--;
             }
 
@@ -45,19 +45,19 @@ export class Camp extends Hex{
             return newHex;
         }
     }
-    
-    onArmyMove(army){
+
+    onArmyMove(army) {
         if (army.player == this.player) {
             army.direction = null;
             army.stepsMade = 0;
         }
-        else{
+        else {
             let damagedCamp = this.damage();
             map.placeTile(damagedCamp);
             if (damagedCamp instanceof Camp) {
                 army.removeArmy();
             }
-            else{
+            else {
                 damagedCamp.player = army.player;
             }
         }

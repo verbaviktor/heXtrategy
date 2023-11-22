@@ -1,7 +1,7 @@
-import { map } from "./script"
-import { Camp } from "./tiles/camp"
-import { Castle } from "./tiles/castle"
-import { Tower } from "./tiles/tower"
+import { map } from "./script.js"
+import { Camp } from "./tiles/camp.js"
+import { Castle } from "./tiles/castle.js"
+import { Tower } from "./tiles/tower.js"
 
 export const ActionType = {
     BUILDCAMP: "BUILDCAMP",
