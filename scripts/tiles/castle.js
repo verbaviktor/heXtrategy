@@ -1,7 +1,6 @@
 import { Tower } from "./tower.js";
 import { Army } from "./army.js";
-import { Action, ActionType } from "../action.js";
-import { actions, map } from "../script.js";
+import { map } from "../script.js";
 
 export class Castle extends Tower{
     constructor(x, y, player){
@@ -22,7 +21,7 @@ export class Castle extends Tower{
             this.player.armies.push(new Army(this.x, this.y, this.player));
         }
         if (map.playerInTurn == this.player) {
-            actions.push(new Action(this.x, this.y, ActionType.TRAINARMY));
+            this.createAction = true;
         }
     }
 }

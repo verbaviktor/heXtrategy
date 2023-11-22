@@ -12,6 +12,7 @@ export class Hex {
         this.color = '#F0F0F0'
         this.targetColor = '#F0F0F0'
         this.upgradeCost = 2;
+        this.createAction = false;
     }
 
     placeCamp(camp) {
@@ -21,7 +22,7 @@ export class Hex {
             this.player.numberOfCamps++;
         }
         if (map.playerInTurn == this.player) {
-            actions.push(new Action(this.x, this.y, ActionType.BUILDCAMP));
+            this.createAction = true;
         }
     }
 

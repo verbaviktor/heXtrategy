@@ -11,6 +11,7 @@ export class Army {
         this.targetY = y;
         this.direction;
         this.stepsMade = 0;
+        this.createAction = false;
         let img = new Image();
         img.src = "../resources/ArmyBanner.svg";
         this.img = img;
@@ -53,8 +54,7 @@ export class Army {
                 currentTile = map.getTileAt(this.targetX, this.targetY);
                 
                 if (map.playerInTurn == this.player) {
-                    let action = new Action(this.targetX, this.targetY, ActionType.MOVEARMY, direction);
-                    actions.push(action);
+                    this.createAction = true;
                 }
             }
             else{
@@ -68,5 +68,8 @@ export class Army {
     }
     onEndTurn(player) {
         this.moveArmy()
+        if (tile.createAction) {
+            actions.push(new Action(tile.x, tile.y, ActionType.MOVEARMY, this.direction));
+        }
     }
 }

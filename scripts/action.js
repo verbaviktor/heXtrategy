@@ -1,4 +1,4 @@
-import { map } from "./script.js"
+import { actions, map } from "./script.js"
 import { Camp } from "./tiles/camp.js"
 import { Castle } from "./tiles/castle.js"
 import { Tower } from "./tiles/tower.js"
@@ -26,20 +26,22 @@ export class Action {
     }
 
     execute(){
+        let tile;
+        tile = map.getTileAt(this.x, this.y);
         if (this.type == "BUILDCAMP") {
-            map.getTileAt(this.x, this.y).placeCamp(new Camp(this.x, this.y, map.playerInTurn));
+            tile.placeCamp(new Camp(this.x, this.y, map.playerInTurn));
         }
         else if(this.type == "BUILDTOWER"){
-            map.getTileAt(this.x, this.y).upgrade(new Tower(this.x, this.y, map.playerInTurn));
+            tile.upgrade(new Tower(this.x, this.y, map.playerInTurn));
         }
         else if(this.type == "BUILDCASTLE"){
-            map.getTileAt(this.x, this.y).upgrade(new Castle(this.x, this.y, map.playerInTurn));
+            tile.upgrade(new Castle(this.x, this.y, map.playerInTurn));
         }
         else if(this.type == "TRAINARMY"){
-            map.getTileAt(this.x, this.y).trainArmy();
+            tile.trainArmy();
         }
         else if(this.type == "MOVEARMY"){
-            const army = map.playerInTurn.armyOfTile(map.getTileAt(this.x, this.y));
+            const army = map.playerInTurn.armyOfTile(tile);
             army.targetX = this.x;
             army.targetY = this.y;
             army.direction = [this.destX, this.destY];
