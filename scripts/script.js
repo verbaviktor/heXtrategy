@@ -120,11 +120,16 @@ function startTurn(actions) {
 }
 
 function endturn() {
-    console.log("Ending turn")
-    fetchingGame = true
-    map.onEndTurn(map.playerInTurn)
-    const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
-    map.playerInTurn = otherPlayer[0];
-    postRequest('game/endturn', actions)
-    actions = []
+    if (map.playerInTurn.color == playerColor) {
+        fetchingGame = true
+        map.onEndTurn(map.playerInTurn)
+        const otherPlayer = map.players.filter((player) => player != map.playerInTurn);
+        map.playerInTurn = otherPlayer[0];
+        console.log(actions)
+        postRequest('game/endturn', actions)
+        actions = []
+    }
+    else {
+        console.log('It is not your turn!')
+    }
 }
