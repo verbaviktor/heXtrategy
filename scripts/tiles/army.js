@@ -58,9 +58,10 @@ export class Army {
         if (this.stepsMade < 6 && this.direction) {
             currentTile = null;
             const nextTile = map.getTileAt(this.targetX + this.direction[0], this.targetY + this.direction[1]);
+            const otherPlayer = map.players.filter((p) => p != this.player)[0]
             if (nextTile) {
-                if (map.players[1 - playerIndex].armyOfTile(nextTile)) {
-                    map.players[1 - playerIndex].armyOfTile(nextTile).removeArmy();
+                if (otherPlayer.armyOfTile(nextTile)) {
+                    otherPlayer.armyOfTile(nextTile).removeArmy();
                     this.removeArmy();
                 }
                 this.targetX += this.direction[0];
