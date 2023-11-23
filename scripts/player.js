@@ -20,7 +20,5 @@ export class Player{
     }
 
     endGame(){
-        const gameFinishedEvent = new CustomEvent('gameFinished')
-        document.dispatchEvent(gameFinishedEvent)
     }
 }

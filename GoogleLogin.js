@@ -332,7 +332,6 @@ function GameStart() {
     enemyprofile.style.top = "14vh"
     enemyprofile.style.right = "20vh"
 }
-document.addEventListener('gameFinished', surrender())
 
 async function surrender() {
     await postRequest('game/surrender')
