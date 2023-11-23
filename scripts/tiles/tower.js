@@ -15,6 +15,7 @@ export class Tower extends Camp{
             this.player.numberOfCastles ++;
             map.placeTile(castle);
             this.player.gold -= this.upgradeCost;
+            this.player.numberOfTowers--;
         }
         if (map.playerInTurn == this.player) {
             this.createAction = true;
