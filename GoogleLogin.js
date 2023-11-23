@@ -211,6 +211,9 @@ function setEnemyProfile(response) {
 function showPlayerProfile() {
     const playerDiv = document.querySelector('.playerprofile')
     playerDiv.style.top = '0vh';
+
+    const Hexdiv = document.querySelector('.Hexlogo')
+    Hexdiv.style.top = '0vh';
 }
 function hidePlayerProfile() {
     const playerDiv = document.querySelector('.playerprofile')
