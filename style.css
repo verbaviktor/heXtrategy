@@ -31,6 +31,9 @@
     height: 22vh;
     /* background-color: #2A3741; */
     vertical-align: middle;
+    text-align: center;
+    font-size: 5vw;
+    color: #ececec;
 }
 
 .playerprofile {
