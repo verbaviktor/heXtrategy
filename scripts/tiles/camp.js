@@ -16,6 +16,7 @@ export class Camp extends Hex {
             this.player.numberOfTowers++;
             map.placeTile(tower);
             this.player.gold -= this.upgradeCost;
+            this.player.numberOfCamps--;
         }
         if (map.playerInTurn == this.player) {
             this.createAction = true;
@@ -28,13 +29,13 @@ export class Camp extends Hex {
             return this;
         }
         else {
-            if (this.construcor.name == "Camp") {
+            if (this.constructor.name == "Camp") {
                 this.player.numberOfCamps--;
             }
-            else if (this.construcor.name == "Tower") {
+            else if (this.constructor.name == "Tower") {
                 this.player.numberOfTowers--;
             }
-            else if (this.construcor.name == "Castle") {
+            else if (this.constructor.name == "Castle") {
                 this.player.numberOfCastles--;
             }
 

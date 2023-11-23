@@ -1,7 +1,5 @@
 import { Tower } from "./tower.js";
 import { Army } from "./army.js";
-import { actions, map } from "../script.js";
-import { Action } from "../action.js";
 
 export class Castle extends Tower{
     constructor(x, y, player){
@@ -15,10 +13,10 @@ export class Castle extends Tower{
     trainArmy(){
         let trainedArmy = false
         if (this.hp < this.maxHp) {
+            trainedArmy = true;
             this.heal();
         }
         else if (!this.player.armyOfTile(this) && this.player.gold >= this.armyCost) {
-            this.armyTrained = true;
             this.player.gold -= this.armyCost;
             this.player.armies.push(new Army(this.x, this.y, this.player));
             trainedArmy = true

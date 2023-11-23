@@ -33,7 +33,7 @@ setInterval(async () => {
     if (fetchingGame) {
         fetchGame()
     }
-}, 2000)
+}, 4000)
 
 async function onSignIn(googleUser) {
     const credentials = (parseJwt(googleUser.credential))
@@ -269,7 +269,7 @@ async function sendNewPlayerData() {
     Close(false)
 }
 async function postRequest(url = "", body = {}) {
-    const fetchedData = await fetch("https://darkauran.hu:6969/" + url, {
+    const fetchedData = await fetch("https://darkauran.hu:6700/" + url, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -281,7 +281,7 @@ async function postRequest(url = "", body = {}) {
 }
 
 async function getRequest(url = "") {
-    const fetchedData = await fetch("https://darkauran.hu:6969/" + url, {
+    const fetchedData = await fetch("https://darkauran.hu:6700/" + url, {
         method: "GET",
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('heXtrategyUserToken'),
@@ -370,7 +370,9 @@ async function endturn() {
 }
 
 async function fetchGame() {
+    fetchingGame = false
     const fetchResponse = await getRequest('game/fetchgame')
+    fetchingGame = true
     if (fetchResponse.status == 201) {
         const responseData = await fetchResponse.json()
         fetchingGame = false

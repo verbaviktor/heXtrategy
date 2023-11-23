@@ -1,5 +1,6 @@
 import { Action } from "./action.js";
 import { Camera } from "./camera.js";
+import { darkenColor } from "./engine.js";
 import { InputHandler } from "./input.js";
 import { Map } from "./map.js";
 import { Player } from "./player.js";
@@ -30,6 +31,7 @@ var lastTime = 0;
 export let deltaTime = 0;
 let hexCoordinates;
 let clickedTile;
+let startCamera;
 
 function startRender(lobbyId) {
     map = new Map(12, [new Player('#335c67'), new Player("#9e2a2b")], lobbyId)
@@ -37,6 +39,7 @@ function startRender(lobbyId) {
     map.players[playerIndex].color = '#' + playerColor
     map.players[1 - playerIndex].color = '#' + enemyColor
     camera = new Camera()
+    startCamera = camera
     requestAnimationFrame(gameLoop);
     run = true
 }
@@ -64,7 +67,7 @@ function setEnemyColor() {
 
 function stopGame() {
     recieveInput = false
-    //Reset camera
+    camera = startCamera
 }
 
 function gameLoop(timestamp) {
@@ -78,9 +81,12 @@ function gameLoop(timestamp) {
     deltaTime = (timestamp - lastTime) / 1000;
     lastTime = timestamp;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    // ctx.rect(0, 0, canvas.width, canvas.height);
-    // ctx.fillStyle = "#1a1a1a";
-    // ctx.fill();
+    ctx.rect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#1a1a1a";
+    if (recieveInput) {
+        ctx.fillStyle = darkenColor("#" + playerColor, 0.7);
+    }
+    ctx.fill();
     map.render();
     updateStats();
     hoveredTileCoordinates = camera.screenToHex(input.mousePosition[0], input.mousePosition[1])
@@ -120,7 +126,7 @@ function gameLoop(timestamp) {
 
 function startTurn(actions) {
     console.log("It's your turn!")
-    
+
     if (actions) {
         const parsedActions = []
         for (const action of actions.actions) {
@@ -141,13 +147,13 @@ function startTurn(actions) {
 
 async function endturn() {
     if (map.playerInTurn.color == '#' + playerColor) {
-        fetchingGame = true
-        map.onEndTurn(map.playerInTurn)
-        const otherPlayer = map.players.filter((player) => player.color == '#' + enemyColor);
-        map.playerInTurn = otherPlayer[0];
         console.log("Ending turn")
         console.log(actions)
         await postRequest('game/endturn', actions)
+        map.onEndTurn(map.playerInTurn)
+        const otherPlayer = map.players.filter((player) => player.color == '#' + enemyColor);
+        map.playerInTurn = otherPlayer[0];
+        fetchingGame = true
         actions = []
     }
     else {
