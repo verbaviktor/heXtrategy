@@ -366,6 +366,9 @@ input[type="color"]::-webkit-color-swatch {
     display: flex;
     width: fit-content;
     transition: ease 0.8s;
+    background-color: #1a1a1a;
+    padding: 1vw;
+    border-radius: 15px;
 }
 
 .readybutton {
@@ -458,7 +461,7 @@ input[type="color"]::-webkit-color-swatch {
     transition: 0.2s;
 }
 .profile-data{
-    margin-top: 5vh;
+    margin-top: 3vh;
     display: grid;
     grid-template-columns: auto auto;
     column-gap:  1vw;
@@ -468,11 +471,14 @@ input[type="color"]::-webkit-color-swatch {
     text-align:  center;
     font-size: 2vw;
     user-select: none;
+    background-color: #1a1a1a;
+    padding: 1vw;
+    border-radius: 15px;
 }
 .profile-data img {
     height: 60px;
 }
 .float-right{
     float: right;
-    margin-top: 10vh;
+    margin-top: 13vh;
 }
