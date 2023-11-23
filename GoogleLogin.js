@@ -336,7 +336,6 @@ document.addEventListener('gameFinished', surrender())
 
 async function surrender() {
     await postRequest('game/surrender')
-    await setHtmlPlayerData()
 
     const playerDiv = document.querySelector('#players-lobby')
     playerDiv.removeAttribute('style')
