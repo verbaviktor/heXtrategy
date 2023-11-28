@@ -19,7 +19,7 @@ export const logIn = async (req: any, res: any) => {
     }
     try {
         if (!user) {
-            user = await prisma.user.signUp(req.body.email, req.body.username, req.body.googleId)
+            user = await prisma.user.signUp(req.body.email, req.body.username, req.body.googleId, req.body.profileUrl)
             console.log('Created new user: ' + user.username)
             newUser = true
         }
@@ -50,13 +50,15 @@ export const updateUser = async (req: any, res: any) => {
         newColor = req.body.newColor
         newUsername = req.body.newUsername
     } catch (error) {
-        console.log(error)
         res.status(400)
         res.json(error)
         return
     }
     console.log("Updated username and color for: " + req.user.username)
     await prisma.user.updateUser(req.user.googleId, newUsername, newColor)
+    const user = await prisma.user.getUserFromGoogleId(req.user.googleId)
+    const token = createJWT(user)
+    res.json({token, newUser: false})
 }
 
 export const getUserData = async (req: any, res: any) => {

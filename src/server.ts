@@ -2,13 +2,14 @@ import express from 'express';
 import lobbyrouter from './routers/lobbyrouter';
 import morgan from 'morgan';
 import cors from 'cors';
-import { verifyInLobby, verifyNotInLobby, verifyUser } from './auth/auth';
+import { verifyInLobby, verifyInGame, verifyNotInLobby, verifyUser } from './auth/auth';
 import { getUserData, logIn } from './handlers/user';
 import menurouter from './routers/menurouter';
 import { ServerOptions } from 'https';
 import fs from 'fs';
 import https from 'https';
 import bodyParser from 'body-parser';
+import gamerouter from './routers/gamerouter';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get('/getuser', verifyUser, getUserData)
 app.post('/login', logIn)
 app.use('/lobby', verifyUser, verifyInLobby, lobbyrouter)
 app.use('/menu', verifyUser, verifyNotInLobby, menurouter)
+app.use('/game', verifyUser, verifyInGame, gamerouter)
 
 const serverOptions: ServerOptions = {
     key: fs.readFileSync('./https/server.key'),

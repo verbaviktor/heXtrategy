@@ -17,12 +17,11 @@ model User {
   profileUrl   String   @default("https://cdn-icons-png.flaticon.com/128/3135/3135715.png")
   gamesplayed  Int      @default(0)
   wins         Int      @default(0)
-  color String @default("495867")
+  color        String   @default("495867")
   lobbyId      String?
   lobby        Lobby?   @relation(fields: [lobbyId], references: [id])
   indexInLobby Int?
   readyState   Boolean? @default(false)
-  hexes        Hex[]
 }
 
 model Lobby {
@@ -31,7 +30,7 @@ model Lobby {
   players       User[]
   lobbyState    LobbyState @default(PREPARATION)
   currentPlayer Int        @default(0)
-  Map           Map?
+  actions       Action[]
 }
 
 enum LobbyState {
@@ -40,24 +39,15 @@ enum LobbyState {
   FINISHED
 }
 
-model Map {
-  lobbyId String @id
-  lobby   Lobby  @relation(fields: [lobbyId], references: [id])
-  hexes   Hex[]
-}
-
-model Hex {
+model Action {
+  number       Int        @id @default(autoincrement())
   x            Int
   y            Int
-  mapId        String?
-  villageLevel Int?
-  hp           Int?
-  hasArmy      Boolean
-  map          Map?    @relation(fields: [mapId], references: [lobbyId])
-  userGoogleId String?
-  User         User?   @relation(fields: [userGoogleId], references: [googleId])
-
-  @@id([x, y])
+  destX Int
+  destY Int
+  type   ActionType
+  Lobby        Lobby     @relation(fields: [lobbyId], references: [id])
+  lobbyId      String
 }
 
 enum HexType {
@@ -70,7 +60,7 @@ enum HexType {
   MOUNTAIN
 }
 
-enum Action {
+enum ActionType {
   BUILDCAMP
   BUILDTOWER
   BUILDCASTLE

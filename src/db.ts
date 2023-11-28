@@ -1,15 +1,17 @@
-import { PrismaClient, User, Lobby, LobbyState } from '@prisma/client'
+import { PrismaClient, User, Lobby, LobbyState, Action } from '@prisma/client'
 import { LobbyInfo } from './routers/lobbyrouter'
+import { lookup } from 'dns'
 
 const prisma = new PrismaClient().$extends({
     model: {
         user: {
-            async signUp(email: string, username: string, googleId: string) {
+            async signUp(email: string, username: string, googleId: string, profileUrl: string) {
                 const user = await prisma.user.create({
                     data: {
                         email,
                         username,
-                        googleId
+                        googleId,
+                        profileUrl
                     }
                 })
                 return user as User
@@ -37,6 +39,16 @@ const prisma = new PrismaClient().$extends({
                 const user = await prisma.user.getUserFromGoogleId(googleId)
                 return user.lobbyId !== null
             },
+            async isInGame(googleId: string) {
+                const user = await prisma.user.getUserFromGoogleId(googleId)
+                if (user.lobbyId) {
+                    const lobby = await prisma.lobby.getLobbyFromLobbyId(user.lobbyId)
+                    return lobby?.lobbyState == LobbyState.IN_PROGRESS
+                }
+                else {
+                    return false
+                }
+            },
             async joinLobby(googleId: string, lobbyId: string) {
                 const lobby = (await prisma.lobby.getLobbyFromLobbyId(lobbyId as string)) as Lobby;
                 await prisma.user.update({
@@ -45,7 +57,7 @@ const prisma = new PrismaClient().$extends({
                     },
                     data: {
                         lobbyId: lobby.id,
-                        indexInLobby: lobby.playerCount
+                        indexInLobby: 1
                     }
                 })
             },
@@ -86,7 +98,10 @@ const prisma = new PrismaClient().$extends({
             },
             async getLobbyInfo(lobbyId: string) {
                 const lobby = await prisma.lobby.getLobbyFromLobbyId(lobbyId) as Lobby
-                return new LobbyInfo(lobby.id, await prisma.lobby.getAllUsersInLobby(lobby.id))
+                if (lobby) {
+                    return new LobbyInfo(lobby.id, await prisma.lobby.getAllUsersInLobby(lobby.id))
+                }
+                return null
             },
             async getAllLobbiesInfo() {
                 const lobbies = await prisma.lobby.findMany({
@@ -98,10 +113,21 @@ const prisma = new PrismaClient().$extends({
                 let lobbiesInfo: LobbyInfo[] = [];
 
                 for (const lobby of lobbies) {
-                    lobbiesInfo.push(await prisma.lobby.getLobbyInfo(lobby.id));
+                    const lobbyInfo = await prisma.lobby.getLobbyInfo(lobby.id)
+                    if (lobbyInfo) {
+                        lobbiesInfo.push(lobbyInfo);
+                    }
                 }
 
                 return lobbiesInfo;
+            },
+            async getLobbyActions(lobbyId: string) {
+                const actions = await prisma.action.findMany({
+                    where: {
+                        lobbyId: lobbyId
+                    }
+                })
+                return actions
             },
             async setLobbyState(lobbyId: string, lobbyState: LobbyState) {
                 await prisma.lobby.update({
@@ -124,7 +150,9 @@ const prisma = new PrismaClient().$extends({
             },
             async isAllPlayerReady(lobbyId: string) {
                 const users = await prisma.lobby.getAllUsersInLobby(lobbyId)
-                console.log(users.map(user => !user.readyState))
+                if (users.length != 2) {
+                    return false;
+                }
                 return users.filter(user => !user.readyState).length === 0
             }
         }

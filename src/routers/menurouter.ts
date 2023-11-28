@@ -55,6 +55,12 @@ menurouter.post('/joinlobby', async (req: any, res: any) => {
         return
     }
 
+    if (lobby.playerCount != 1) {
+        res.status(403)
+        res.json({ error: 'This lobby has an invalid amount of players!' })
+        return
+    }
+
     //Joining the lobby with the user
     await prisma.user.joinLobby(user.googleId, lobby.id)
     await prisma.lobby.modifyPlayerCount(lobby.id, 1)
